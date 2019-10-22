@@ -6,14 +6,14 @@
 #include "Point.h"
 
 class RandomnessGenerator
-{
+{  
     // Access specifier followed by the Data members then function members
 public:
-    __host__ __device__
+
     // Function that returns a random step
     float getRandomStep() const;
     // Returns a random triplet of floats (x,y,z) as an instance of Point
-    Point getRandomPoint();
+    float getRandomPoint();
     void exportSamplingPlot(Point point);
 };
 #endif 
