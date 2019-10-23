@@ -26,7 +26,7 @@ __global__ void getRandomParameters( unsigned int seed, float* gpu_random_parame
     cudaMalloc((void**) &gpu_random_step,  NUMBER_OF_THREADS * sizeof(float)); 
 
 // Calls kernel to generate random step
-    getRandomParameters<<<NUMBER_OF_THREADS, 1>>>(time(nullptr),gpu_random_step, states);
+    getRandomParameters<<<NUMBER_OF_THREADS, 1>>>(time(0),gpu_random_step, states);
 
 // Copy GPU parameters into Host parameters to be able to pass it to host functions
     cudaMemcpy(&step, gpu_random_step, NUMBER_OF_THREADS * sizeof(float), cudaMemcpyDeviceToHost);
@@ -53,7 +53,7 @@ __global__ void getRandomParameters( unsigned int seed, float* gpu_random_parame
     float* cpu_random_parameters = (float*)malloc(sizeof(float) * NUMBER_OF_THREADS);
 
 // Getting random values for spherical coordinates transformation parameters
-    getRandomParameters<<<NUMBER_OF_THREADS, 1>>>(time(nullptr),gpu_random_parameters, states);
+    getRandomParameters<<<NUMBER_OF_THREADS, 1>>>(time(0),gpu_random_parameters, states);
 
 // Copy GPU parameters into Host parameters to be able to pass it to host functions  
     cudaMemcpy(cpu_random_parameters, gpu_random_parameters, NUMBER_OF_THREADS*sizeof(float), cudaMemcpyDeviceToHost);
