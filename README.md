@@ -2,8 +2,8 @@
 
 ## Build in CMake:
 
-mkdir build
-cd build 
-cmake ..
-make
-./randomWalk
+- mkdir build
+- cd build 
+- cmake ..
+- make
+- ./randomWalk
