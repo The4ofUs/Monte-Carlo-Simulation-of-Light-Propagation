@@ -12,10 +12,13 @@ class Point
 {
 
 public:
-    __host__ __device__
+    __host__ 
     void setCoordinates(float x, float y, float z);
+    __host__ 
     float getX() const;
+    __host__ 
     float getY() const;
+    __host__
     float getZ() const;
 
 private:

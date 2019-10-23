@@ -1,0 +1,22 @@
+cmake_minimum_required(VERSION 2.8)
+find_package(CUDA QUIET REQUIRED)
+set( CUDA_HEADER_FILES
+    source_files/Point.h
+    source_files/RandomnessGenerator.h
+    source_files/Ray.h
+    source_files/header.h
+)
+
+set( CUDA_SOURCE_FILES
+    source_files/RandomnessGenerator.cu
+    source_files/Ray.cu
+    source_files/Point.cu
+)
+
+
+cuda_add_executable(
+    randomWalk source_files/RandomWalk.cu
+    ${CUDA_SOURCE_FILES}
+    ${CUDA_HEADER_FILES}
+    )
+

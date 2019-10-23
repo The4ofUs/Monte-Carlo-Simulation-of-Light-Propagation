@@ -1,4 +1,4 @@
-#include "/home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/include/header.h"
+#include "header.h"
 #define NUMBER_OF_ITERATIONS 500 // Number of steps, just for the demo, this number should be decided or taken later on by the user
 
 int main()

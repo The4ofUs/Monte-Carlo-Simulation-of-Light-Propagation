@@ -1,4 +1,5 @@
-#include "/home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/include/Ray.h"
+#include "Ray.h"
+
 
 void Ray::startFrom(Point startingPoint) // Sets getYour starting point
 {
