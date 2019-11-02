@@ -1,19 +1,19 @@
-#include "header.h"
+#include "RandomWalk.h"
 #define N 1000 // Number of photons 
 
-__global__ void setupKernel(unsigned int seed, curandState_t* states){
 
-    curand_init(seed, //must be different every run so the sequence of numbers change. 
-        blockIdx.x, // the sequence number should be different for each core ???
-        0, //step between random numbers
-        &states[blockIdx.x]);
-      
+void streamOut(float* _cpuX, float* _cpuY , float* _cpuZ);
+
+__global__ void finalPosition(unsigned int seed, curandState_t* states, float* _gpuX, float* _gpuY, float* _gpuZ) {
+    curand_init(seed, blockIdx.x, 0, &states[blockIdx.x]);
+
+    Point finalPos; //shou;d pass atates here as an arg
+    finalPos = randomWalk(states);
+    _gpuX[blockIdx.x] = finalPos.getX();
+    _gpuY[blockIdx.x] = finalPos.getY();
+    _gpuZ[blockIdx.x] = finalPos.getZ();
+
 }
-
-__global__ void finalPosition(curandState_t* states, float* _gpuX, float* _gpuY, float* _gpuZ) {
-    
-    uniform_random_numbers[blockIdx.x] = curand_uniform(&states[blockIdx.x]);
-  }
 
 
   int main() {
@@ -34,8 +34,7 @@ __global__ void finalPosition(curandState_t* states, float* _gpuX, float* _gpuY,
     cudaMalloc((void**) &_gpuZ, N * sizeof(float));
   
 // Call Kernel
-    setupKernel<<<N , 1>>> (time(0), states;)
-    finalPosition<<<N , 1>>>(states , _gpuX, _gpuY, _gpuZ);
+    finalPosition<<<N , 1>>>(time(0), states , _gpuX, _gpuY, _gpuZ);
 
 // Copy device data to host memory to stream them out
     cudaMemcpy(_cpuX, _gpuX, N * sizeof( float), cudaMemcpyDeviceToHost);
@@ -64,18 +63,12 @@ void streamOut(float* _cpuX, float* _cpuY , float* _cpuZ)
     for (int i = 0; i < NUMBER_OF_ITERATIONS; i++)
     {
         //Checking output
-        std::cout << "Movement #" << i << ":\n"
-                  << "Current Position: "
-                  << "( " << ray.getCurrentPos().getX() << ", "
-                  << ray.getCurrentPos().getY() << ", " << ray.getCurrentPos().getZ() << " )\n"
-                  << "Direction : "
-                  << "( "
-                  << ray.getDirection().getX() << ", " << ray.getDirection().getY() << ", " << ray.getDirection().getZ()
-                  << " )\n"
-                  << "Step: " << ray.getStep() << "\n"
-                  << std::endl;
+       // std::cout << "Movement #" << i << ":\n"
+         //         << "Final Position: "
+           //       << "( "_cpuX[i] << ", "
+             //     << _cpuY[i] << ", " << _cpuZ[i]<< " )\n"   << std::endl;
 
         // Streaming out my output in a log file
-        fprintf(output, "%f,%f,%f\n", ray.getCurrentPos().getX(), ray.getCurrentPos().getY(), ray.getCurrentPos().getZ());
+        fprintf(output, "%f,%f,%f\n", _cpuX[i], _cpuY[i], _cpuZ[i]);
     }
 }

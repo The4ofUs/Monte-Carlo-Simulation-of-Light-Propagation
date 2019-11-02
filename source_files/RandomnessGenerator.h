@@ -9,10 +9,11 @@ class RandomnessGenerator
 {  
     // Access specifier followed by the Data members then function members
 public:
+
+__device__ float generate( curandState* states );
     // Function that returns a random step
-    float getRandomStep() const;
+__device__ float getRandomStep( curandState* states );
     // Returns a random triplet of floats (x,y,z) as an instance of Point
-    Point getRandomPoint();
-    void exportSamplingPlot(Point point);
+__device__ Point getRandomPoint( curandState* states );
 };
 #endif 
