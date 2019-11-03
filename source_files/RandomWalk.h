@@ -4,9 +4,8 @@
 #include "header.h"
 #define NUMBER_OF_ITERATIONS 500 // Number of steps, just for the demo, this number should be decided or taken later on by the user
 
-
 // Returns the final position after a series of random wandering around in the 3D-space
-__device__ Point randomWalk(curandState_t* states)
+__device__ Point randomWalk(curandState_t *states)
 {
     // Creating an instance of our RandomnessGenerator class
     RandomnessGenerator randomnessGenerator;
@@ -19,14 +18,17 @@ __device__ Point randomWalk(curandState_t* states)
     for (int i = 0; i < NUMBER_OF_ITERATIONS; i++)
     {
         // Setting ray direction
-        ray.setDirection(randomnessGenerator.getRandomPoint(states , i));
+        // Passing "states" and "i" as arguments for the sake of changing the seed and the state of the generator
+        // for each iteration
+        ray.setDirection(randomnessGenerator.getRandomPoint(states, i));
 
         // Setting ray step
+        // Passing "states" and "i" as arguments for the sake of changing the seed and the state of the generator
+        // for each iteration
         ray.setStep(randomnessGenerator.getRandomStep(states, i));
 
         // Move!
         ray.move();
-
     }
 
     return ray.getCurrentPos();

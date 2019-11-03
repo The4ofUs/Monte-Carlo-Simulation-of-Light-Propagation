@@ -7,7 +7,7 @@ void streamOut(float* _cpuX, float* _cpuY , float* _cpuZ);
 __global__ void finalPosition(unsigned int seed, curandState_t* states, float* _gpuX, float* _gpuY, float* _gpuZ) {
     curand_init(seed, blockIdx.x, 0, &states[blockIdx.x]);
 
-    Point finalPos; //shou;d pass atates here as an arg
+    Point finalPos; //should pass states here as an arg
     finalPos = randomWalk(states);
     _gpuX[blockIdx.x] = finalPos.getX();
     _gpuY[blockIdx.x] = finalPos.getY();

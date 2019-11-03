@@ -3,9 +3,9 @@
 __device__ float RandomnessGenerator::generate( curandState* globalState, int i) 
 {
     curandState localState = globalState[i];
-    float RANDOM = curand_uniform( &localState );
+    float random = curand_uniform( &localState );
     globalState[i] = localState;
-    return RANDOM;
+    return random;
 }
 
 __device__  float RandomnessGenerator::getRandomStep( curandState* globalState , int i) { 
