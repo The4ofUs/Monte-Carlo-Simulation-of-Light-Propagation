@@ -19,10 +19,10 @@ __device__ Point randomWalk(curandState_t* states)
     for (int i = 0; i < NUMBER_OF_ITERATIONS; i++)
     {
         // Setting ray direction
-        ray.setDirection(randomnessGenerator.getRandomPoint(states));
+        ray.setDirection(randomnessGenerator.getRandomPoint(states , i));
 
         // Setting ray step
-        ray.setStep(randomnessGenerator.getRandomStep(states));
+        ray.setStep(randomnessGenerator.getRandomStep(states, i));
 
         // Move!
         ray.move();
