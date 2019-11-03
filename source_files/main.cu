@@ -55,7 +55,7 @@ __global__ void finalPosition(unsigned int seed, curandState_t* states, float* _
     return 0;
 
 }
-void streamOut(float* _cpuX, float* _cpuY , float* _cpuZ)
+void streamOut(float* _cpuX, float* _cpuY , float* _cpuZ)  
 {
     FILE *output;
     output = fopen("output.csv", "a");
