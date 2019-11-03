@@ -6,8 +6,8 @@ class Ray
 {
 
 public:
-__device__ void startFrom(Point startingPoint); // Sets getYour starting point
-__device__ void setDirection(Point direction);  // Sets the direction of the ragetY
+__device__ void startFrom(Point startingPoint); // Sets the ray starting point
+__device__ void setDirection(Point direction);  // Sets the direction of the ray 
 __device__ void setStep(float step);           // Sets the step of movement
 __device__ Point getCurrentPos() const;
 __device__ Point getDirection() const;
