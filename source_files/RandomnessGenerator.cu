@@ -1,6 +1,6 @@
 #include "RandomnessGenerator.h"
   // Simple random number generator function, generates a float between 0.0 and 1.0
-__device__ float generate( curandState* globalState, int i) 
+__device__ float RandomnessGenerator::generate( curandState* globalState, int i) 
 {
     curandState localState = globalState[i];
     float RANDOM = curand_uniform( &localState );

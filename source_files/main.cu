@@ -60,14 +60,8 @@ void streamOut(float* _cpuX, float* _cpuY , float* _cpuZ)
     FILE *output;
     output = fopen("output.csv", "a");
 
-    for (int i = 0; i < NUMBER_OF_ITERATIONS; i++)
+    for (int i = 0; i < N; i++)
     {
-        //Checking output
-       // std::cout << "Movement #" << i << ":\n"
-         //         << "Final Position: "
-           //       << "( "_cpuX[i] << ", "
-             //     << _cpuY[i] << ", " << _cpuZ[i]<< " )\n"   << std::endl;
-
         // Streaming out my output in a log file
         fprintf(output, "%f,%f,%f\n", _cpuX[i], _cpuY[i], _cpuZ[i]);
     }
