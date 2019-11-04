@@ -8,7 +8,7 @@
 __device__ Point randomWalk(curandState_t *states)
 {
     // Creating an instance of our RandomnessGenerator class
-    RandomnessGenerator randomnessGenerator;
+    RNG randomnessGenerator;
     Ray ray;
     Point origin;
     origin.setCoordinates(0.f, 0.f, 0.f);

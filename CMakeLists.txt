@@ -15,7 +15,7 @@ SET(CUDA_SEPARABLE_COMPILATION ON)
 # Header files
 set(CUDA_HEADER_FILES
     src/Point.h
-    src/RandomnessGenerator.h
+    src/RNG.h
     src/Ray.h
     src/RandomWalk.h
     src/header.h
@@ -23,7 +23,7 @@ set(CUDA_HEADER_FILES
 
 # Source files
 set(CUDA_SOURCE_FILES
-    src/RandomnessGenerator.cu
+    src/RNG.cu
     src/Ray.cu
     src/Point.cu
 )

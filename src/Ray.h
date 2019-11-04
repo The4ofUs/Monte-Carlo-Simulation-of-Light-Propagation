@@ -1,7 +1,7 @@
 #ifndef Ray_H
 #define Ray_H
 
-#include "RandomnessGenerator.h"
+#include "RNG.h"
 
 /**
  * @brief The Ray class
