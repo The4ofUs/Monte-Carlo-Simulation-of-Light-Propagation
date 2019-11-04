@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.0)
 
 # Project name
-project('RandomWalk')
+project(RandomWalk)
 
 # Required packages should be added to the cmake directory 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
@@ -18,7 +18,7 @@ set(CUDA_HEADER_FILES
     src/RNG.h
     src/Ray.h
     src/RandomWalk.h
-    src/header.h
+    src/Headers.h
 )
 
 # Source files

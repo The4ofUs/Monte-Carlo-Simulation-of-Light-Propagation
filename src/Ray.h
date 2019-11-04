@@ -1,5 +1,5 @@
-#ifndef Ray_H
-#define Ray_H
+#ifndef RAY_H
+#define RAY_H
 
 #include "RNG.h"
 
@@ -89,4 +89,5 @@ private:
      */
     float _step;
 };
-#endif
+
+#endif // RAY_H

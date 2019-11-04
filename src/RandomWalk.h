@@ -1,11 +1,17 @@
-#ifndef RANDOMWALK_H
-#define RANDOMWALK_H
+#ifndef RANDOM_WALK_H
+#define RANDOM_WALK_H
 
-#include "header.h"
-#define NUMBER_OF_ITERATIONS 500 // Number of steps, just for the demo, this number should be decided or taken later on by the user
+#include "Headers.h"
+#include "Point.h"
+#include "Ray.h"
+
+// Number of steps, just for the demo, this number should be decided or
+// taken later on by the user
+#define NUMBER_OF_ITERATIONS 500
 
 // Returns the final position after a series of random wandering around in the 3D-space
-__device__ Point randomWalk(curandState_t *states)
+__device__
+Point randomWalk(curandState_t *states)
 {
     // Creating an instance of our RandomnessGenerator class
     RNG randomnessGenerator;
@@ -34,4 +40,4 @@ __device__ Point randomWalk(curandState_t *states)
     return ray.getCurrentPos();
 }
 
-#endif
+#endif // RANDOM_WALK_H
