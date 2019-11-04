@@ -1,26 +1,36 @@
-cmake_minimum_required(VERSION 2.8)
-find_package(CUDA REQUIRED)
+# Minimim cuda version required to compile the project
+cmake_minimum_required(VERSION 3.0)
 
+# Project name
+project('RandomWalk')
+
+# Required packages should be added to the cmake directory 
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+include(CUDA)
+include(CUDA_SDK) 
+
+# For separate compilation into multiple CUDA objects
 SET(CUDA_SEPARABLE_COMPILATION ON)
 
-set( CUDA_HEADER_FILES
-    source_files/Point.h
-    source_files/RandomnessGenerator.h
-    source_files/Ray.h
-    source_files/RandomWalk.h
-    source_files/header.h
+# Header files
+set(CUDA_HEADER_FILES
+    src/Point.h
+    src/RandomnessGenerator.h
+    src/Ray.h
+    src/RandomWalk.h
+    src/header.h
 )
 
-set( CUDA_SOURCE_FILES
-    source_files/RandomnessGenerator.cu
-    source_files/Ray.cu
-    source_files/Point.cu
+# Source files
+set(CUDA_SOURCE_FILES
+    src/RandomnessGenerator.cu
+    src/Ray.cu
+    src/Point.cu
 )
 
-
+# Create an executable that can run on the GPU.
 cuda_add_executable(
-    randomWalk source_files/main.cu
+    randomWalk src/main.cu
     ${CUDA_SOURCE_FILES}
     ${CUDA_HEADER_FILES}
     )
-
