@@ -65,7 +65,7 @@ __global__ void finalPosition(unsigned int seed, curandState_t* states, Point* _
 /*
     streamOut (&_cpuX[0], &_cpuY[0], &_cpuZ[0]);
 */
-    streamOut (&_cpuPoints[0]);
+    streamOut (&_cpuPoints);
 
 // Free Memory
 /*
