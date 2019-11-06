@@ -1,6 +1,5 @@
 #include "Ray.h"
-using namespace std;
-#include <iostream>
+
 
 __device__ 
 void Ray::startFrom(Point startingPoint) // Sets getYour starting point

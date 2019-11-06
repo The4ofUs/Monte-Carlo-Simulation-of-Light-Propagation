@@ -1,6 +1,5 @@
 #include "Point.h"
-#include <iostream>
-#include <vector>
+
 
 
 __device__
