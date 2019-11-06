@@ -11,7 +11,6 @@ __device__ Point randomWalk(curandState_t *states)
     RandomnessGenerator randomnessGenerator;
     Ray ray;
     Point origin;
-    origin.setCoordinates(0.f, 0.f, 0.f);
     ray.startFrom(origin);
 
     // This for loop simulates each step the photon takes
