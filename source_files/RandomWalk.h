@@ -9,13 +9,12 @@ __device__ Point randomWalk(curandState_t *states)
 {
     // Creating an instance of our RandomnessGenerator class
     RandomnessGenerator randomnessGenerator;
-    Ray ray;
-    Point origin;
-   // origin.setCoordinates(0.f, 0.f, 0.f);
-    ray.startFrom(origin);
-
+    Point origin = new Point();
+    Ray ray= new Ray(origin);
+    Boundary boundary = new Boundary(5.0, origin);
+    
     // This for loop simulates each step the photon takes
-    for (int i = 0; i < NUMBER_OF_ITERATIONS; i++)
+    while (!boundary.isCrossed(ray))
     {
         // Setting ray direction
         // Passing "states" and "i" as arguments for the sake of changing the seed and the state of the generator
@@ -31,7 +30,7 @@ __device__ Point randomWalk(curandState_t *states)
         ray.move();
     }
 
-    return ray.getCurrentPos();
+    return boundary.getIntersectionPoint(ray);
 }
 
 #endif

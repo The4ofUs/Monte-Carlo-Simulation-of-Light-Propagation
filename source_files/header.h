@@ -7,6 +7,7 @@
 #include <array>
 #include <ctime>
 #include "Ray.h"
+#include "Boundary.h"
 
 #endif
 
