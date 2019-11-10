@@ -2,7 +2,7 @@
 #define RANDOMWALK_H
 
 #include "header.h"
-#define NUMBER_OF_ITERATIONS 500 // Number of steps, just for the demo, this number should be decided or taken later on by the user
+#include "Boundary.h"
 
 // Returns the final position after a series of random wandering around in the 3D-space
 __device__ Point randomWalk(curandState_t *states)

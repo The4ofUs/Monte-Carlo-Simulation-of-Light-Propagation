@@ -1,4 +1,5 @@
 #include "RandomWalk.h"
+#include "Point.h"
 #define N 1000 // Number of photons 
 
 

@@ -33,7 +33,7 @@ Point getCenter(){
 }
 
 bool isCrossed(Ray ray){
-    float absDistance = (float) sqrt(pow(ray.getCurrentPos().getX(),2),pow(ray.getCurrentPos().getY(),2),pow(ray.getCurrentPos().getZ(),2));
+    float absDistance = (float) sqrt((float) pow(ray.getCurrentPos().getX(),2), (float) pow(ray.getCurrentPos().getY(),2),(float) pow(ray.getCurrentPos().getZ(),2));
     if(absDistance >= radius){
         return true;
     } else {
@@ -42,10 +42,10 @@ bool isCrossed(Ray ray){
 }
 
 Point getIntersectionPoint(Ray ray){
-    if(this.isCrossed()){
+    if(this.isCrossed(ray)){
         Point rayOrigin = ray.getPrevPos();
         Point rayDirection = ray.getDirection();
-        Point p = new Point();
+        Point p;
         p.setCoordinates((center.getX() - rayOrigin.getX()),(center.getY() - rayOrigin.getY()), (center.getZ() - rayOrigin.getZ()));
         float tca = dotProduct(p,rayDirection);
         float d2 = dotProduct(p,p) - tca * tca; 
@@ -60,12 +60,9 @@ Point getIntersectionPoint(Ray ray){
         } 
         t = t0;        // this is the intersection distance from the ray origin to the hit point 
 
-        Point intersectionPoint = new Point();
+        Point intersectionPoint;
         intersectionPoint.setCoordinates((rayOrigin.getX()+rayDirection.getX()*t),(rayOrigin.getY()+rayDirection.getY()*t),(rayOrigin.getZ()+rayDirection.getZ()*t));
         return intersectionPoint;
-
-    } else {
-        return nullptr;
     }
 }
 
