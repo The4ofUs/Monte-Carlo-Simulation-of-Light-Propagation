@@ -18,8 +18,6 @@ __device__  float RandomnessGenerator::getRandomStep( curandState* globalState ,
 // Returns a Point object that has randomized x,y and z coordinates after converting from randomized spherical coordinates
 __device__ Point RandomnessGenerator::getRandomPoint( curandState* globalState , int i)
 {
-    Point point; // Instance of the Point struct to return with the random coordinates
-
     float u = generate (globalState , i);
     float v = generate (globalState, i);
     
@@ -31,8 +29,5 @@ __device__ Point RandomnessGenerator::getRandomPoint( curandState* globalState ,
     float y = sin(phi) * sin(theta);
     float z = cos(phi);
 
-    point.setCoordinates(x, y, z);
-  
-    return point;
-
+    return Point(x,y,z);
 }

@@ -8,6 +8,7 @@ set( CUDA_HEADER_FILES
     source_files/RandomnessGenerator.h
     source_files/Ray.h
     source_files/RandomWalk.h
+    source_files/Boundary.h
     source_files/header.h
 )
 
@@ -15,6 +16,7 @@ set( CUDA_SOURCE_FILES
     source_files/RandomnessGenerator.cu
     source_files/Ray.cu
     source_files/Point.cu
+    source_files/Boundary.cu
 )
 
 
