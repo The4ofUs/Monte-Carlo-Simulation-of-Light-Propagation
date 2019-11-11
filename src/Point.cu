@@ -1,6 +1,4 @@
 #include "Point.h"
-#include <iostream>
-#include <vector>
 
 __device__
  void Point::setCoordinates(float x, float y, float z)

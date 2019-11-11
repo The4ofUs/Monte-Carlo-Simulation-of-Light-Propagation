@@ -1,6 +1,10 @@
 #include "Ray.h"
 using namespace std;
 
+__device__ Ray::Ray(Point startingPoint, Point direction){
+    this->_currentPos.setCoordinates(startingPoint.getX(), startingPoint.getY(), startingPoint.getZ());
+    this->_direction.setCoordinates(direction.getX(), direction.getY(), direction.getZ());
+}
 
 __device__ void Ray::setDirection(Point direction) { this->_direction.setCoordinates(direction.getX(), direction.getY(), direction.getZ()); }
 

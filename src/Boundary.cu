@@ -12,21 +12,21 @@ void Boundary::swap(float &num1, float &num2){
 }
 
 __device__ Boundary::Boundary(float r, Point c){
-    radius = r;
-    center = c;
+    _radius = r;
+    _center = c;
 }
 
-__device__ void Boundary::setRadius(float r){radius = r;}
+__device__ void Boundary::setRadius(float r){_radius = r;}
 
-__device__ float Boundary::getRadius() const {return radius;}
+__device__ float Boundary::getRadius() const {return _radius;}
 
-__device__ void Boundary::setCenter(Point c){center = c;}
+__device__ void Boundary::setCenter(Point c){_center = c;}
 
-__device__ Point Boundary::getCenter() const {return center;}
+__device__ Point Boundary::getCenter() const {return _center;}
 
 __device__ bool Boundary::isCrossed(Ray ray){
     float absDistance = (float) sqrtf((float) powf(ray.getCurrentPos().getX(),2) + (float) powf(ray.getCurrentPos().getY(),2) + (float) powf(ray.getCurrentPos().getZ(),2));
-    if(absDistance >= radius){
+    if(absDistance >= _radius){
         return true;
     } else {
         return false;
@@ -38,10 +38,10 @@ __device__ Point Boundary::getIntersectionPoint(Ray ray){
     if(this->isCrossed(ray)){
         Point rayOrigin = ray.getPrevPos();
         Point rayDirection = ray.getDirection();
-        Point p = Point((center.getX() - rayOrigin.getX()),(center.getY() - rayOrigin.getY()), (center.getZ() - rayOrigin.getZ()));
+        Point p = Point((_center.getX() - rayOrigin.getX()),(_center.getY() - rayOrigin.getY()), (_center.getZ() - rayOrigin.getZ()));
         float tca = dotProduct(p,rayDirection);
         float d2 = dotProduct(p,p) - tca * tca; 
-        float thc = (float) sqrtf((float) powf(radius,2.0) - d2); 
+        float thc = (float) sqrtf((float) powf(_radius,2.0) - d2); 
         float t0 = tca - thc; 
         float t1 = tca + thc;
         float t;
@@ -52,10 +52,11 @@ __device__ Point Boundary::getIntersectionPoint(Ray ray){
         } 
         t = t0;        // this is the intersection distance from the ray origin to the hit point 
 
-        intersectionPoint.setCoordinates((rayOrigin.getX()+rayDirection.getX()*t),(rayOrigin.getY()+rayDirection.getY()*t),(rayOrigin.getZ()+rayDirection.getZ()*t));
+        return Point((rayOrigin.getX()+rayDirection.getX()*t),(rayOrigin.getY()+rayDirection.getY()*t),(rayOrigin.getZ()+rayDirection.getZ()*t));
 
+    } else {
+        return Point(0.f,0.f,0.f);
     }
-    return intersectionPoint;
 }
 
 
