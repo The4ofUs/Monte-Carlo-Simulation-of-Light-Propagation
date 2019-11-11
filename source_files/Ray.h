@@ -6,7 +6,9 @@ class Ray
 {
 
 public:
-__device__ Ray(Point startingPoint); // Sets the ray starting point
+__device__ Ray(Point startingPoint){    // Sets the ray starting point
+        this->_currentPos.setCoordinates(startingPoint.getX(), startingPoint.getY(), startingPoint.getZ());
+    } 
 __device__ void setDirection(Point direction);  // Sets the direction of the ray 
 __device__ void setStep(float step);           // Sets the step of movement
 __device__ Point getCurrentPos() const;

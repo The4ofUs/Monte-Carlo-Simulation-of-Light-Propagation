@@ -7,7 +7,7 @@ void streamOut(Point* _cpuPoints);
 
 __global__ void finalPosition(unsigned int seed, curandState_t* states, Point* _gpuPoints) {
     curand_init(seed, blockIdx.x, 0, &states[blockIdx.x]);
-    Point finalPos;
+    Point finalPos = Point();
     finalPos = randomWalk(states);
     _gpuPoints[blockIdx.x] = finalPos;
 }

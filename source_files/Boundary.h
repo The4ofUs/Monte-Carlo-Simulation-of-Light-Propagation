@@ -1,39 +1,53 @@
 #include <cmath>
 #include "Point.h"
-#include "MyMathLibrary.h"
+
 class Boundary {
-
-    Boundary(float r, Point c){
-        radius = r;
-        center = c;
-    }
-
 
 private:
 
 float radius;
 Point center;
+Point intersectionPoint;
+
+__device__
+float dotProduct(Point point1, Point point2)
+{
+    float result = point1.getX()*point2.getX() + point1.getY()*point2.getY() + point1.getZ()*point2.getZ();
+    return result;
+}
+
+__device__
+void swap(float &num1, float &num2){
+    float temp = num1;
+    num1 = num2;
+    num2 = temp;
+}
 
 public:
 
-void setRadius(float r){
+ __device__ Boundary(float r, Point c){
+            radius = r;
+            center = c;
+        }
+
+__device__ void setRadius(float r){
     radius = r;
 }
 
-float getRadius(){
+__device__ float getRadius(){
     return radius;
 }
 
-void setCenter(Point c){
+__device__ void setCenter(Point c){
     center = c;
 }
 
-Point getCenter(){
+__device__ Point getCenter(){
     return center;
 }
 
-bool isCrossed(Ray ray){
-    float absDistance = (float) sqrt((float) pow(ray.getCurrentPos().getX(),2), (float) pow(ray.getCurrentPos().getY(),2),(float) pow(ray.getCurrentPos().getZ(),2));
+__device__ bool isCrossed(Ray ray){
+    float absDistance = (float) sqrtf((float) powf(ray.getCurrentPos().getX(),2) + (float) powf(ray.getCurrentPos().getY(),2) + (float) powf(ray.getCurrentPos().getZ(),2));
     if(absDistance >= radius){
         return true;
     } else {
@@ -41,8 +55,8 @@ bool isCrossed(Ray ray){
     }
 }
 
-Point getIntersectionPoint(Ray ray){
-    if(this.isCrossed(ray)){
+__device__ Point getIntersectionPoint(Ray ray){
+    if(isCrossed(ray)){
         Point rayOrigin = ray.getPrevPos();
         Point rayDirection = ray.getDirection();
         Point p;
@@ -53,22 +67,22 @@ Point getIntersectionPoint(Ray ray){
         float t0 = tca - thc; 
         float t1 = tca + thc;
         float t;
-        if (t0 > t1) std::swap(t0, t1); 
+        if (t0 > t1) swap(t0, t1);
  
         if (t0 < 0) { 
             t0 = t1; // if t0 is negative, let's use t1 instead 
         } 
         t = t0;        // this is the intersection distance from the ray origin to the hit point 
 
-        Point intersectionPoint;
         intersectionPoint.setCoordinates((rayOrigin.getX()+rayDirection.getX()*t),(rayOrigin.getY()+rayDirection.getY()*t),(rayOrigin.getZ()+rayDirection.getZ()*t));
-        return intersectionPoint;
+
     }
+    return intersectionPoint;
 }
 
 
 
-}
+};
 
 
 

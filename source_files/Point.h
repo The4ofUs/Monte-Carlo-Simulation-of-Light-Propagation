@@ -12,6 +12,10 @@ class Point
 {
 
 public:
+__device__ Point(float x, float y, float z){
+    setCoordinates(x, y, z);
+}
+
 __device__ Point(){
     setCoordinates(0.f, 0.f, 0.f);
 }
