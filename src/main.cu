@@ -1,5 +1,5 @@
 #include "RandomWalk.h"
-#define N 1000 //number of photons
+#define N 5000 //number of photons
 
 
 void streamOut(Point* _cpuPoints);
@@ -41,7 +41,7 @@ __global__ void finalPosition(unsigned int seed, curandState_t* states, Point* _
 void streamOut(Point* _cpuPoints)  
 {
     FILE *output;
-    output = fopen("output.csv", "a");
+    output = fopen("output.csv", "w");
 
     for (int i = 0; i < N; i++)
     {
