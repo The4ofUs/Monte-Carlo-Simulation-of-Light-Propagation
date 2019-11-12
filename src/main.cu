@@ -1,13 +1,12 @@
 #include "RandomWalk.h"
-#include "Point.h"
-#define N 1000 // Number of photons 
+#define N 5000 //number of photons
 
 
 void streamOut(Point* _cpuPoints);
 
 __global__ void finalPosition(unsigned int seed, curandState_t* states, Point* _gpuPoints) {
     curand_init(seed, blockIdx.x, 0, &states[blockIdx.x]);
-    Point finalPos;
+    Point finalPos = Point();
     finalPos = randomWalk(states);
     _gpuPoints[blockIdx.x] = finalPos;
 }
@@ -42,7 +41,7 @@ __global__ void finalPosition(unsigned int seed, curandState_t* states, Point* _
 void streamOut(Point* _cpuPoints)  
 {
     FILE *output;
-    output = fopen("output.csv", "a");
+    output = fopen("output.csv", "w");
 
     for (int i = 0; i < N; i++)
     {
