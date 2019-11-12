@@ -9,6 +9,7 @@ set( CUDA_HEADER_FILES
     source_files/Ray.h
     source_files/RandomWalk.h
     source_files/header.h
+
 )
 
 set( CUDA_SOURCE_FILES
