@@ -1,7 +1,5 @@
 #include "Point.h"
 
-
-
 __device__
  void Point::setCoordinates(float x, float y, float z)
 {

@@ -1,12 +1,12 @@
 #include "RandomWalk.h"
-#define N 1000 // Number of photons 
+#define N 5000 //number of photons
 
 
 void streamOut(Point* _cpuPoints);
 
 __global__ void finalPosition(unsigned int seed, curandState_t* states, Point* _gpuPoints) {
     curand_init(seed, blockIdx.x, 0, &states[blockIdx.x]);
-    Point finalPos; 
+    Point finalPos = Point();
     finalPos = randomWalk(states);
     _gpuPoints[blockIdx.x] = finalPos;
 }
@@ -23,13 +23,11 @@ __global__ void finalPosition(unsigned int seed, curandState_t* states, Point* _
     cudaMalloc((void**) &_gpuPoints, N * sizeof(Point));
   
 // Call Kernel
-    finalPosition<<<N , 1>>>(time(0), states , _gpuPoints);
+    finalPosition<<<N,1>>>(time(0), states , _gpuPoints);
 
 // Copy device data to host memory to stream them out
-
     cudaMemcpy(_cpuPoints, _gpuPoints, N* sizeof( Point), cudaMemcpyDeviceToHost);
 
-// Stream out final position of each photon to file
 
     streamOut (&_cpuPoints[0]);
 
@@ -40,11 +38,10 @@ __global__ void finalPosition(unsigned int seed, curandState_t* states, Point* _
 
 }
 
-
 void streamOut(Point* _cpuPoints)  
 {
     FILE *output;
-    output = fopen("output.csv", "a");
+    output = fopen("output.csv", "w");
 
     for (int i = 0; i < N; i++)
     {
