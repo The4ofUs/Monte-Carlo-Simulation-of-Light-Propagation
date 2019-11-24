@@ -60,20 +60,20 @@ public:
     __device__ __host__
     float getZ() const;
 
+
+    /**
+     * @brief operator +
+     * Overloading the + operator
+     */
     __device__ __host__
-    Point operator + (Point const &other) { 
-        float result_x = _x + other.getX();
-        float result_y = _y + other.getY();
-        float result_z = _z + other.getZ();
-        return Point(result_x, result_y, result_z); 
-    }
+    Point operator + (Point const &other);
+
+    /**
+     * @brief operator -
+     * Overloading the - operator
+     */
     __device__ __host__
-    Point operator - (Point const &other) { 
-        float result_x = _x - other.getX();
-        float result_y = _y - other.getY();
-        float result_z = _z - other.getZ();
-        return Point(result_x, result_y, result_z); 
-    }
+    Point operator - (Point const &other);
 
 
 private:
