@@ -16,15 +16,8 @@ class Boundary {
  * @param point2
  * @return Dot Product
  */
-__device__ float dotProduct(Point point1, Point point2);
+__device__ float dot(Point point1, Point point2);
 
-/**
- * @brief swap
- * @param num1
- * @param num2
- * Swaps values by reference
- */
-__device__ void swap(float &num1, float &num2);
 
 public:
 /**

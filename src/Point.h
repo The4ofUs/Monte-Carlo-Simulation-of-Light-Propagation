@@ -13,13 +13,15 @@ class Point
 {
 
 public:
-__device__ Point(float x, float y, float z){
-    setCoordinates(x, y, z);
-}
+    __device__ __host__ 
+    Point(float x, float y, float z){
+        setCoordinates(x, y, z);
+    }
 
-__device__ Point(){
-    setCoordinates(0.f, 0.f, 0.f);
-}
+    __device__ __host__ 
+    Point(){
+        setCoordinates(0.f, 0.f, 0.f);
+    }
 
     /**
      * @brief setCoordinates
@@ -28,7 +30,7 @@ __device__ Point(){
      * @param y
      * @param z
      */
-__device__
+    __device__ __host__
     void setCoordinates(float x, float y, float z);
 
 
@@ -37,7 +39,7 @@ __device__
      * @return
      * The X coordinate of the point.
      */
-__device__ __host__
+    __device__ __host__
     float getX() const;
 
 
@@ -46,7 +48,7 @@ __device__ __host__
      * @return
      * The Y coordinate of the point.
      */
-__device__ __host__
+    __device__ __host__
     float getY() const;
 
 
@@ -55,8 +57,23 @@ __device__ __host__
      * @return
      * The Z coordinate of the point.
      */
-__device__ __host__
+    __device__ __host__
     float getZ() const;
+
+    __device__ __host__
+    Point operator + (Point const &other) { 
+        float result_x = _x + other.getX();
+        float result_y = _y + other.getY();
+        float result_z = _z + other.getZ();
+        return Point(result_x, result_y, result_z); 
+    }
+    __device__ __host__
+    Point operator - (Point const &other) { 
+        float result_x = _x - other.getX();
+        float result_y = _y - other.getY();
+        float result_z = _z - other.getZ();
+        return Point(result_x, result_y, result_z); 
+    }
 
 
 private:

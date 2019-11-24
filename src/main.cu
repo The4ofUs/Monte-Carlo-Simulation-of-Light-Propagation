@@ -1,5 +1,5 @@
 #include "RandomWalk.h"
-#define N 5000 //number of photons
+#define N 1000 //number of photons
 
 
 void streamOut(Point* _cpuPoints);
