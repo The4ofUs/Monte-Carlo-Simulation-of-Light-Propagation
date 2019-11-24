@@ -7,7 +7,6 @@
  */
 class Ray
 {
-
 public:
     /**
      * @brief Constructor 
@@ -62,11 +61,19 @@ __device__ Point getPrevPos() const;
      */
 __device__ float getStep() const;
 
+
+    /**
+     * @brief updateRayState
+     * @return
+     * Keeps the parameters responsible for the movements stored in the Ray object
+     */
+__device__ void updateRayState(Point direction, float step);
+
     /**
      * @brief move
      * The point moves in the specified direction with the given step.
      */
-__device__ void move();
+__device__ void move(Point direction, float step);
 
 private:
     /**

@@ -13,15 +13,18 @@ class Point
 {
 
 public:
-    __device__ __host__ 
-    Point(float x, float y, float z){
-        setCoordinates(x, y, z);
-    }
 
+    /**
+     * @brief Constructor
+     */
     __device__ __host__ 
-    Point(){
-        setCoordinates(0.f, 0.f, 0.f);
-    }
+    Point(float x, float y, float z);
+
+   /**
+     * @brief Constructor
+     */
+    __device__ __host__ 
+    Point();
 
     /**
      * @brief setCoordinates
@@ -40,7 +43,7 @@ public:
      * The X coordinate of the point.
      */
     __device__ __host__
-    float getX() const;
+    float x() const;
 
 
     /**
@@ -49,7 +52,7 @@ public:
      * The Y coordinate of the point.
      */
     __device__ __host__
-    float getY() const;
+    float y() const;
 
 
     /**
@@ -58,7 +61,7 @@ public:
      * The Z coordinate of the point.
      */
     __device__ __host__
-    float getZ() const;
+    float z() const;
 
 
     /**
@@ -74,6 +77,13 @@ public:
      */
     __device__ __host__
     Point operator - (Point const &other);
+
+    /**
+     * @brief operator *
+     * Overloading the * operator
+     */
+    __device__ __host__
+    Point operator * (float const &other);
 
 
 private:

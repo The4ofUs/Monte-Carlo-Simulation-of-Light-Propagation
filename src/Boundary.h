@@ -27,7 +27,7 @@ public:
  * r sets the radius of the spherical boundary
  * c sets the center of the spherical boundary
  */
- __device__ Boundary(float r, Point c);
+ __device__ __host__ Boundary(float r, Point c);
 
 /**
  * @brief setRadius
@@ -60,7 +60,7 @@ __device__ Point getCenter() const;
  * @param ray
  * @return whether the Boundary was crossed by the given ray or not
  */
-__device__ bool isCrossed(Ray ray);
+__device__ bool isHit(Ray ray);
 
 /**
  * @brief getIntersectionPoint

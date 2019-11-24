@@ -2,10 +2,10 @@
 using namespace std;
 
 __device__
-float Boundary::dot(Point point1, Point point2){return point1.getX()*point2.getX() + point1.getY()*point2.getY() + point1.getZ()*point2.getZ();}
+float Boundary::dot(Point point1, Point point2){return point1.x()*point2.x() + point1.y()*point2.y() + point1.z()*point2.z();}
 
 
-__device__ Boundary::Boundary(float r, Point c){
+__device__ __host__ Boundary::Boundary(float r, Point c){
     _radius = r;
     _center = c;
 }
@@ -18,8 +18,8 @@ __device__ void Boundary::setCenter(Point c){_center = c;}
 
 __device__ Point Boundary::getCenter() const {return _center;}
 
-__device__ bool Boundary::isCrossed(Ray ray){
-    float absDistance = (float) sqrtf((float) powf(ray.getCurrentPos().getX(),2) + (float) powf(ray.getCurrentPos().getY(),2) + (float) powf(ray.getCurrentPos().getZ(),2));
+__device__ bool Boundary::isHit(Ray ray){
+    float absDistance = (float) sqrtf((float) powf(ray.getCurrentPos().x(),2) + (float) powf(ray.getCurrentPos().y(),2) + (float) powf(ray.getCurrentPos().z(),2));
     if(absDistance >= _radius){
         return true;
     } else {
@@ -64,7 +64,7 @@ __device__ Point Boundary::getIntersectionPoint(Ray ray){
             t = t1;
         }
 
-        return Point((A.getX()+B.getX()*t),(A.getY()+B.getY()*t),(A.getZ()+B.getZ()*t));
+        return (A+B*t);
 }
 
 
