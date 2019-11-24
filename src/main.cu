@@ -15,7 +15,7 @@ __global__ void finalPosition(unsigned int seed, curandState_t* states, Point* _
 
   int main() {
 
-    int threadsPerBlock = 256;
+    int threadsPerBlock = 1024;
     int nBlocks = N/threadsPerBlock + 1;
  
     curandState_t* states;
