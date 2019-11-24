@@ -16,15 +16,8 @@ class Boundary {
  * @param point2
  * @return Dot Product
  */
-__device__ float dotProduct(Point point1, Point point2);
+__device__ float dot(Point point1, Point point2);
 
-/**
- * @brief swap
- * @param num1
- * @param num2
- * Swaps values by reference
- */
-__device__ void swap(float &num1, float &num2);
 
 public:
 /**
@@ -34,7 +27,7 @@ public:
  * r sets the radius of the spherical boundary
  * c sets the center of the spherical boundary
  */
- __device__ Boundary(float r, Point c);
+ __device__ __host__ Boundary(float r, Point c);
 
 /**
  * @brief setRadius
@@ -67,7 +60,7 @@ __device__ Point getCenter() const;
  * @param ray
  * @return whether the Boundary was crossed by the given ray or not
  */
-__device__ bool isCrossed(Ray ray);
+__device__ bool isHit(Ray ray);
 
 /**
  * @brief getIntersectionPoint

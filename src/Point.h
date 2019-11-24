@@ -13,13 +13,18 @@ class Point
 {
 
 public:
-__device__ Point(float x, float y, float z){
-    setCoordinates(x, y, z);
-}
 
-__device__ Point(){
-    setCoordinates(0.f, 0.f, 0.f);
-}
+    /**
+     * @brief Constructor
+     */
+    __device__ __host__ 
+    Point(float x, float y, float z);
+
+   /**
+     * @brief Constructor
+     */
+    __device__ __host__ 
+    Point();
 
     /**
      * @brief setCoordinates
@@ -28,7 +33,7 @@ __device__ Point(){
      * @param y
      * @param z
      */
-__device__
+    __device__ __host__
     void setCoordinates(float x, float y, float z);
 
 
@@ -37,8 +42,8 @@ __device__
      * @return
      * The X coordinate of the point.
      */
-__device__ __host__
-    float getX() const;
+    __device__ __host__
+    float x() const;
 
 
     /**
@@ -46,8 +51,8 @@ __device__ __host__
      * @return
      * The Y coordinate of the point.
      */
-__device__ __host__
-    float getY() const;
+    __device__ __host__
+    float y() const;
 
 
     /**
@@ -55,8 +60,30 @@ __device__ __host__
      * @return
      * The Z coordinate of the point.
      */
-__device__ __host__
-    float getZ() const;
+    __device__ __host__
+    float z() const;
+
+
+    /**
+     * @brief operator +
+     * Overloading the + operator
+     */
+    __device__ __host__
+    Point operator + (Point const &other);
+
+    /**
+     * @brief operator -
+     * Overloading the - operator
+     */
+    __device__ __host__
+    Point operator - (Point const &other);
+
+    /**
+     * @brief operator *
+     * Overloading the * operator
+     */
+    __device__ __host__
+    Point operator * (float const &other);
 
 
 private:
