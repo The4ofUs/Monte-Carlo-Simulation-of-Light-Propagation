@@ -4,7 +4,7 @@
 #include "Boundary.h"
 #include "RNG.h"
 
-#define BOUNDARY_RADIUS 5.0
+#define BOUNDARY_RADIUS 20.0
 
 /**
  * @brief randomWalk
