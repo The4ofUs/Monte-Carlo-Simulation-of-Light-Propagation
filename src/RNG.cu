@@ -14,7 +14,7 @@ __device__  float RNG::getRandomStep( curandState* globalState , int i) {
     return step;
  } 
 
-__device__ Point RNG::getRandomPoint( curandState* globalState , int i)
+__device__ Vector RNG::getRandomDirection( curandState* globalState , int i)
 {
     float u = generate (globalState , i);
     float v = generate (globalState, i);
@@ -27,5 +27,5 @@ __device__ Point RNG::getRandomPoint( curandState* globalState , int i)
     float y = sin(phi) * sin(theta);
     float z = cos(phi);
 
-    return Point(x,y,z);
+    return Vector(x,y,z);
 }

@@ -4,8 +4,6 @@
 #include "Boundary.h"
 #include "RNG.h"
 
-
-
 /**
  * @brief randomWalk
  * keeps wandering around with the photon in the 3D space
@@ -16,7 +14,7 @@ __device__ Point randomWalk(curandState_t *states, int idx, Boundary boundary, R
     Ray ray = Ray(Point(), Point());
     while (!boundary.isHit(ray))
     {
-        ray.move(rng.getRandomPoint(states, idx), rng.getRandomStep(states, idx));
+        ray.move(rng.getRandomDirection(states, idx), rng.getRandomStep(states, idx));
     }
     return boundary.getIntersectionPoint(ray);
 }

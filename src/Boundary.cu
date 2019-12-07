@@ -1,40 +1,26 @@
 #include "Boundary.h"
 using namespace std;
 
-__device__
-float Boundary::dot(Point point1, Point point2){return point1.x()*point2.x() + point1.y()*point2.y() + point1.z()*point2.z();}
+
 __device__ __host__ Boundary::Boundary(float r, Point c){
     _radius = r;
     _center = c;
-    _shape = Boundary.SPHERICAL;
 }
-__device__ __host__ Boundary::Boundary(float r, Point c, Point ax, float h){
-    _radius = r;
-    _center = c;
-    _axis = ax;
-    _height = h;
-    _shape = Boundary.CYLINDRICAL;
-}
+
 __device__ void Boundary::setRadius(float r){_radius = r;}
 __device__ float Boundary::getRadius() const {return _radius;}
 __device__ void Boundary::setCenter(Point c){_center = c;}
 __device__ Point Boundary::getCenter() const {return _center;}
 __device__ bool Boundary::isHit(Ray ray){
-    if(_shape == Boundary.SPHERICAL){
-        float absDistance = (float) sqrtf((float) powf(ray.getCurrentPos().x(),2) + (float) powf(ray.getCurrentPos().y(),2) + (float) powf(ray.getCurrentPos().z(),2));
+        float absDistance = (float) sqrtf((float) powf(ray.getOrigin().x(),2) + (float) powf(ray.getOrigin().y(),2) + (float) powf(ray.getOrigin().z(),2));
         if(absDistance >= _radius){
             return true;
         } else {
             return false;
         }
-    } else if (_shape == Boundary.CYLINDRICAL){
-        return;
-    }
 }
 
-}
 __device__ Point Boundary::getIntersectionPoint(Ray ray){
-    if(_shape == Boundary.SPHERICAL)
         /**
             P(t) = A + tB
             P(t) is a point on the ray 
@@ -52,13 +38,13 @@ __device__ Point Boundary::getIntersectionPoint(Ray ray){
                 c = dot(A - C, A - C) - r^2
             t1, t2 = (-b (+/-) sqrt(b^2 - 4ac) / 2a)
         */
-        Point A = ray.getPrevPos();
-        Point B = ray.getDirection();
-        Point S = A + _center;
-        Point A_C = A - _center;
-        float a = dot(B, B);
-        float b = 2.0 * dot(B, A_C);
-        float c = dot(A_C, A_C) - _radius*_radius;
+        Point A = ray.getPrevOrigin();
+        Vector B = ray.getDirection();
+        Vector S = A + _center;
+        Vector A_C = A - _center;
+        float a = B.dot(B);
+        float b = 2.0 * B.dot(A_C);
+        float c = A_C.dot(A_C) - _radius*_radius;
         float discriminant = b*b - 4*a*c;
         float t1 = (-b + sqrtf(discriminant)) / (2.0*a);
         float t2 = (-b - sqrtf(discriminant)) / (2.0*a);
@@ -69,9 +55,6 @@ __device__ Point Boundary::getIntersectionPoint(Ray ray){
             t = t1;
         }
         return (A+B*t);
-    else if(Boundary.CYLINDRICAL){
-        return;
-    }
 }
 
 

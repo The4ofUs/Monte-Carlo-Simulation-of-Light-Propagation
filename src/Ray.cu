@@ -1,31 +1,31 @@
 #include "Ray.h"
 using namespace std;
 
-__device__ Ray::Ray(Point startingPoint, Point direction){
-    this->_currentPos.setCoordinates(startingPoint.x(), startingPoint.y(), startingPoint.z());
-    this->_direction.setCoordinates(direction.x(), direction.y(), direction.z());
+__device__ Ray::Ray(Point rayOrigin, Vector rayDirection){
+    this->_origin = rayOrigin;
+    this->_direction = rayDirection;
 }
 
-__device__ void Ray::setDirection(Point direction) { this->_direction.setCoordinates(direction.x(), direction.y(), direction.z()); }
+__device__ void Ray::setDirection(Vector direction) { this->_direction = direction; }
 
 __device__ void Ray::setStep(float step) { this->_step = step; }
 
-__device__ Point Ray::getCurrentPos() const { return this->_currentPos; }
+__device__ Point Ray::getOrigin() const { return this->_origin; }
 
-__device__ Point Ray::getDirection() const { return this->_direction; }
+__device__ Vector Ray::getDirection() const { return this->_direction; }
 
-__device__ Point Ray::getPrevPos() const { return this->_prevPos; }
+__device__ Point Ray::getPrevOrigin() const { return this->_prevOrigin; }
 
 __device__ float Ray::getStep() const { return this->_step; }
 
-__device__ void Ray::updateRayState(Point direction, float step){
-    this->_prevPos = this->_currentPos;
+__device__ void Ray::updateRayState(Vector direction, float step){
+    this->_prevOrigin = this->_origin;
     this->_direction = direction;
     this->_step = step;
 }
 
-__device__ void Ray::move(Point direction, float step) // The point moves in the specified direction with the given step
+__device__ void Ray::move(Vector direction, float step) // The point moves in the specified direction with the given step
 {
     updateRayState(direction, step);
-    this->_currentPos = this->_currentPos + (direction * step);
+    this->_origin = this->_origin + (direction * step);
 }

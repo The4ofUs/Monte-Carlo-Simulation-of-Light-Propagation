@@ -48,3 +48,4 @@ __device__ __host__
         return Point(result_x, result_y, result_z); 
     }
 
+

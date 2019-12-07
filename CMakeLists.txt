@@ -10,6 +10,8 @@ set( CUDA_HEADER_FILES
     src/RandomWalk.h
     src/Boundary.h
     src/header.h
+    src/Detector.h
+    src/Vector.h
 )
 
 set( CUDA_SOURCE_FILES
@@ -17,6 +19,8 @@ set( CUDA_SOURCE_FILES
     src/Ray.cu
     src/Point.cu
     src/Boundary.cu
+    src/Detector.cu
+    src/Vector.cu
 )
 
 

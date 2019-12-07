@@ -1,6 +1,6 @@
 #ifndef Ray_H
 #define Ray_H
-#include "Point.h"
+#include "Vector.h"
 
 /**
  * @brief The Ray class
@@ -15,7 +15,7 @@ public:
      * @param direction
      * Direction of the ray
      */
-__device__ Ray(Point startingPoint, Point direction);
+    __device__ Ray(Point startingPoint, Vector direction);
 
     /**
      * @brief setDirection
@@ -23,7 +23,7 @@ __device__ Ray(Point startingPoint, Point direction);
      * @param direction
      * The direction of the ray.
      */
-__device__ void setDirection(Point direction);
+    __device__ void setDirection(Vector direction);
 
     /**
      * @brief setStep
@@ -31,66 +31,65 @@ __device__ void setDirection(Point direction);
      * @param step
      * Step value.
      */
-__device__ void setStep(float step);
+    __device__ void setStep(float step);
 
     /**
      * @brief getCurrentPos
      * @return
      * The current position of the ray.
      */
-__device__ Point getCurrentPos() const;
+    __device__ Point getOrigin() const;
 
     /**
      * @brief getDirection
      * @return
      * The current direction of the ray.
      */
-__device__ Point getDirection() const;
+    __device__ Vector getDirection() const;
 
     /**
      * @brief getPrevPos
      * @return
      * The previous position of the ray.
      */
-__device__ Point getPrevPos() const;
+    __device__ Point getPrevOrigin() const;
 
     /**
      * @brief getStep
      * @return
      * The current step along the ray.
      */
-__device__ float getStep() const;
-
+    __device__ float getStep() const;
 
     /**
      * @brief updateRayState
      * @return
      * Keeps the parameters responsible for the movements stored in the Ray object
      */
-__device__ void updateRayState(Point direction, float step);
+    __device__ void updateRayState(Vector direction, float step);
 
     /**
      * @brief move
      * The point moves in the specified direction with the given step.
      */
-__device__ void move(Point direction, float step);
+    __device__ void move(Vector direction, float step);
 
 private:
     /**
      * @brief _prevPos
      * The previous position of the ray.
      */
-    Point _prevPos;
+    Point _prevOrigin;
     /**
      * @brief _currentPos
      * The current position of the ray.
      */
-    Point _currentPos;
+    Point _origin;
     /**
      * @brief _direction
      * The current direction unit vector of the ray.
      */
-    Point _direction;
+    Vector _direction;
     /**
      * @brief _step
      * The step along the ray.

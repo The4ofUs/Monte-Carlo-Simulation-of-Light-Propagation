@@ -44,11 +44,12 @@ public:
         float result_z = this->_z * other;
         return Point(result_x, result_y, result_z); 
     }
-private:
+protected:
     float _x;
     float _y;
     float _z;
 };
+
 
 /* ----------- RNG ----------- */
 class RNG{
@@ -141,6 +142,33 @@ public:
             if(t1 < 0){ t = t2;} else { t = t1;}
             return (A+B*t);
     }
+};
+
+/* ----------- Detector ----------- */
+
+class Detector{
+
+public:
+    __device__ __host__ Detector(float radius, float thickness, Point center, Point normal){
+        _radius = radius;
+        _center = center;
+        _thickness = thickness;
+        _normal = normal;
+    };
+
+    __device__ __host__ bool isHit(Ray ray){
+        return false;
+    }
+
+    __device__ __host__ Point getHitPoint(Ray ray){
+        return Point();
+    }
+
+private:
+    float _radius;
+    float _thickness;
+    Point _center;
+    Point _normal;
 };
 
 /* ----------- RandomWalk ----------- */
