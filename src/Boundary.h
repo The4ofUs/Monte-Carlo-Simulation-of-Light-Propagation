@@ -10,16 +10,12 @@
  */
 class Boundary {
 
-/**
- * @brief dotProduct
- * @param point1
- * @param point2
- * @return Dot Product
- */
-__device__ float dot(Point point1, Point point2);
-
-
 public:
+
+static int const SPHERICAL = 0;
+static int const CYLINDRICAL = 1;
+
+
 /**
  * @brief Constructor
  * @param r
@@ -28,6 +24,19 @@ public:
  * c sets the center of the spherical boundary
  */
  __device__ __host__ Boundary(float r, Point c);
+
+ /**
+ * @brief Constructor
+ * @param r
+ * @param c
+ * @param ax
+ * @param h
+ * r sets the radius of the spherical boundary
+ * c sets the center of the spherical boundary
+ * ax is a point representing the axis line
+ * h represents the cylindrical boundary height
+ */
+ __device__ __host__ Boundary(float r, Point c, Point ax, float h);
 
 /**
  * @brief setRadius
@@ -71,6 +80,15 @@ __device__ Point getIntersectionPoint(Ray ray);
 
 
 private:
+
+/**
+ * @brief _shape
+ * the shape of the boundary
+ * 0 : Spherical boundary
+ * 1 : Cylindrical boundary
+ */
+const int _shape;
+
 /**
  * @brief _radius
  * the radius of the spherical boundary
@@ -82,6 +100,28 @@ float _radius;
  * the center of the spherical boundary
  */
 Point _center;
+
+
+/**
+ * @brief _axis
+ * the axis of the cylindrical boundary
+ */
+Point _axis;
+
+
+/**
+ * @brief _height
+ * the height of the cylindrical boundary
+ */
+float _height;
+
+/**
+ * @brief dotProduct
+ * @param point1
+ * @param point2
+ * @return Dot Product
+ */
+__device__ float dot(Point point1, Point point2);
 
 };
 #endif
