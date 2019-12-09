@@ -55,6 +55,10 @@ public:
      */
     __device__ __host__ float z() const;
 
+    __host__ __device__ float getAbsDistance();
+
+    __host__ __device__ float getAbsDistance(Point relative);
+
     /**
      * @brief operator +
      * Overloading the + operator

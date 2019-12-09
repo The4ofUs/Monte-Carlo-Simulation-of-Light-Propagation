@@ -5,6 +5,9 @@
 #include <curand_kernel.h>
 #include "Point.h"
 #include "Vector.h"
+#include <stdio.h>  /* printf, scanf, puts, NULL */
+#include <stdlib.h> /* srand, rand */
+#include <time.h>   /* time */
 /**
  * @brief The RNG class
  * Pseudo Random Number Generator
@@ -36,5 +39,9 @@ public:
      * @return
      */
     __device__ Vector getRandomDirection(curandState *states, int i);
+
+    __device__ Point getRandomPoint(curandState *states, int i);
+
+    __host__ Point getRandomPoint();
 };
 #endif

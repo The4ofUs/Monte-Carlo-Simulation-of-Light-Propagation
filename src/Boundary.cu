@@ -12,7 +12,7 @@ __device__ float Boundary::getRadius() const {return _radius;}
 __device__ void Boundary::setCenter(Point c){_center = c;}
 __device__ Point Boundary::getCenter() const {return _center;}
 __device__ bool Boundary::isHit(Ray ray){
-        float absDistance = (float) sqrtf((float) powf(ray.getOrigin().x(),2) + (float) powf(ray.getOrigin().y(),2) + (float) powf(ray.getOrigin().z(),2));
+        float absDistance = (float) sqrtf((float) powf(ray.getCurrent().x(),2) + (float) powf(ray.getCurrent().y(),2) + (float) powf(ray.getCurrent().z(),2));
         if(absDistance >= _radius){
             return true;
         } else {
@@ -38,7 +38,7 @@ __device__ Point Boundary::getIntersectionPoint(Ray ray){
                 c = dot(A - C, A - C) - r^2
             t1, t2 = (-b (+/-) sqrt(b^2 - 4ac) / 2a)
         */
-        Point A = ray.getPrevOrigin();
+        Point A = ray.getOrigin();
         Vector B = ray.getDirection();
         Vector S = A + _center;
         Vector A_C = A - _center;

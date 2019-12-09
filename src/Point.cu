@@ -24,6 +24,17 @@ __device__  float Point::y() const { return this->_y; }
 
 __device__  float Point::z() const { return this->_z; }
 
+__host__ __device__ float Point::getAbsDistance(){
+    float absDistance = sqrtf(this->_x*this->_x + this->_y*this->_y + this->_z*this->_z);
+    return absDistance;
+}
+
+__host__ __device__ float Point::getAbsDistance(Point relative){
+    Point relativeV = Point(relative.x() - this->_x, relative.y() - this->_y, relative.z() - this->_z);
+    float absDistance = sqrtf(relativeV.x()*relativeV.x()+ relativeV.y()*relativeV.y() + relativeV.z()*relativeV.z());
+    return absDistance;
+}
+
 __device__ __host__
     Point Point::operator - (Point const &other) { 
         float result_x = this->_x - other.x();

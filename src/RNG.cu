@@ -29,3 +29,38 @@ __device__ Vector RNG::getRandomDirection( curandState* globalState , int i)
 
     return Vector(x,y,z);
 }
+
+__device__ Point RNG::getRandomPoint( curandState* globalState , int i)
+{
+    float u = generate (globalState , i);
+    float v = generate (globalState, i);
+    
+    float theta = 2 * M_PI * u;
+    float phi = acos(1 - 2 * v);
+
+    // Transforming into the cartesian space
+    float x = sin(phi) * cos(theta);
+    float y = sin(phi) * sin(theta);
+    float z = cos(phi);
+
+    return Point(x,y,z);
+}
+
+__host__ Point RNG::getRandomPoint()
+{
+    srand(time(NULL));
+    float u =  static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+    float v =  static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+    printf("Random u = %f\nRandom v = %f\n", u,v);
+
+    
+    float theta = 2 * M_PI * u;
+    float phi = acos(1 - 2 * v);
+
+    // Transforming into the cartesian space
+    float x = sin(phi) * cos(theta);
+    float y = sin(phi) * sin(theta);
+    float z = cos(phi);
+
+    return Point(x,y,z);
+}

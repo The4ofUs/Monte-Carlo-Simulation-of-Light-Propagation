@@ -38,7 +38,7 @@ public:
      * @return
      * The current position of the ray.
      */
-    __device__ Point getOrigin() const;
+    __device__ Point getCurrent() const;
 
     /**
      * @brief getDirection
@@ -52,7 +52,7 @@ public:
      * @return
      * The previous position of the ray.
      */
-    __device__ Point getPrevOrigin() const;
+    __device__ Point getOrigin() const;
 
     /**
      * @brief getStep
@@ -79,12 +79,12 @@ private:
      * @brief _prevPos
      * The previous position of the ray.
      */
-    Point _prevOrigin;
+    Point _origin;
     /**
      * @brief _currentPos
      * The current position of the ray.
      */
-    Point _origin;
+    Point _current;
     /**
      * @brief _direction
      * The current direction unit vector of the ray.
