@@ -28,9 +28,19 @@ __device__ void Photon::roulette(RNG rng, curandState *globalState, int i)
     }
 }
 
-__device__ float Photon::getWeight()
+__device__ float Photon::weight()
 {
     return this->_weight;
+}
+
+__device__ __host__ Point Photon::position()
+{
+    return this->_position;
+}
+
+__device__ void Photon::setPosition(Point point)
+{
+    this->_position = point;
 }
 
 __device__ void Photon::terminate()
@@ -40,4 +50,17 @@ __device__ void Photon::terminate()
 __device__ void Photon::boost()
 {
     this->_weight = this->_weight / ROULETTE_CHANCE;
+}
+
+__device__ void Photon::updateState(Vector direction)
+{
+    this->_origin = this->_tip;
+    this->_direction = direction;
+}
+
+__device__ void Photon::move(Vector direction, float step) // The photon moves in the specified direction with the given step
+{
+    updateState(direction);
+    this->_tip = this->_tip + (direction * step);
+    this->_position = this->_tip;
 }

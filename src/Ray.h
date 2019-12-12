@@ -19,14 +19,6 @@ public:
     __device__ Ray();
 
     /**
-     * @brief setDirection
-     * Sets the direction of the ray
-     * @param direction
-     * The direction of the ray.
-     */
-    __device__ void setDirection(Vector direction);
-
-    /**
      * @brief setStep
      * Sets the step along the ray.
      * @param step
@@ -61,19 +53,6 @@ public:
      * The current step along the ray.
      */
     __device__ float getStep() const;
-
-    /**
-     * @brief updateRayState
-     * @return
-     * Keeps the parameters responsible for the movements stored in the Ray object
-     */
-    __device__ void updateRayState(Vector direction);
-
-    /**
-     * @brief move
-     * The point moves in the specified direction with the given step.
-     */
-    __device__ void move(Vector direction, float step);
 
 protected:
     /**

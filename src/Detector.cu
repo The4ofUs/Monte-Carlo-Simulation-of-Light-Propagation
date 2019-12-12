@@ -11,7 +11,7 @@ __host__ Detector::Detector(float radius, Point center, Vector normal)
         this->_normal = normal.normalize();
         this->_distance = center.getAbsDistance();
     }
-    else
+    else if (radius < 0)
     {
         radius = fabs(radius);
         this->_radius = radius;
