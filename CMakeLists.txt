@@ -9,7 +9,7 @@ set( CUDA_HEADER_FILES
     src/Ray.h
     src/RandomWalk.h
     src/Boundary.h
-    src/header.h
+    src/common.h
     src/Detector.h
     src/Vector.h
     src/Tissue.h

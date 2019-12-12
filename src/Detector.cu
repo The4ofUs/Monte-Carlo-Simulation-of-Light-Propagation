@@ -1,7 +1,6 @@
 #include "Detector.h"
 #include "Point.h"
 #include "RNG.h"
-#include <math.h>
 
 __host__ Detector::Detector(float radius, Point center, Vector normal)
 {

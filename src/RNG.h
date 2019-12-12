@@ -1,10 +1,9 @@
 #ifndef RNG_H
 #define RNG_H
 
-#include <curand.h>
-#include <curand_kernel.h>
 #include "Point.h"
 #include "Vector.h"
+#include "common.h"
 
 /**
  * @brief The RNG class

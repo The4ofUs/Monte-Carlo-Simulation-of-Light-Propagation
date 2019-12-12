@@ -1,10 +1,6 @@
 #ifndef POINT_H
 #define POINT_H
 
-#include <helper_cuda.h>
-#include <helper_functions.h>
-#include <helper_timer.h>
-
 /**
  * @brief The Point class
  * A point in the space defined by the cartesian coordinates (X, Y, Z)

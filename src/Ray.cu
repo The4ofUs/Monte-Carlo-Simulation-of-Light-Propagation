@@ -1,5 +1,4 @@
 #include "Ray.h"
-using namespace std;
 
 __device__ Ray::Ray(Point rayOrigin, Vector rayDirection)
 {
