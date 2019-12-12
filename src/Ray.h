@@ -16,6 +16,7 @@ public:
      * Direction of the ray
      */
     __device__ Ray(Point startingPoint, Vector direction);
+    __device__ Ray();
 
     /**
      * @brief setDirection
@@ -38,7 +39,7 @@ public:
      * @return
      * The current position of the ray.
      */
-    __device__ Point getCurrent() const;
+    __device__ Point getTip() const;
 
     /**
      * @brief getDirection
@@ -66,7 +67,7 @@ public:
      * @return
      * Keeps the parameters responsible for the movements stored in the Ray object
      */
-    __device__ void updateRayState(Vector direction, float step);
+    __device__ void updateRayState(Vector direction);
 
     /**
      * @brief move
@@ -74,26 +75,21 @@ public:
      */
     __device__ void move(Vector direction, float step);
 
-private:
+protected:
     /**
      * @brief _prevPos
      * The previous position of the ray.
      */
     Point _origin;
     /**
-     * @brief _currentPos
+     * @brief _tipPos
      * The current position of the ray.
      */
-    Point _current;
+    Point _tip;
     /**
      * @brief _direction
      * The current direction unit vector of the ray.
      */
     Vector _direction;
-    /**
-     * @brief _step
-     * The step along the ray.
-     */
-    float _step;
 };
 #endif

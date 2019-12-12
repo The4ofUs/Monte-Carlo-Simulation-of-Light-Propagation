@@ -13,7 +13,7 @@
 __device__ Point randomWalk(curandState_t *states, int idx, Detector detector, RNG rng)
 {
     Ray ray = Ray(Point(), Point());
-    while (ray.getCurrent().getAbsDistance() < detector.getAbsDistance())
+    while (ray.getTip().getAbsDistance() < detector.getAbsDistance())
     {
         ray.move(rng.getRandomDirection(states, idx), rng.getRandomStep(states, idx));
     }

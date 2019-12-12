@@ -12,6 +12,8 @@ set( CUDA_HEADER_FILES
     src/header.h
     src/Detector.h
     src/Vector.h
+    src/Tissue.h
+    src/Photon.h
 )
 
 set( CUDA_SOURCE_FILES
@@ -21,6 +23,8 @@ set( CUDA_SOURCE_FILES
     src/Boundary.cu
     src/Detector.cu
     src/Vector.cu
+    src/Tissue.cu
+    src/Photon.cu
 )
 
 
