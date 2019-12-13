@@ -6,6 +6,7 @@
 __device__ Photon::Photon()
 {
     this->_weight = 1.f;
+    this->_state = Photon::ROAMING;
 }
 
 __device__ Photon::Photon(Point rayOrigin, Vector rayDirection)
@@ -14,6 +15,7 @@ __device__ Photon::Photon(Point rayOrigin, Vector rayDirection)
     this->_position = rayOrigin;
     this->_direction = rayDirection;
     this->_weight = 1.f;
+    this->_state = Photon::ROAMING;
 }
 
 __device__ void Photon::roulette(RNG rng, curandState *globalState, int i)
@@ -43,9 +45,14 @@ __device__ void Photon::setPosition(Point point)
     this->_position = point;
 }
 
+__device__ void Photon::setState(int state){
+    this->_state = state;
+}
+
 __device__ void Photon::terminate()
 {
     this->_weight = 0.f;
+    this->_state = Photon::TERMINATED;
 }
 __device__ void Photon::boost()
 {

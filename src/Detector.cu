@@ -26,16 +26,17 @@ __device__ float Detector::getAbsDistance()
     return this->_distance;
 }
 
-__device__ bool Detector::isHit(Ray ray)
+__device__ bool Detector::isHit(Photon photon)
 {
-    float rayAbsDistance = ray.getTip().getAbsDistance();
-    float rayOriginAbsDistance = ray.getOrigin().getAbsDistance();
+    float rayAbsDistance = photon.getTip().getAbsDistance();
+    float rayOriginAbsDistance = photon.getOrigin().getAbsDistance();
     if (rayAbsDistance >= this->_distance && rayOriginAbsDistance <= this->_distance)
     {
-        Point point = this->getIntersectionPoint(ray);
+        Point point = this->getIntersectionPoint(photon);
         float dfromc = point.getAbsDistance(this->_center);
         if (dfromc <= this->_radius)
         {
+            photon.setState(Photon::DETECTED);
             return true;
         }
         else
@@ -45,7 +46,7 @@ __device__ bool Detector::isHit(Ray ray)
         return false;
 }
 
-__device__ Point Detector::getIntersectionPoint(Ray ray)
+__device__ Point Detector::getIntersectionPoint(Photon photon)
 {
     /**
         P is a point on the ray
@@ -61,8 +62,8 @@ __device__ Point Detector::getIntersectionPoint(Ray ray)
         we calculate t and substitute in the ray's equation to get the intersection point
         and Voila
     */
-    Point A = ray.getOrigin();
-    Vector B = ray.getDirection();
+    Point A = photon.getOrigin();
+    Vector B = photon.getDirection();
     Vector V = (this->_center - A);
     float t = V.dot(this->_normal) / (B.dot(this->_normal));
     return A + B * t;

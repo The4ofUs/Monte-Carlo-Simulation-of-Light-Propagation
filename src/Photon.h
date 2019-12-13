@@ -16,10 +16,15 @@ public:
     __device__ void move(Vector direction, float step);
     __device__ void updateState(Vector direction);
     __device__ void setPosition(Point point);
+    __device__ void setState(int state);
+    static const int ROAMING = 1;
+    static const int TERMINATED = -1;
+    static const int DETECTED = 0;
 
 private:
     float _weight;
     Point _position;
+    int _state;
 
     __device__ void terminate();
     __device__ void boost();
