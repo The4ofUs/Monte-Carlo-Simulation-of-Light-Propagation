@@ -28,15 +28,15 @@ __device__ float Detector::getAbsDistance()
 
 __device__ bool Detector::isHit(Photon photon)
 {
-    float rayAbsDistance = photon.getTip().getAbsDistance();
+    float rayTipAbsDistance = photon.getTip().getAbsDistance();
     float rayOriginAbsDistance = photon.getOrigin().getAbsDistance();
-    if (rayAbsDistance >= this->_distance && rayOriginAbsDistance <= this->_distance)
+    if (rayTipAbsDistance >= this->_distance && rayOriginAbsDistance <= this->_distance)
     {
         Point point = this->getIntersectionPoint(photon);
         float dfromc = point.getAbsDistance(this->_center);
         if (dfromc <= this->_radius)
         {
-            photon.setState(Photon::DETECTED);
+            photon.setPosition(point);
             return true;
         }
         else

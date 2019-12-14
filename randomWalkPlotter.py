@@ -11,6 +11,7 @@ X = []
 Y = []
 Z = []
 
+
 for row in data:
     X.append(float(row[0]))
     Y.append(float(row[1]))

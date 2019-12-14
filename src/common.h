@@ -12,5 +12,6 @@
 #include <helper_timer.h>
 #include <curand.h>
 #include <curand_kernel.h>
+#include <string>
 
 #endif
