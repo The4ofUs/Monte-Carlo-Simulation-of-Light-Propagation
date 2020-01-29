@@ -1,4 +1,4 @@
-#include "Boundary.h"
+#include "../headers/Boundary.h"
 using namespace std;
 
 __device__ __host__ Boundary::Boundary(float r, Point c)
@@ -47,8 +47,8 @@ __device__ Point Boundary::getIntersectionPoint(Ray ray)
     Vector B = ray.getDirection();
     Vector S = A + _center;
     Vector A_C = A - _center;
-    float a = B.dot(B);
-    float b = 2.0 * B.dot(A_C);
+    float a = dotProduct(B, B);
+    float b = 2.0 * dotProduct(B, A_C);
     float c = A_C.dot(A_C) - _radius * _radius;
     float discriminant = b * b - 4 * a * c;
     float t1 = (-b + sqrtf(discriminant)) / (2.0 * a);

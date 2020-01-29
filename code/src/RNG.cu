@@ -1,4 +1,4 @@
-#include "RNG.h"
+#include "../headers/RNG.h"
 
 __device__ float RNG::generate(curandState *globalState, int i)
 {
@@ -28,7 +28,7 @@ __device__ Vector RNG::getRandomDirection(curandState *globalState, int i)
     float y = sin(phi) * sin(theta);
     float z = cos(phi);
 
-    return Vector(x, y, z).normalize();
+    return getNormalizedVector(Vector(x, y, z));
 }
 
 __device__ Point RNG::getRandomPoint(curandState *globalState, int i)
@@ -45,4 +45,16 @@ __device__ Point RNG::getRandomPoint(curandState *globalState, int i)
     float z = cos(phi);
 
     return Point(x, y, z);
+}
+
+__device__ void RNG::roulette(Photon &photon, float chance, curandState *globalState, int i)
+{
+    if (generate(globalState, i) >= chance)
+    {
+        photon.terminate();
+    }
+    else
+    {
+        photon.boost(chance);
+    }
 }

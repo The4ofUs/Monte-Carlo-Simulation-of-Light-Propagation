@@ -1,8 +1,6 @@
 #ifndef TISSUE_H
 #define TISSUE_H
-#include "Vector.h"
-#include "Point.h"
-#include "Ray.h"
+
 #include "Photon.h"
 
 /**
@@ -45,14 +43,14 @@ public:
      * @param point 
      * @return Whether the photon escaped the tissue or not
      */
-    __device__ bool escaped(Photon photon);
-    __device__ void attenuate(Photon photon);
+    __device__ bool escaped(Point position);
+    __device__ void attenuate(Photon &photon);
 
 private:
     float _radius;
     Point _center0;
     Point _center1;
-    Vector _axis;
+    Vector _normal;
     float _Ms;
     float _Ma;
     float _Mt;

@@ -1,9 +1,6 @@
 #ifndef DETECTOR_H
 #define DETECTOR_H
 
-#include "Point.h"
-#include "Vector.h"
-#include "Ray.h"
 #include "Photon.h"
 
 class Detector
@@ -11,13 +8,13 @@ class Detector
 
 public:
     __host__ Detector(float radius, Point center, Vector normal);
-    __device__ bool isHit(Photon photon);
-    __device__ Point getIntersectionPoint(Photon photon);
-    __device__ float getAbsDistance();
+    __device__ Point getCenter();
+    __device__ Vector getNormal();
+    __device__ bool isHit(Photon &photon, Ray path);
+    __device__ Point getIntersectionPoint(Ray path);
 
 private:
     float _radius;
-    float _distance;
     Point _center;
     Vector _normal;
 };
