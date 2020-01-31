@@ -7,7 +7,7 @@ set( CUDA_HEADER_FILES
     code/headers/Point.h
     code/headers/RNG.h
     code/headers/Ray.h
-    code/headers/RandomWalk.h
+    code/headers/randomwalk.h
     code/headers/common.h
     code/headers/Detector.h
     code/headers/Vector.h
@@ -21,6 +21,7 @@ set( CUDA_SOURCE_FILES
     code/src/Ray.cu
     code/src/Point.cu
     code/src/Detector.cu
+    code/src/mathematics.cu
     code/src/Vector.cu
     code/src/Tissue.cu
     code/src/Photon.cu

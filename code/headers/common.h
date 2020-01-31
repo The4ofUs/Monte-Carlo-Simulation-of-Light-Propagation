@@ -2,10 +2,8 @@
 #define COMMON_H
 
 #include <cmath>
-#include <chrono>
 #include <iostream>
 #include <array>
-#include <ctime>
 #include <math.h>
 #include <helper_cuda.h>
 #include <helper_functions.h>

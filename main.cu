@@ -1,7 +1,6 @@
+#include "code/headers/randomwalk.h"
 
-#include "code/headers/RandomWalk.h"
-
-#define NUMBER_OF_PHOTONS 500
+#define NUMBER_OF_PHOTONS 1000
 #define THREADS_PER_BLOCK 1024
 #define DETECTOR_RADIUS 5.f
 #define DETECTOR_POSITION Point(0.f, 0.f, 50.f)
@@ -9,8 +8,8 @@
 #define TISSUE_RADIUS 200.f
 #define TISSUE_ABSORBTION_COEFFICIENT 1.f
 #define TISSUE_SCATTERING_COEFFICIENT 100.f
-#define TISSUE_ALIGNED_WITH_ZAXIS_1 Point(0.f, 0.f, 50.f)
-#define TISSUE_ALIGNED_WITH_ZAXIS_2 Point(0.f, 0.f, -50.f)
+#define TISSUE_CENTER_1 Point(0.f, 0.f, 50.f)
+#define TISSUE_CENTER_2 Point(0.f, 0.f, -50.f)
 
 void streamOut(Photon *_cpuPhotons);
 char *stateToString(int state);
@@ -40,7 +39,7 @@ int main()
     RNG rng;
     //Boundary boundary = Boundary(BOUNDARY_RADIUS, Point());
     Detector detector = Detector(DETECTOR_RADIUS, DETECTOR_POSITION, DETECTOR_LOOK_DOWNWARDS);
-    Tissue tissue = Tissue(TISSUE_RADIUS, TISSUE_ALIGNED_WITH_ZAXIS_1, TISSUE_ALIGNED_WITH_ZAXIS_2, TISSUE_ABSORBTION_COEFFICIENT, TISSUE_SCATTERING_COEFFICIENT);
+    Tissue tissue = Tissue(TISSUE_RADIUS, TISSUE_CENTER_1, TISSUE_CENTER_2, TISSUE_ABSORBTION_COEFFICIENT, TISSUE_SCATTERING_COEFFICIENT);
     // Kernel Call
     //finalPosition<<<nBlocks,THREADS_PER_BLOCK>>>(time(0), states , _gpuPoints, boundary, rng, NUMBER_OF_PHOTONS);
     finalState<<<nBlocks, THREADS_PER_BLOCK>>>(time(0), states, _gpuPhotons, detector, rng, tissue, NUMBER_OF_PHOTONS);
@@ -56,9 +55,26 @@ void streamOut(Photon *_cpuPhotons)
 {
     FILE *output;
     output = fopen("output.csv", "w");
+    std::string state;
+    fprintf(output, "X,Y,Z,WEIGHT,STATE\n");
     for (int i = 0; i < NUMBER_OF_PHOTONS; i++)
     {
+        switch (_cpuPhotons[i].getState())
+        {
+        case (-1):
+            state = "TERMINATED";
+            break;
+        case (0):
+            state = "ROAMING";
+            break;
+        case (1):
+            state = "DETECTED";
+            break;
+        case (2):
+            state = "ESCAPED";
+            break;
+        }
         // Streaming out my output in a log file
-        fprintf(output, "%f,%f,%f,%i\n", _cpuPhotons[i].getPosition().x(), _cpuPhotons[i].getPosition().y(), _cpuPhotons[i].getPosition().z(), _cpuPhotons[i].getState());
+        fprintf(output, "%f,%f,%f,%f,%s\n", _cpuPhotons[i].getPosition().x(), _cpuPhotons[i].getPosition().y(), _cpuPhotons[i].getPosition().z(), _cpuPhotons[i].getWeight(), state.c_str());
     }
 }

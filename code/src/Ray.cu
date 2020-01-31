@@ -5,8 +5,9 @@
 __device__ __host__ Ray::Ray(Point origin, Vector direction, float step)
 {
     this->_origin = origin;
-    this->_direction = getNormalizedVector(direction);
+    this->_direction = Mathematics::calculateNormalizedVector(direction);
     this->_step = step;
+    this->_tip = Mathematics::calculateRayTip(origin, direction, step);
 }
 
 __device__ __host__ Ray::Ray()
@@ -23,7 +24,7 @@ __device__ __host__ float Ray::getStep() const { return this->_step; }
 
 __device__ __host__ Point Ray::getTip() const { return this->_tip; }
 
-__device__ __host__ void Ray::setDirection(Vector v) { this->_direction = getNormalizedVector(v); }
+__device__ __host__ void Ray::setDirection(Vector v) { this->_direction = Mathematics::calculateNormalizedVector(v); }
 
 __device__ __host__ void Ray::setOrigin(Point p) { this->_origin = p; }
 

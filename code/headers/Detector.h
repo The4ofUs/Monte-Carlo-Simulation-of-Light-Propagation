@@ -11,7 +11,7 @@ public:
     __device__ Point getCenter();
     __device__ Vector getNormal();
     __device__ bool isHit(Photon &photon, Ray path);
-    __device__ Point getIntersectionPoint(Ray path);
+    __device__ Point calculateIntersectionPoint(Ray path);
 
 private:
     float _radius;

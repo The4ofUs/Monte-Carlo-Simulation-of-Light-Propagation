@@ -15,10 +15,23 @@
 __device__ Photon randomWalk(curandState_t *states, int idx, Detector detector, RNG rng, Tissue tissue)
 {
     Photon photon = Photon(detector.getCenter());
+    bool first_step = true;
+    Ray path;
+
     while (photon.getState() == photon.ROAMING)
     {
-        Ray path = Ray(photon.getPosition(), rng.getRandomDirection(states, idx), rng.getRandomStep(states, idx));
+        if (first_step)
+        {
+            path = Ray(photon.getPosition(), detector.getNormal(), rng.getRandomStep(states, idx));
+            first_step = false;
+        }
+        else
+        {
+            path = Ray(photon.getPosition(), rng.getRandomDirection(states, idx), rng.getRandomStep(states, idx));
+        }
+
         photon.moveAlong(path);
+        tissue.attenuate(photon);
         if (detector.isHit(photon, path))
         {
             photon.setState(photon.DETECTED);
@@ -27,7 +40,6 @@ __device__ Photon randomWalk(curandState_t *states, int idx, Detector detector, 
 
         if (!tissue.escaped(photon.getPosition()))
         {
-            tissue.attenuate(photon);
             if (photon.getWeight() < WEIGHT_THRESHOLD)
             {
                 rng.roulette(photon, ROULETTE_CHANCE, states, idx);

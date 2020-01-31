@@ -1,5 +1,5 @@
-#ifndef Ray_H
-#define Ray_H
+#ifndef RAY_H
+#define RAY_H
 #include "Vector.h"
 #include "mathematics.h"
 

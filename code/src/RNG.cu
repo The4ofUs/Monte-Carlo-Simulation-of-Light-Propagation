@@ -28,7 +28,7 @@ __device__ Vector RNG::getRandomDirection(curandState *globalState, int i)
     float y = sin(phi) * sin(theta);
     float z = cos(phi);
 
-    return getNormalizedVector(Vector(x, y, z));
+    return Mathematics::calculateNormalizedVector(Vector(x, y, z));
 }
 
 __device__ Point RNG::getRandomPoint(curandState *globalState, int i)

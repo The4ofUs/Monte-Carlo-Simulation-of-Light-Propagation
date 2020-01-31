@@ -19,7 +19,7 @@ __device__ void Photon::setPosition(Point point) { this->_position = point; }
 
 __device__ void Photon::setState(int state) { this->_state = state; }
 
-__device__ float Photon::getWeight() { return this->_weight; }
+__device__ __host__ float Photon::getWeight() { return this->_weight; }
 
 __device__ __host__ Point Photon::getPosition() { return this->_position; }
 
