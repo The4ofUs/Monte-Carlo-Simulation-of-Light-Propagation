@@ -6,4 +6,4 @@
 - cd build 
 - cmake ..
 - make
-- ./randomWalk
+- ./RandomWalk

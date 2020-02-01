@@ -5,7 +5,7 @@
 #define DETECTOR_RADIUS 5.f
 #define DETECTOR_POSITION Point(0.f, 0.f, 50.f)
 #define DETECTOR_LOOK_DOWNWARDS Vector(0.f, 0.f, -1.f)
-#define TISSUE_RADIUS 200.f
+#define TISSUE_RADIUS 100.f
 #define TISSUE_ABSORBTION_COEFFICIENT 1.f
 #define TISSUE_SCATTERING_COEFFICIENT 100.f
 #define TISSUE_CENTER_1 Point(0.f, 0.f, 50.f)

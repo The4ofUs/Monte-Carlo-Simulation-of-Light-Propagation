@@ -2,26 +2,30 @@ import csv
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
+vertical = [-55, 55]
+horizontal = [-55, 55]
+depth = [-55, 55]
+
 fig = plt.figure(1)
 collective = fig.add_subplot(221, projection='3d')
-collective.set_zlim([-55, 50])
-collective.set_xlim([-105, 105])
-collective.set_ylim([-105, 105])
+collective.set_zlim(vertical)
+collective.set_xlim(horizontal)
+collective.set_ylim(depth)
 collective.title.set_text('Photons')
 detected = fig.add_subplot(222, projection='3d')
-detected.set_zlim([-55, 50])
-detected.set_xlim([-105, 105])
-detected.set_ylim([-105, 105])
+detected.set_zlim(vertical)
+detected.set_xlim(horizontal)
+detected.set_ylim(depth)
 detected.title.set_text('Detected Photons')
 terminated = fig.add_subplot(223, projection='3d')
-terminated.set_zlim([-55, 50])
-terminated.set_xlim([-105, 105])
-terminated.set_ylim([-105, 105])
+terminated.set_zlim(vertical)
+terminated.set_xlim(horizontal)
+terminated.set_ylim(depth)
 terminated.title.set_text('Terminated Photons')
 escaped = fig.add_subplot(224, projection='3d')
-escaped.set_zlim([-55, 50])
-escaped.set_xlim([-105, 105])
-escaped.set_ylim([-105, 105])
+escaped.set_zlim(vertical)
+escaped.set_xlim(horizontal)
+escaped.set_ylim(depth)
 escaped.title.set_text('Escaped Photons')
 
 DETECTED = "DETECTED"
