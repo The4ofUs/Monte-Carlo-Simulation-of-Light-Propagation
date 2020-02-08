@@ -1,12 +1,32 @@
 import csv
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+import math
+import numpy as np
+import seaborn as sns
 
 vertical = [-55, 55]
 horizontal = [-55, 55]
 depth = [-55, 55]
 
+
+class Point:
+    x = 0
+    y = 0
+    z = 0
+
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+        pass
+
+
+detectorCenter = Point(0.0, 0.0, 50.0)
+
 fig = plt.figure(1)
+fig2, ax = plt.subplots()
+
 collective = fig.add_subplot(221, projection='3d')
 collective.set_zlim(vertical)
 collective.set_xlim(horizontal)
@@ -44,6 +64,7 @@ Z_detected = []
 X_escaped = []
 Y_escaped = []
 Z_escaped = []
+detected_dist = []
 
 with open('build/output.csv', 'r', newline='') as file:
     has_header = csv.Sniffer().has_header(file.read(1024))
@@ -89,5 +110,20 @@ terminated.set_zlabel('Z')
 escaped.set_xlabel('X')
 escaped.set_ylabel('Y')
 escaped.set_zlabel('Z')
+
+
+def absDistance(x, y, z):
+    temp1 = (x - detectorCenter.x) * (x - detectorCenter.x)
+    temp2 = (y - detectorCenter.y) * (y - detectorCenter.y)
+    temp3 = (z - detectorCenter.z) * (z - detectorCenter.z)
+    result = math.sqrt((temp1 + temp2 + temp3))
+    return result
+
+
+for point in X_detected:
+    index = X_detected.index(point)
+    detected_dist.append(absDistance(X_detected[index], Y_detected[index], Z_detected[index]))
+sns.set()
+sns.distplot(detected_dist, bins=math.floor(len(detected_dist)/5))
 
 plt.show()
