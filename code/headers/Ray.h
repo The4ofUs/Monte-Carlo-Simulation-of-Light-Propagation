@@ -11,44 +11,50 @@ class Ray
 public:
     /**
      * @brief Constructor 
-     * @param origin
+     * @param origin (**Point**)
      * Starting origin of the ray
-     * @param direction
+     * @param direction (**Vector**)
      * Direction of the ray
+     * @param step (float)
+     * Step value.
      */
     __device__ __host__ Ray(Point origin, Vector direction, float step);
     __device__ __host__ Ray();
 
     /**
-     * @brief setStep
-     * Sets the step along the ray.
-     * @param step
-     * Step value.
+     * @param step (float)
      */
     __device__ __host__ void setStep(float step);
 
+    /**
+ * @param v (**Vector**) 
+ * setDirection() insures that the vector passed is normalized
+ */
     __device__ __host__ void setDirection(Vector v);
-
+    /**
+ * @param p (**Point**)
+ * 
+ */
     __device__ __host__ void setOrigin(Point p);
-
+    /**
+ * @return The position of the tip of the ray as a **Point**
+ * 
+ */
     __device__ __host__ Point getTip() const;
 
     /**
-     * @brief getDirection
      * @return
-     * The current direction of the ray.
+     * The current direction of the ray as a normalized **Vector**
      */
     __device__ __host__ Vector getDirection() const;
 
     /**
-     * @brief getPrevPos
      * @return
-     * The previous position of the ray.
+     * The origin **Point** of the ray.
      */
     __device__ __host__ Point getOrigin() const;
 
     /**
-     * @brief getStep
      * @return
      * The current step along the ray.
      */
@@ -56,24 +62,19 @@ public:
 
 protected:
     /**
-     * @brief _prevPos
-     * The previous position of the ray.
+     * The origin of the ray.
      */
     Point _origin;
 
     /**
-     * @brief _tip
      * Represents the position of the Ray's tip
-     * 
      */
     Point _tip;
     /**
-     * @brief _step
      * The magnitude of movement in the specific _direction.
      */
     float _step;
     /**
-     * @brief _direction
      * The current direction unit vector of the ray.
      */
     Vector _direction;
