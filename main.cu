@@ -2,7 +2,7 @@
 
 #define NUMBER_OF_PHOTONS 1000
 #define THREADS_PER_BLOCK 1024
-#define DETECTOR_RADIUS 5.f
+#define DETECTOR_RADIUS 10.f
 #define DETECTOR_POSITION Point(0.f, 0.f, 50.f)
 #define DETECTOR_LOOK_DOWNWARDS Vector(0.f, 0.f, -1.f)
 #define TISSUE_RADIUS 100.f
