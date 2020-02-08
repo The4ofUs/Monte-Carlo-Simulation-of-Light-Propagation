@@ -6,8 +6,8 @@ import numpy as np
 import seaborn as sns
 
 vertical = [-55, 55]
-horizontal = [-55, 55]
-depth = [-55, 55]
+horizontal = [-100, 100]
+depth = [-100, 100]
 
 
 class Point:
@@ -26,27 +26,6 @@ detectorCenter = Point(0.0, 0.0, 50.0)
 
 fig = plt.figure(1)
 fig2, ax = plt.subplots()
-
-collective = fig.add_subplot(221, projection='3d')
-collective.set_zlim(vertical)
-collective.set_xlim(horizontal)
-collective.set_ylim(depth)
-collective.title.set_text('Photons')
-detected = fig.add_subplot(222, projection='3d')
-detected.set_zlim(vertical)
-detected.set_xlim(horizontal)
-detected.set_ylim(depth)
-detected.title.set_text('Detected Photons')
-terminated = fig.add_subplot(223, projection='3d')
-terminated.set_zlim(vertical)
-terminated.set_xlim(horizontal)
-terminated.set_ylim(depth)
-terminated.title.set_text('Terminated Photons')
-escaped = fig.add_subplot(224, projection='3d')
-escaped.set_zlim(vertical)
-escaped.set_xlim(horizontal)
-escaped.set_ylim(depth)
-escaped.title.set_text('Escaped Photons')
 
 DETECTED = "DETECTED"
 ESCAPED = "ESCAPED"
@@ -90,6 +69,19 @@ with open('build/output.csv', 'r', newline='') as file:
         Y.append(float(row[1]))
         Z.append(float(row[2]))
 
+collective = fig.add_subplot(221, projection='3d')
+
+collective.title.set_text('Photons' + ' | ' + str(len(X)))
+detected = fig.add_subplot(222, projection='3d')
+
+detected.title.set_text('Detected Photons' + ' | ' + str(len(X_detected)))
+terminated = fig.add_subplot(223, projection='3d')
+
+terminated.title.set_text('Terminated Photons' + ' | ' + str(len(X_terminated)))
+escaped = fig.add_subplot(224, projection='3d')
+
+escaped.title.set_text('Escaped Photons' + ' | ' + str(len(X_escaped)))
+
 collective.scatter(X, Y, Z, c='b', marker='o')
 detected.scatter(X_detected, Y_detected, Z_detected, c='g', marker='o')
 terminated.scatter(X_terminated, Y_terminated, Z_terminated, c='r', marker='o')
@@ -124,6 +116,6 @@ for point in X_detected:
     index = X_detected.index(point)
     detected_dist.append(absDistance(X_detected[index], Y_detected[index], Z_detected[index]))
 sns.set()
-sns.distplot(detected_dist, bins=math.floor(len(detected_dist)/5))
+sns.distplot(detected_dist, bins=math.floor(len(detected_dist) / 5))
 
 plt.show()
