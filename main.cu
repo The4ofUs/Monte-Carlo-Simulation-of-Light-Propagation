@@ -56,7 +56,16 @@ void streamOut(Photon *_cpuPhotons)
     FILE *output;
     output = fopen("output.csv", "w");
     std::string state;
-    fprintf(output, "X,Y,Z,WEIGHT,STATE\n");
+    // Adding Meta-data to the output file
+    /*
+    *   This Particular order should be maintained if the output was to be read using the Plotter 
+    */
+    fprintf(output, "X, Y, Z, WEIGHT, STATE,photon_num,%i,threads_per_block,%i,detector_radius,%f,detector_pos,%f,%f,%f,detector_lookAt,%f,%f,%f,tissue_radius,%f,absorp_coeff,%f,scatter_coeff,%f,tissue_center_1,%f,%f,%f,tissue_center_2,%f,%f,%f\n"
+    ,NUMBER_OF_PHOTONS, THREADS_PER_BLOCK, DETECTOR_RADIUS, DETECTOR_POSITION.x(), DETECTOR_POSITION.y(), DETECTOR_POSITION.z()
+    , DETECTOR_LOOK_DOWNWARDS.x(), DETECTOR_LOOK_DOWNWARDS.y(), DETECTOR_LOOK_DOWNWARDS.z(), TISSUE_RADIUS, TISSUE_ABSORBTION_COEFFICIENT
+    , TISSUE_SCATTERING_COEFFICIENT, TISSUE_CENTER_1.x(), TISSUE_CENTER_1.y(), TISSUE_CENTER_1.z(), TISSUE_CENTER_2.x(), TISSUE_CENTER_2.y()
+    , TISSUE_CENTER_2.z());
+
     for (int i = 0; i < NUMBER_OF_PHOTONS; i++)
     {
         switch (_cpuPhotons[i].getState())
