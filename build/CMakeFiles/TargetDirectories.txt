@@ -1,3 +1,0 @@
-/home/mustafa/3D-Random-Walk-CUDA/build/CMakeFiles/rebuild_cache.dir
-/home/mustafa/3D-Random-Walk-CUDA/build/CMakeFiles/RandomWalk.dir
-/home/mustafa/3D-Random-Walk-CUDA/build/CMakeFiles/edit_cache.dir
