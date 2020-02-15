@@ -6,12 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>695</width>
-    <height>738</height>
+    <width>803</width>
+    <height>925</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>RandomWalk - CUDA</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
@@ -823,7 +826,7 @@
            <item row="0" column="0">
             <widget class="QFrame" name="frame_5">
              <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
+              <enum>QFrame::NoFrame</enum>
              </property>
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
@@ -836,100 +839,136 @@
                 </property>
                 <widget class="QFrame" name="frame_6">
                  <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
+                  <enum>QFrame::NoFrame</enum>
                  </property>
                  <property name="frameShadow">
                   <enum>QFrame::Raised</enum>
                  </property>
                  <layout class="QGridLayout" name="gridLayout_13">
                   <item row="0" column="0">
-                   <widget class="QSplitter" name="splitter_3">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
+                   <widget class="QFrame" name="frame_8">
+                    <property name="frameShape">
+                     <enum>QFrame::StyledPanel</enum>
                     </property>
-                    <widget class="QFrame" name="frame_8">
-                     <property name="frameShape">
-                      <enum>QFrame::StyledPanel</enum>
-                     </property>
-                     <property name="frameShadow">
-                      <enum>QFrame::Raised</enum>
-                     </property>
-                     <layout class="QGridLayout" name="gridLayout_14">
-                      <item row="0" column="0">
-                       <layout class="QVBoxLayout" name="verticalLayout_7">
-                        <item>
-                         <widget class="QLabel" name="label_13">
-                          <property name="text">
-                           <string>Photons</string>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QGraphicsView" name="graphicsView_2"/>
-                        </item>
-                       </layout>
-                      </item>
-                     </layout>
-                    </widget>
-                    <widget class="QFrame" name="frame_9">
-                     <property name="frameShape">
-                      <enum>QFrame::StyledPanel</enum>
-                     </property>
-                     <property name="frameShadow">
-                      <enum>QFrame::Raised</enum>
-                     </property>
-                     <layout class="QGridLayout" name="gridLayout_15">
-                      <item row="0" column="0">
-                       <widget class="QSplitter" name="splitter_4">
-                        <property name="orientation">
-                         <enum>Qt::Vertical</enum>
-                        </property>
-                        <widget class="QWidget" name="">
-                         <layout class="QVBoxLayout" name="verticalLayout_3">
-                          <item>
-                           <widget class="QLabel" name="label_14">
-                            <property name="text">
-                             <string>Detected</string>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QGraphicsView" name="graphicsView_4"/>
-                          </item>
-                         </layout>
+                    <property name="frameShadow">
+                     <enum>QFrame::Raised</enum>
+                    </property>
+                    <layout class="QGridLayout" name="gridLayout_14">
+                     <item row="0" column="0">
+                      <layout class="QVBoxLayout" name="verticalLayout_7">
+                       <item>
+                        <widget class="QLabel" name="label_13">
+                         <property name="text">
+                          <string>Photons</string>
+                         </property>
+                         <property name="textFormat">
+                          <enum>Qt::RichText</enum>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
                         </widget>
-                        <widget class="QWidget" name="">
-                         <layout class="QVBoxLayout" name="verticalLayout_4">
-                          <item>
-                           <widget class="QLabel" name="label_15">
-                            <property name="text">
-                             <string>Terminated</string>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QGraphicsView" name="graphicsView_5"/>
-                          </item>
-                         </layout>
+                       </item>
+                       <item>
+                        <widget class="MplWidget3D" name="photonsPlotWidget">
+                         <property name="styleSheet">
+                          <string notr="true"/>
+                         </property>
                         </widget>
-                        <widget class="QWidget" name="">
-                         <layout class="QVBoxLayout" name="verticalLayout_5">
-                          <item>
-                           <widget class="QLabel" name="label_16">
-                            <property name="text">
-                             <string>Escaped</string>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QGraphicsView" name="graphicsView_3"/>
-                          </item>
-                         </layout>
+                       </item>
+                      </layout>
+                     </item>
+                     <item row="1" column="0">
+                      <layout class="QVBoxLayout" name="verticalLayout_4">
+                       <item>
+                        <widget class="QLabel" name="label_15">
+                         <property name="text">
+                          <string>Terminated</string>
+                         </property>
+                         <property name="textFormat">
+                          <enum>Qt::RichText</enum>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
                         </widget>
-                       </widget>
-                      </item>
-                     </layout>
-                    </widget>
+                       </item>
+                       <item>
+                        <widget class="MplWidget3D" name="terminatedPlotWidget">
+                         <property name="styleSheet">
+                          <string notr="true"/>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                    </layout>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QFrame" name="frame_9">
+                    <property name="frameShape">
+                     <enum>QFrame::StyledPanel</enum>
+                    </property>
+                    <property name="frameShadow">
+                     <enum>QFrame::Raised</enum>
+                    </property>
+                    <layout class="QGridLayout" name="gridLayout_15">
+                     <item row="1" column="0">
+                      <layout class="QVBoxLayout" name="verticalLayout_5">
+                       <item>
+                        <widget class="QLabel" name="label_16">
+                         <property name="text">
+                          <string>Escaped</string>
+                         </property>
+                         <property name="textFormat">
+                          <enum>Qt::RichText</enum>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="MplWidget3D" name="escapedPlotWidget">
+                         <property name="styleSheet">
+                          <string notr="true"/>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                     <item row="0" column="0">
+                      <layout class="QVBoxLayout" name="verticalLayout_3">
+                       <item>
+                        <widget class="QLabel" name="label_14">
+                         <property name="text">
+                          <string>Detected</string>
+                         </property>
+                         <property name="textFormat">
+                          <enum>Qt::RichText</enum>
+                         </property>
+                         <property name="alignment">
+                          <set>Qt::AlignCenter</set>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="MplWidget3D" name="detectedPlotWidget">
+                         <property name="sizeIncrement">
+                          <size>
+                           <width>1</width>
+                           <height>1</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true"/>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                    </layout>
                    </widget>
                   </item>
                  </layout>
@@ -947,12 +986,36 @@
                     <item>
                      <widget class="QLabel" name="label_17">
                       <property name="text">
-                       <string>Detected Photons Distrubtion</string>
+                       <string>Detected Photons Distribution</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignCenter</set>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QGraphicsView" name="graphicsView_6"/>
+                     <widget class="MplWidget" name="detectedPhotonsDistributionPlotWidget">
+                      <property name="styleSheet">
+                       <string notr="true"/>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="0" column="1">
+                   <layout class="QVBoxLayout" name="verticalLayout_8">
+                    <item>
+                     <widget class="QLabel" name="label_18">
+                      <property name="text">
+                       <string>Sampling Distribution</string>
+                      </property>
+                      <property name="alignment">
+                       <set>Qt::AlignCenter</set>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="MplWidget" name="samplingDistributionPlotWidget"/>
                     </item>
                    </layout>
                   </item>
@@ -975,6 +1038,11 @@
            <string>Tracking</string>
           </attribute>
          </widget>
+         <widget class="QWidget" name="tab_5">
+          <attribute name="title">
+           <string>Network</string>
+          </attribute>
+         </widget>
         </widget>
        </item>
       </layout>
@@ -988,7 +1056,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>695</width>
+     <width>803</width>
      <height>22</height>
     </rect>
    </property>
@@ -1086,6 +1154,18 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MplWidget</class>
+   <extends>QGraphicsView</extends>
+   <header>mplwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MplWidget3D</class>
+   <extends>QGraphicsView</extends>
+   <header>mplwidget.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

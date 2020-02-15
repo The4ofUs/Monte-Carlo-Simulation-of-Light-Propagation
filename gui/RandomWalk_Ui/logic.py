@@ -1,11 +1,12 @@
 import math
 import os
+import shutil
 import subprocess
 import sys
-import shutil
 
 from PyQt5 import QtWidgets
 
+from Extractor import Extractor
 from minimal import Ui_MainWindow
 
 
@@ -316,6 +317,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         if not os.path.isdir(full_path + "/build"):
             subprocess.run(['mkdir', 'build'])
         os.chdir(full_path + "/build")
+        if os.path.isfile(os.getcwd() + '/output.csv'):
+            os.remove('output.csv')
         configcmd = subprocess.run(['cmake', '..'], stdout=subprocess.PIPE, encoding='utf-8', check=True,
                                    stderr=subprocess.PIPE)
         if configcmd.returncode != 0:
@@ -348,6 +351,36 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.outputPlainTextEdit.appendPlainText(runcmd.stderr)
         else:
             self.ui.outputPlainTextEdit.appendPlainText(runcmd.stdout)
+            self.produceAnalytics()
+
+    def produceAnalytics(self):
+        self.ui.photonsPlotWidget.canvas.ax.clear()
+        self.ui.detectedPlotWidget.canvas.ax.clear()
+        self.ui.terminatedPlotWidget.canvas.ax.clear()
+        self.ui.escapedPlotWidget.canvas.ax.clear()
+        self.ui.detectedPhotonsDistributionPlotWidget.canvas.ax.clear()
+        self.ui.samplingDistributionPlotWidget.canvas.ax.clear()
+        if os.path.isfile(os.getcwd() + '/output.csv'):
+            dataExtractor = Extractor('output.csv')
+            self.ui.photonsPlotWidget.canvas.ax.scatter([photon.position[0] for photon in dataExtractor.photons],
+                                                        [photon.position[1] for photon in dataExtractor.photons],
+                                                        [photon.position[2] for photon in dataExtractor.photons], c='b',
+                                                        marker='o')
+            self.ui.detectedPlotWidget.canvas.ax.scatter([photon.position[0] for photon in dataExtractor.detected],
+                                                         [photon.position[1] for photon in dataExtractor.detected],
+                                                         [photon.position[2] for photon in dataExtractor.detected],
+                                                         c='g', marker='o')
+            self.ui.terminatedPlotWidget.canvas.ax.scatter([photon.position[0] for photon in dataExtractor.terminated],
+                                                           [photon.position[1] for photon in dataExtractor.terminated],
+                                                           [photon.position[2] for photon in dataExtractor.terminated],
+                                                           c='r', marker='o')
+            self.ui.escapedPlotWidget.canvas.ax.scatter([photon.position[0] for photon in dataExtractor.escaped],
+                                                        [photon.position[1] for photon in dataExtractor.escaped],
+                                                        [photon.position[2] for photon in dataExtractor.escaped], c='y',
+                                                        marker='o')
+            self.ui.detectedPhotonsDistributionPlotWidget.canvas.ax.hist(dataExtractor.detectedPhotonsDistribution, bins=math.floor(len(dataExtractor.detectedPhotonsDistribution)))
+        else:
+            self.ui.outputPlainTextEdit.appendPlainText("Can't find output.csv in :" + os.getcwd())
 
 
 def deleteBuildDir():
