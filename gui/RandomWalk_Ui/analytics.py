@@ -32,6 +32,12 @@ def produceAnalytics(application):
                                                                c='y',
                                                                marker='o')
             application.ui.detectedPhotonsDistributionPlotWidget.canvas.ax.hist(dataExtractor.detectedPhotonsDistribution)
+
+            application.ui.photonsPlotWidget.canvas.draw()
+            application.ui.detectedPlotWidget.canvas.draw()
+            application.ui.terminatedPlotWidget.canvas.draw()
+            application.ui.escapedPlotWidget.canvas.draw()
+            application.ui.detectedPhotonsDistributionPlotWidget.canvas.draw()
         else:
             application.logUpdates("Can't find output.csv in :" + os.getcwd())
     else:

@@ -306,7 +306,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
     def buildBtnClicked(self):
         self.ui.buildBtn.setDisabled(True)
         commands.buildRW(self)
-        self.enableAll()
 
     def runBtnClicked(self):
         self.ui.runBtn.setDisabled(True)

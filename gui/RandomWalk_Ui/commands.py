@@ -1,6 +1,6 @@
 import os
-import subprocess
 import shutil
+import subprocess
 
 import analytics
 
@@ -9,26 +9,25 @@ def buildRW(application):
     application.logClear()
     openRWDirectory()
     if not os.path.isdir(os.getcwd() + "/build"):
-        subprocess.run(['mkdir', 'build'])
-        os.chdir(os.getcwd() + "/build")
-        configcmd = subprocess.run(['cmake', '..'], stdout=subprocess.PIPE, encoding='utf-8', check=True,
-                                   stderr=subprocess.PIPE)
-        if configcmd.returncode != 0:
-            application.logUpdates(configcmd.stderr)
+        openDirCmd = subprocess.call(['mkdir', 'build'])
+        if openDirCmd == 0:
+            os.chdir(os.getcwd() + "/build")
+            configcmd = subprocess.call(['cmake', '..'])
+            if configcmd == 0:
+                buildcmd = subprocess.call(['make'], stderr=subprocess.STDOUT)
+                if buildcmd == 0:
+                    application.enableAll()
+                else:
+                    application.logUpdates("Couldn't execute 'make' command")
+            else:
+                application.logUpdates("Couldn't execute 'cmake ..' command")
         else:
-            application.logUpdates(configcmd.stdout)
-
-        buildcmd = subprocess.run(['make'], stdout=subprocess.PIPE, encoding='utf-8', check=True,
-                                  stderr=subprocess.PIPE)
-        if buildcmd.returncode != 0:
-            application.logUpdates(buildcmd.stderr)
-        else:
-            application.logUpdates(buildcmd.stdout)
+            application.logUpdates("Couldn't create a build directory")
 
 
 def runRW(application):
     openBuildDirectory()
-    runcmd = subprocess.run(
+    runcmd = subprocess.call(
         ['./RandomWalk', str(application.pNum), str(application.cThreadNum), str(application.dRadius),
          str(application.dPosition[0]),
          str(application.dPosition[1]),
@@ -42,15 +41,12 @@ def runRW(application):
          str(application.pPosition[0]),
          str(application.pPosition[1]),
          str(application.pPosition[2]), str(application.pLookAt[0]), str(application.pLookAt[1]),
-         str(application.pLookAt[2])],
-        stdout=subprocess.PIPE,
-        encoding='utf-8', check=True, stderr=subprocess.PIPE)
+         str(application.pLookAt[2])])
 
-    if runcmd.returncode != 0:
-        application.logUpdates(runcmd.stderr)
-    else:
-        application.logUpdates(runcmd.stdout)
+    if runcmd == 0:
         analytics.produceAnalytics(application)
+    else:
+        application.logUpdates("Couldn't Execute RandomWalk.o")
 
 
 def openRWDirectory():
