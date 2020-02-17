@@ -69,7 +69,7 @@ int main( int argc, char *argv[] )
         streamOut(&_cpuPhotons[0]);
         free(_cpuPhotons);
         cudaFree(_gpuPhotons);
-        std::cout<< "RandomWalk finished successfully!" << std::endl;
+        std::cout<< "RandomWalk.o Executed Successfully." << std::endl;
     } else {
         std::cout<<"Invalid input: Arguments number expected = " <<  25 << ", Recieved = " << argc << std::endl;
     }

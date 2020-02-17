@@ -1,13 +1,10 @@
 import math
-import os
-import shutil
-import subprocess
 import sys
 
 from PyQt5 import QtWidgets
 
-from Extractor import Extractor
 from minimal import Ui_MainWindow
+import commands
 
 
 class ApplicationWindow(QtWidgets.QMainWindow):
@@ -168,17 +165,17 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.cThreadsSlider.setValue(128)
 
     def detectorRadiusEntry(self):
-        self.ui.runBtn.setEnabled(False)
+        self.ui.runBtn.setEnabled(True)
         self.dRadius = float(self.ui.dRadiusSpinBox.text())
 
     def detectorPosEntry(self, index, spinBox):
-        self.ui.runBtn.setEnabled(False)
+        self.ui.runBtn.setEnabled(True)
         self.dPosition[index] = spinBox.value()
         if self.ui.pPosComboBox.currentIndex() != 0:
             self.sourcePosLockIn()
 
     def detectorPosLockIn(self):
-        self.ui.runBtn.setEnabled(False)
+        self.ui.runBtn.setEnabled(True)
         currentIndex = self.ui.dPosComboBox.currentIndex()
         if currentIndex == 1:
             self.ui.dPosXSpinBox.setValue(self.tCenter1[0])
@@ -200,13 +197,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.dPosZSpinBox.setReadOnly(False)
 
     def detectorLookAtEntry(self, index, spinBox):
-        self.ui.runBtn.setEnabled(False)
+        self.ui.runBtn.setEnabled(True)
         self.dLookAt[index] = spinBox.value()
         if self.ui.pLookAtCheckBox.isChecked():
             self.sourceLookAtLockIn()
 
     def detectorLookAtLockIn(self):
-        self.ui.runBtn.setEnabled(False)
+        self.ui.runBtn.setEnabled(True)
         if self.ui.dLookAtCheckBox.isChecked():
             if self.dPosition == self.tCenter2:
                 self.ui.dLookAtXSpinBox.setValue(self.tCenter1[0])
@@ -228,19 +225,19 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.dLookAtZSpinBox.setReadOnly(False)
 
     def tissueRadiusEntry(self):
-        self.ui.runBtn.setEnabled(False)
+        self.ui.runBtn.setEnabled(True)
         self.tRadius = self.ui.tRadiusSpinBox.value()
 
     def tissueAbsorpEntry(self):
-        self.ui.runBtn.setEnabled(False)
+        self.ui.runBtn.setEnabled(True)
         self.tAbsorpCoeff = self.ui.tAbsorpSpinBox.value()
 
     def tissueScatterEntry(self):
-        self.ui.runBtn.setEnabled(False)
+        self.ui.runBtn.setEnabled(True)
         self.tScatterCoeff = self.ui.tScatterSpinBox.value()
 
     def tissueCenter1Entry(self, index, spinBox):
-        self.ui.runBtn.setEnabled(False)
+        self.ui.runBtn.setEnabled(True)
         self.tCenter1[index] = spinBox.value()
         if self.ui.dPosComboBox.currentIndex() != 0:
             self.detectorPosLockIn()
@@ -248,7 +245,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.detectorLookAtLockIn()
 
     def tissueCenter2Entry(self, index, spinBox):
-        self.ui.runBtn.setEnabled(False)
+        self.ui.runBtn.setEnabled(True)
         self.tCenter2[index] = spinBox.value()
         if self.ui.dPosComboBox.currentIndex() != 0:
             self.detectorPosLockIn()
@@ -256,15 +253,15 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.detectorLookAtLockIn()
 
     def sourcePhotonNumEntry(self):
-        self.ui.runBtn.setEnabled(False)
+        self.ui.runBtn.setEnabled(True)
         self.pNum = self.ui.pNumSpinBox.value()
 
     def sourcePosEntry(self, index, spinBox):
-        self.ui.runBtn.setEnabled(False)
+        self.ui.runBtn.setEnabled(True)
         self.pPosition[index] = spinBox.value()
 
     def sourcePosLockIn(self):
-        self.ui.runBtn.setEnabled(False)
+        self.ui.runBtn.setEnabled(True)
         if self.ui.pPosComboBox.currentIndex() != 0:
             self.ui.pPosXSpinBox.setValue(self.dPosition[0])
             self.ui.pPosYSpinBox.setValue(self.dPosition[1])
@@ -278,11 +275,11 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.pPosZSpinBox.setReadOnly(False)
 
     def sourceLookAtEntry(self, index, spinBox):
-        self.ui.runBtn.setEnabled(False)
+        self.ui.runBtn.setEnabled(True)
         self.pLookAt[index] = spinBox.value()
 
     def sourceLookAtLockIn(self):
-        self.ui.runBtn.setEnabled(False)
+        self.ui.runBtn.setEnabled(True)
         if self.ui.pLookAtCheckBox.isChecked():
             self.ui.pLookAtXSpinBox.setValue(self.dLookAt[0])
             self.ui.pLookAtYSpinBox.setValue(self.dLookAt[1])
@@ -296,7 +293,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.pLookAtZSpinBox.setReadOnly(False)
 
     def quantizeSlider(self):
-        self.ui.runBtn.setEnabled(False)
+        self.ui.runBtn.setEnabled(True)
         value = self.ui.cThreadsSlider.value()
         step = math.floor(value / 32)
         self.ui.cThreadsSlider.setValue(step * 32)
@@ -307,85 +304,26 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.cThreadsLabel.setText(str(value))
 
     def buildBtnClicked(self):
-        self.ui.runBtn.setEnabled(True)
-        self.buildRandomWalk()
-
-    def buildRandomWalk(self):
-        self.ui.outputPlainTextEdit.clear()
-        full_path = os.path.expanduser("~/3D-Random-Walk-CUDA")
-        os.chdir(full_path)
-        if not os.path.isdir(full_path + "/build"):
-            subprocess.run(['mkdir', 'build'])
-        os.chdir(full_path + "/build")
-        if os.path.isfile(os.getcwd() + '/output.csv'):
-            os.remove('output.csv')
-        configcmd = subprocess.run(['cmake', '..'], stdout=subprocess.PIPE, encoding='utf-8', check=True,
-                                   stderr=subprocess.PIPE)
-        if configcmd.returncode != 0:
-            self.ui.outputPlainTextEdit.appendPlainText(configcmd.stderr)
-        else:
-            self.ui.outputPlainTextEdit.appendPlainText(configcmd.stdout)
-
-        buildcmd = subprocess.run(['make'], stdout=subprocess.PIPE, encoding='utf-8', check=True,
-                                  stderr=subprocess.PIPE)
-        if buildcmd.returncode != 0:
-            self.ui.outputPlainTextEdit.appendPlainText(buildcmd.stderr)
-        else:
-            self.ui.outputPlainTextEdit.appendPlainText(buildcmd.stdout)
+        self.ui.buildBtn.setDisabled(True)
+        commands.buildRW(self)
+        self.enableAll()
 
     def runBtnClicked(self):
-        runcmd = subprocess.run(
-            ['./RandomWalk', str(self.pNum), str(self.cThreadNum), str(self.dRadius), str(self.dPosition[0]),
-             str(self.dPosition[1]),
-             str(self.dPosition[2]), str(self.dLookAt[0]), str(self.dLookAt[1]), str(self.dLookAt[2]),
-             str(self.tRadius),
-             str(self.tAbsorpCoeff), str(self.tScatterCoeff), str(self.tCenter1[0]), str(self.tCenter1[1]),
-             str(self.tCenter1[2]),
-             str(self.tCenter2[0]), str(self.tCenter2[1]), str(self.tCenter2[2]), str(self.pPosition[0]),
-             str(self.pPosition[1]),
-             str(self.pPosition[2]), str(self.pLookAt[0]), str(self.pLookAt[1]), str(self.pLookAt[2])],
-            stdout=subprocess.PIPE,
-            encoding='utf-8', check=True, stderr=subprocess.PIPE)
+        self.ui.runBtn.setDisabled(True)
+        commands.runRW(self)
 
-        if runcmd.returncode != 0:
-            self.ui.outputPlainTextEdit.appendPlainText(runcmd.stderr)
-        else:
-            self.ui.outputPlainTextEdit.appendPlainText(runcmd.stdout)
-            self.produceAnalytics()
+    def logUpdates(self, text):
+        self.ui.outputPlainTextEdit.appendPlainText(text)
 
-    def produceAnalytics(self):
-        self.ui.photonsPlotWidget.canvas.ax.clear()
-        self.ui.detectedPlotWidget.canvas.ax.clear()
-        self.ui.terminatedPlotWidget.canvas.ax.clear()
-        self.ui.escapedPlotWidget.canvas.ax.clear()
-        self.ui.detectedPhotonsDistributionPlotWidget.canvas.ax.clear()
-        self.ui.samplingDistributionPlotWidget.canvas.ax.clear()
-        if os.path.isfile(os.getcwd() + '/output.csv'):
-            dataExtractor = Extractor('output.csv')
-            self.ui.photonsPlotWidget.canvas.ax.scatter([photon.position[0] for photon in dataExtractor.photons],
-                                                        [photon.position[1] for photon in dataExtractor.photons],
-                                                        [photon.position[2] for photon in dataExtractor.photons], c='b',
-                                                        marker='o')
-            self.ui.detectedPlotWidget.canvas.ax.scatter([photon.position[0] for photon in dataExtractor.detected],
-                                                         [photon.position[1] for photon in dataExtractor.detected],
-                                                         [photon.position[2] for photon in dataExtractor.detected],
-                                                         c='g', marker='o')
-            self.ui.terminatedPlotWidget.canvas.ax.scatter([photon.position[0] for photon in dataExtractor.terminated],
-                                                           [photon.position[1] for photon in dataExtractor.terminated],
-                                                           [photon.position[2] for photon in dataExtractor.terminated],
-                                                           c='r', marker='o')
-            self.ui.escapedPlotWidget.canvas.ax.scatter([photon.position[0] for photon in dataExtractor.escaped],
-                                                        [photon.position[1] for photon in dataExtractor.escaped],
-                                                        [photon.position[2] for photon in dataExtractor.escaped], c='y',
-                                                        marker='o')
-            self.ui.detectedPhotonsDistributionPlotWidget.canvas.ax.hist(dataExtractor.detectedPhotonsDistribution, bins=math.floor(len(dataExtractor.detectedPhotonsDistribution)))
-        else:
-            self.ui.outputPlainTextEdit.appendPlainText("Can't find output.csv in :" + os.getcwd())
+    def logClear(self):
+        self.ui.outputPlainTextEdit.clear()
 
-
-def deleteBuildDir():
-    path = os.path.expanduser("~/3D-Random-Walk-CUDA")
-    shutil.rmtree(path + '/build', ignore_errors=True)
+    def enableAll(self):
+        self.ui.environmentGroupBox.setEnabled(True)
+        self.ui.pSourceGroupBox.setEnabled(True)
+        self.ui.cudaGroupBox.setEnabled(True)
+        self.ui.runBtn.setEnabled(True)
+        self.ui.menuTools.setEnabled(True)
 
 
 def main():
@@ -393,7 +331,7 @@ def main():
     application = ApplicationWindow()
     application.show()
     ret = app.exec_()
-    deleteBuildDir()
+    commands.deleteBuildDir()
     sys.exit(ret)
 
 
