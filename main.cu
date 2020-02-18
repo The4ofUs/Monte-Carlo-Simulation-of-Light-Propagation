@@ -1,6 +1,6 @@
 #include "code/headers/randomwalk.h"
-
-#define NUMBER_OF_PHOTONS 1000
+#include "Network/Headers/socket.h"
+#define NUMBER_OF_PHOTONS 10
 #define THREADS_PER_BLOCK 1024
 #define DETECTOR_RADIUS 10.f
 #define DETECTOR_POSITION Point(0.f, 0.f, 50.f)
@@ -13,7 +13,8 @@
 
 void streamOut(Photon *_cpuPhotons);
 char *stateToString(int state);
-
+void creatSocket();
+void getResults();
 __global__ void finalState(unsigned int seed, curandState_t *states, Photon *_gpuPhotons, Detector detector, RNG rng, Tissue tissue, int n)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -50,6 +51,13 @@ int main()
     cudaFree(_gpuPhotons);
     return 0;
 }
+
+void creatSocket(){
+    newSocket=new socket();
+    newSocket->createSocket();
+}
+
+
 
 void streamOut(Photon *_cpuPhotons)
 {
