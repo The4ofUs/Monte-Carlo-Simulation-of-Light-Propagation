@@ -1,0 +1,1 @@
+/usr/bin/g++   -Wall  -rdynamic CMakeFiles/NetworkDemo.dir/Network/Sources/socket.cpp.o CMakeFiles/NetworkDemo.dir/NetworkDemo_autogen/mocs_compilation.cpp.o CMakeFiles/NetworkDemo.dir/NetworkDemo_generated_main.cu.o CMakeFiles/NetworkDemo.dir/NetworkDemo_intermediate_link.o  -o NetworkDemo -Wl,-Bstatic -lcudart_static -Wl,-Bdynamic -lpthread -ldl -lrt 
