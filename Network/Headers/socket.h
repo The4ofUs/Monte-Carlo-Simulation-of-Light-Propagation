@@ -5,6 +5,9 @@
 #include <QTcpSocket> //inherets from QAbstractSocket and
 #include <QAbstractSocket>
 #include <QHostAddress>
+#include <QImageReader>
+#include <QWidget>
+#include <QImageWriter>
 class socket : public QObject
 {
     Q_OBJECT

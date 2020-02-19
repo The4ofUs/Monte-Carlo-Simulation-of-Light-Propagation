@@ -54,77 +54,77 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/eman/3D-Random-Walk-CUDA
+CMAKE_SOURCE_DIR = /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/eman/3D-Random-Walk-CUDA/build
+CMAKE_BINARY_DIR = /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build
 
 #=============================================================================
-# Target rules for target CMakeFiles/NetworkDemo.dir
+# Target rules for target CMakeFiles/RandomWalk.dir
 
 # All Build rule for target.
-CMakeFiles/NetworkDemo.dir/all: CMakeFiles/NetworkDemo_autogen.dir/all
-	$(MAKE) -f CMakeFiles/NetworkDemo.dir/build.make CMakeFiles/NetworkDemo.dir/depend
-	$(MAKE) -f CMakeFiles/NetworkDemo.dir/build.make CMakeFiles/NetworkDemo.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eman/3D-Random-Walk-CUDA/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target NetworkDemo"
-.PHONY : CMakeFiles/NetworkDemo.dir/all
+CMakeFiles/RandomWalk.dir/all: CMakeFiles/RandomWalk_autogen.dir/all
+	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/depend
+	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13 "Built target RandomWalk"
+.PHONY : CMakeFiles/RandomWalk.dir/all
 
 # Include target in all.
-all: CMakeFiles/NetworkDemo.dir/all
+all: CMakeFiles/RandomWalk.dir/all
 
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/NetworkDemo.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eman/3D-Random-Walk-CUDA/build/CMakeFiles 6
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/NetworkDemo.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eman/3D-Random-Walk-CUDA/build/CMakeFiles 0
-.PHONY : CMakeFiles/NetworkDemo.dir/rule
+CMakeFiles/RandomWalk.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles 14
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/RandomWalk.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles 0
+.PHONY : CMakeFiles/RandomWalk.dir/rule
 
 # Convenience name for target.
-NetworkDemo: CMakeFiles/NetworkDemo.dir/rule
+RandomWalk: CMakeFiles/RandomWalk.dir/rule
 
-.PHONY : NetworkDemo
-
-# clean rule for target.
-CMakeFiles/NetworkDemo.dir/clean:
-	$(MAKE) -f CMakeFiles/NetworkDemo.dir/build.make CMakeFiles/NetworkDemo.dir/clean
-.PHONY : CMakeFiles/NetworkDemo.dir/clean
+.PHONY : RandomWalk
 
 # clean rule for target.
-clean: CMakeFiles/NetworkDemo.dir/clean
+CMakeFiles/RandomWalk.dir/clean:
+	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/clean
+.PHONY : CMakeFiles/RandomWalk.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/RandomWalk.dir/clean
 
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/NetworkDemo_autogen.dir
+# Target rules for target CMakeFiles/RandomWalk_autogen.dir
 
 # All Build rule for target.
-CMakeFiles/NetworkDemo_autogen.dir/all:
-	$(MAKE) -f CMakeFiles/NetworkDemo_autogen.dir/build.make CMakeFiles/NetworkDemo_autogen.dir/depend
-	$(MAKE) -f CMakeFiles/NetworkDemo_autogen.dir/build.make CMakeFiles/NetworkDemo_autogen.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/eman/3D-Random-Walk-CUDA/build/CMakeFiles --progress-num=6 "Built target NetworkDemo_autogen"
-.PHONY : CMakeFiles/NetworkDemo_autogen.dir/all
+CMakeFiles/RandomWalk_autogen.dir/all:
+	$(MAKE) -f CMakeFiles/RandomWalk_autogen.dir/build.make CMakeFiles/RandomWalk_autogen.dir/depend
+	$(MAKE) -f CMakeFiles/RandomWalk_autogen.dir/build.make CMakeFiles/RandomWalk_autogen.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles --progress-num=14 "Built target RandomWalk_autogen"
+.PHONY : CMakeFiles/RandomWalk_autogen.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/NetworkDemo_autogen.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eman/3D-Random-Walk-CUDA/build/CMakeFiles 1
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/NetworkDemo_autogen.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eman/3D-Random-Walk-CUDA/build/CMakeFiles 0
-.PHONY : CMakeFiles/NetworkDemo_autogen.dir/rule
+CMakeFiles/RandomWalk_autogen.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles 1
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/RandomWalk_autogen.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles 0
+.PHONY : CMakeFiles/RandomWalk_autogen.dir/rule
 
 # Convenience name for target.
-NetworkDemo_autogen: CMakeFiles/NetworkDemo_autogen.dir/rule
+RandomWalk_autogen: CMakeFiles/RandomWalk_autogen.dir/rule
 
-.PHONY : NetworkDemo_autogen
-
-# clean rule for target.
-CMakeFiles/NetworkDemo_autogen.dir/clean:
-	$(MAKE) -f CMakeFiles/NetworkDemo_autogen.dir/build.make CMakeFiles/NetworkDemo_autogen.dir/clean
-.PHONY : CMakeFiles/NetworkDemo_autogen.dir/clean
+.PHONY : RandomWalk_autogen
 
 # clean rule for target.
-clean: CMakeFiles/NetworkDemo_autogen.dir/clean
+CMakeFiles/RandomWalk_autogen.dir/clean:
+	$(MAKE) -f CMakeFiles/RandomWalk_autogen.dir/build.make CMakeFiles/RandomWalk_autogen.dir/clean
+.PHONY : CMakeFiles/RandomWalk_autogen.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/RandomWalk_autogen.dir/clean
 
 .PHONY : clean
 

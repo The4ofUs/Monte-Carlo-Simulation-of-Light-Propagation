@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/eman/3D-Random-Walk-CUDA
+CMAKE_SOURCE_DIR = /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/eman/3D-Random-Walk-CUDA/build
+CMAKE_BINARY_DIR = /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eman/3D-Random-Walk-CUDA/build/CMakeFiles /home/eman/3D-Random-Walk-CUDA/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/eman/3D-Random-Walk-CUDA/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,30 +111,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named NetworkDemo
+# Target rules for targets named RandomWalk
 
 # Build rule for target.
-NetworkDemo: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 NetworkDemo
-.PHONY : NetworkDemo
+RandomWalk: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 RandomWalk
+.PHONY : RandomWalk
 
 # fast build rule for target.
-NetworkDemo/fast:
-	$(MAKE) -f CMakeFiles/NetworkDemo.dir/build.make CMakeFiles/NetworkDemo.dir/build
-.PHONY : NetworkDemo/fast
+RandomWalk/fast:
+	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/build
+.PHONY : RandomWalk/fast
 
 #=============================================================================
-# Target rules for targets named NetworkDemo_autogen
+# Target rules for targets named RandomWalk_autogen
 
 # Build rule for target.
-NetworkDemo_autogen: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 NetworkDemo_autogen
-.PHONY : NetworkDemo_autogen
+RandomWalk_autogen: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 RandomWalk_autogen
+.PHONY : RandomWalk_autogen
 
 # fast build rule for target.
-NetworkDemo_autogen/fast:
-	$(MAKE) -f CMakeFiles/NetworkDemo_autogen.dir/build.make CMakeFiles/NetworkDemo_autogen.dir/build
-.PHONY : NetworkDemo_autogen/fast
+RandomWalk_autogen/fast:
+	$(MAKE) -f CMakeFiles/RandomWalk_autogen.dir/build.make CMakeFiles/RandomWalk_autogen.dir/build
+.PHONY : RandomWalk_autogen/fast
 
 Network/Sources/socket.o: Network/Sources/socket.cpp.o
 
@@ -142,7 +142,7 @@ Network/Sources/socket.o: Network/Sources/socket.cpp.o
 
 # target to build an object file
 Network/Sources/socket.cpp.o:
-	$(MAKE) -f CMakeFiles/NetworkDemo.dir/build.make CMakeFiles/NetworkDemo.dir/Network/Sources/socket.cpp.o
+	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/Network/Sources/socket.cpp.o
 .PHONY : Network/Sources/socket.cpp.o
 
 Network/Sources/socket.i: Network/Sources/socket.cpp.i
@@ -151,7 +151,7 @@ Network/Sources/socket.i: Network/Sources/socket.cpp.i
 
 # target to preprocess a source file
 Network/Sources/socket.cpp.i:
-	$(MAKE) -f CMakeFiles/NetworkDemo.dir/build.make CMakeFiles/NetworkDemo.dir/Network/Sources/socket.cpp.i
+	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/Network/Sources/socket.cpp.i
 .PHONY : Network/Sources/socket.cpp.i
 
 Network/Sources/socket.s: Network/Sources/socket.cpp.s
@@ -160,35 +160,35 @@ Network/Sources/socket.s: Network/Sources/socket.cpp.s
 
 # target to generate assembly for a file
 Network/Sources/socket.cpp.s:
-	$(MAKE) -f CMakeFiles/NetworkDemo.dir/build.make CMakeFiles/NetworkDemo.dir/Network/Sources/socket.cpp.s
+	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/Network/Sources/socket.cpp.s
 .PHONY : Network/Sources/socket.cpp.s
 
-NetworkDemo_autogen/mocs_compilation.o: NetworkDemo_autogen/mocs_compilation.cpp.o
+RandomWalk_autogen/mocs_compilation.o: RandomWalk_autogen/mocs_compilation.cpp.o
 
-.PHONY : NetworkDemo_autogen/mocs_compilation.o
+.PHONY : RandomWalk_autogen/mocs_compilation.o
 
 # target to build an object file
-NetworkDemo_autogen/mocs_compilation.cpp.o:
-	$(MAKE) -f CMakeFiles/NetworkDemo.dir/build.make CMakeFiles/NetworkDemo.dir/NetworkDemo_autogen/mocs_compilation.cpp.o
-.PHONY : NetworkDemo_autogen/mocs_compilation.cpp.o
+RandomWalk_autogen/mocs_compilation.cpp.o:
+	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/RandomWalk_autogen/mocs_compilation.cpp.o
+.PHONY : RandomWalk_autogen/mocs_compilation.cpp.o
 
-NetworkDemo_autogen/mocs_compilation.i: NetworkDemo_autogen/mocs_compilation.cpp.i
+RandomWalk_autogen/mocs_compilation.i: RandomWalk_autogen/mocs_compilation.cpp.i
 
-.PHONY : NetworkDemo_autogen/mocs_compilation.i
+.PHONY : RandomWalk_autogen/mocs_compilation.i
 
 # target to preprocess a source file
-NetworkDemo_autogen/mocs_compilation.cpp.i:
-	$(MAKE) -f CMakeFiles/NetworkDemo.dir/build.make CMakeFiles/NetworkDemo.dir/NetworkDemo_autogen/mocs_compilation.cpp.i
-.PHONY : NetworkDemo_autogen/mocs_compilation.cpp.i
+RandomWalk_autogen/mocs_compilation.cpp.i:
+	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/RandomWalk_autogen/mocs_compilation.cpp.i
+.PHONY : RandomWalk_autogen/mocs_compilation.cpp.i
 
-NetworkDemo_autogen/mocs_compilation.s: NetworkDemo_autogen/mocs_compilation.cpp.s
+RandomWalk_autogen/mocs_compilation.s: RandomWalk_autogen/mocs_compilation.cpp.s
 
-.PHONY : NetworkDemo_autogen/mocs_compilation.s
+.PHONY : RandomWalk_autogen/mocs_compilation.s
 
 # target to generate assembly for a file
-NetworkDemo_autogen/mocs_compilation.cpp.s:
-	$(MAKE) -f CMakeFiles/NetworkDemo.dir/build.make CMakeFiles/NetworkDemo.dir/NetworkDemo_autogen/mocs_compilation.cpp.s
-.PHONY : NetworkDemo_autogen/mocs_compilation.cpp.s
+RandomWalk_autogen/mocs_compilation.cpp.s:
+	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/RandomWalk_autogen/mocs_compilation.cpp.s
+.PHONY : RandomWalk_autogen/mocs_compilation.cpp.s
 
 # Help Target
 help:
@@ -197,15 +197,15 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... NetworkDemo"
+	@echo "... RandomWalk"
 	@echo "... edit_cache"
-	@echo "... NetworkDemo_autogen"
+	@echo "... RandomWalk_autogen"
 	@echo "... Network/Sources/socket.o"
 	@echo "... Network/Sources/socket.i"
 	@echo "... Network/Sources/socket.s"
-	@echo "... NetworkDemo_autogen/mocs_compilation.o"
-	@echo "... NetworkDemo_autogen/mocs_compilation.i"
-	@echo "... NetworkDemo_autogen/mocs_compilation.s"
+	@echo "... RandomWalk_autogen/mocs_compilation.o"
+	@echo "... RandomWalk_autogen/mocs_compilation.i"
+	@echo "... RandomWalk_autogen/mocs_compilation.s"
 .PHONY : help
 
 

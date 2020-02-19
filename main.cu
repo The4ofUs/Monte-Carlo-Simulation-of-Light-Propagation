@@ -1,5 +1,5 @@
 #include "code/headers/randomwalk.h"
-#include "Network/Headers/socket.h"
+//#include "Network/Headers/socket.h"
 #define NUMBER_OF_PHOTONS 10
 #define THREADS_PER_BLOCK 1024
 #define DETECTOR_RADIUS 10.f
@@ -49,13 +49,13 @@ int main()
     streamOut(&_cpuPhotons[0]);
     free(_cpuPhotons);
     cudaFree(_gpuPhotons);
+    creatSocket();
     return 0;
 }
 
 void creatSocket(){
-    newSocket=new socket();
-    newSocket->createSocket();
-}
+    std::cout << "here";
+ }
 
 
 

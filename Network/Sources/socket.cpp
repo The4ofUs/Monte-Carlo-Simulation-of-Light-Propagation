@@ -1,4 +1,4 @@
-#include "socket.h"
+#include "Network/Headers/socket.h"
 #include <QBuffer>
 #include <QDataStream>
 #include <QTcpSocket>

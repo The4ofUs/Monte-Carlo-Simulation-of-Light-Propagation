@@ -1,40 +1,68 @@
 cmake_minimum_required(VERSION 3.0)
-find_package(CUDA REQUIRED)
+set(EXECUTABLE_NAME RandomWalk)
+project(${EXECUTABLE_NAME})
 
-SET(CUDA_SEPARABLE_COMPILATION ON)
+# Tell CMake to run moc when necessary:
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
-project(NetworkDemo)
-if(CMAKE_VERSION VERSION_LESS "3.7.0")
-    set(CMAKE_INCLUDE_CURRENT_DIR ON)
-endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+SET(CUDA_SEPARABLE_COMPILATION ON)
+set(CMAKE_CXX_FLAGS "-Wall -fPIC -std=c++11")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall" "-fPIC-std=c++11")
 
-find_package(Qt5 COMPONENTS Widgets Network Core  REQUIRED)
-find_package(Qt5Network)
+# As moc files are generated in the binary dir, tell CMake
+# to always look for includes there:
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-target_link_libraries(NetworkDemo Qt5::Widgets Qt5::Core Qt5::Network)
-
-get_target_property(QtCore_location Qt5::Core LOCATION)
-get_target_property(QtNetwork_location Qt5::Network "/usr/include/x86_64-linux-gnu/qt5/QtNetwork")
-
-
-set(CMAKE_CXX_FLAGS_COVERAGE "${CMAKE_CXX_FLAGS_RELEASE} -fprofile-arcs -ftest-coverage")
+find_package(Qt5Network REQUIRED)
+find_package(Qt5Core REQUIRED)
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Network Core Widgets Gui REQUIRED)
+find_package(CUDA REQUIRED)
 
 # set up a mapping so that the Release configuration for the Qt imported target is
 # used in the COVERAGE CMake configuration.
 set_target_properties(Qt5::Core PROPERTIES MAP_IMPORTED_CONFIG_COVERAGE "RELEASE")
 set_target_properties(Qt5::Network PROPERTIES MAP_IMPORTED_CONFIG_COVERAGE "RELEASE")
 
-set ( NETWORK_FILES
-Network/Headers/socket.h
-Network/Sources/socket.cpp)
-    
 
+set( CUDA_HEADER_FILES
+    code/headers/Point.h
+    code/headers/RNG.h
+    code/headers/Ray.h
+    code/headers/randomwalk.h
+    code/headers/common.h
+    code/headers/Detector.h
+    code/headers/Vector.h
+    code/headers/Tissue.h
+    code/headers/Photon.h
+    code/headers/mathematics.h
+)
 
-cuda_add_executable(
-    NetworkDemo main.cu
-    ${NETWORK_FILES}
-    )
+set( CUDA_SOURCE_FILES
+    code/src/RNG.cu
+    code/src/Ray.cu
+    code/src/Point.cu
+    code/src/Detector.cu
+    code/src/mathematics.cu
+    code/src/Vector.cu
+    code/src/Tissue.cu
+    code/src/Photon.cu
+)
+
+set (NETWORK_HEADER_FILES
+    Network/Headers/socket.h
+   )
+set (NETWORK_SOURCE_FILES
+    Network/Sources/socket.cpp
+   )
+
+ set(EXTRA_CXX_FLAGS "--std=c++11" CACHE STRING "common C++ build flags")
+ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EXTRA_CXX_FLAGS}")
+
+#Build the rest of the executable.
+cuda_add_executable(${EXECUTABLE_NAME} main.cu ${NETWORK_HEADER_FILES} ${NETWORK_SOURCE_FILES} ${CUDA_HEADER_FILES} ${CUDA_SOURCE_FILES})
+#Remember dependencies!
+target_link_libraries(${EXECUTABLE_NAME} Qt5::Widgets Qt5::Core Qt5::Network ${CUDA_LIBRARIES})
+
