@@ -48,7 +48,7 @@ int main( int argc, char *argv[] )
 {
     if (parseUserInput(argc, argv ,NUMBER_OF_PHOTONS, THREADS_PER_BLOCK, DETECTOR_RADIUS, DETECTOR_POSITION, DETECTOR_LOOKAT, TISSUE_RADIUS, 
         TISSUE_ABSORBTION_COEFFICIENT, TISSUE_SCATTERING_COEFFICIENT, TISSUE_CENTER_1, TISSUE_CENTER_2, SOURCE_POSITION, SOURCE_LOOKAT)) {
-        int nBlocks = NUMBER_OF_PHOTONS / THREADS_PER_BLOCK + 1;
+        int nBlocks = NUMBER_OF_PHOTONS + THREADS_PER_BLOCK - 1 / THREADS_PER_BLOCK;    // NUMBER_OF_PHOTONS / THREADS_PER_BLOCK + 1
         curandState_t *states;
         cudaMalloc((void **)&states, NUMBER_OF_PHOTONS * sizeof(curandState_t));
         // Allocate host memory for final positions
@@ -69,6 +69,7 @@ int main( int argc, char *argv[] )
         streamOut(&_cpuPhotons[0]);
         free(_cpuPhotons);
         cudaFree(_gpuPhotons);
+        cudaFree(states);
         std::cout<< "RandomWalk.o Executed Successfully." << std::endl;
     } else {
         std::cout<<"Invalid input: Arguments number expected = " <<  25 << ", Recieved = " << argc << std::endl;
