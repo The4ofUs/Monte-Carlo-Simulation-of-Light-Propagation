@@ -23,6 +23,17 @@ def buildRW(application):
                 application.logUpdates("Couldn't execute 'cmake ..' command")
         else:
             application.logUpdates("Couldn't create a build directory")
+    else:
+        os.chdir(os.getcwd() + "/build")
+        configcmd = subprocess.call(['cmake', '..'])
+        if configcmd == 0:
+            buildcmd = subprocess.call(['make'], stderr=subprocess.STDOUT)
+            if buildcmd == 0:
+                application.enableAll()
+            else:
+                application.logUpdates("Couldn't execute 'make' command")
+        else:
+            application.logUpdates("Couldn't execute 'cmake ..' command")
 
 
 def runRW(application):

@@ -63,6 +63,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.actionSample1_2.triggered.connect(lambda: self.actionSampleTriggered(1))
         self.ui.actionSample2_2.triggered.connect(lambda: self.actionSampleTriggered(2))
         self.ui.actionSample3_3.triggered.connect(lambda: self.actionSampleTriggered(3))
+        self.ui.actionRebuild.triggered.connect(lambda: commands.buildRW(self))
         self.ui.dRadiusSpinBox.valueChanged.connect(self.detectorRadiusEntry)
         self.ui.dPosXSpinBox.valueChanged.connect(lambda: self.detectorPosEntry(0, self.ui.dPosXSpinBox))
         self.ui.dPosYSpinBox.valueChanged.connect(lambda: self.detectorPosEntry(1, self.ui.dPosYSpinBox))
@@ -93,6 +94,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.cThreadsSlider.valueChanged.connect(self.quantizeSlider)
         self.ui.buildBtn.clicked.connect(self.buildBtnClicked)
         self.ui.runBtn.clicked.connect(self.runBtnClicked)
+
 
     def actionSampleTriggered(self, index):
         if index == 0:

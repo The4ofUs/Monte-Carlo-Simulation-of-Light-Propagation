@@ -29,6 +29,7 @@ Vector SOURCE_LOOKAT = Vector();
 
 void streamOut(Photon *_cpuPhotons);
 char *stateToString(int state);
+void printMetrics(cudaEvent_t e1, cudaEvent_t e2, int NUMBER_OF_BLOCKS);
 
 __global__ void finalState(unsigned int seed, curandState_t *states, Photon *_gpuPhotons, Detector detector, RNG rng, Tissue tissue, int n)
 {
@@ -48,7 +49,7 @@ int main( int argc, char *argv[] )
 {
     if (parseUserInput(argc, argv ,NUMBER_OF_PHOTONS, THREADS_PER_BLOCK, DETECTOR_RADIUS, DETECTOR_POSITION, DETECTOR_LOOKAT, TISSUE_RADIUS, 
         TISSUE_ABSORBTION_COEFFICIENT, TISSUE_SCATTERING_COEFFICIENT, TISSUE_CENTER_1, TISSUE_CENTER_2, SOURCE_POSITION, SOURCE_LOOKAT)) {
-        int nBlocks = NUMBER_OF_PHOTONS + THREADS_PER_BLOCK - 1 / THREADS_PER_BLOCK;    // NUMBER_OF_PHOTONS / THREADS_PER_BLOCK + 1
+        int nBlocks = NUMBER_OF_PHOTONS / THREADS_PER_BLOCK + 1;//NUMBER_OF_PHOTONS + THREADS_PER_BLOCK - 1 / THREADS_PER_BLOCK;   
         curandState_t *states;
         cudaMalloc((void **)&states, NUMBER_OF_PHOTONS * sizeof(curandState_t));
         // Allocate host memory for final positions
@@ -61,11 +62,25 @@ int main( int argc, char *argv[] )
         //Boundary boundary = Boundary(BOUNDARY_RADIUS, Point());
         Detector detector = Detector(DETECTOR_RADIUS, DETECTOR_POSITION, DETECTOR_LOOKAT);
         Tissue tissue = Tissue(TISSUE_RADIUS, TISSUE_CENTER_1, TISSUE_CENTER_2, TISSUE_ABSORBTION_COEFFICIENT, TISSUE_SCATTERING_COEFFICIENT);
+        // Register cudaEvents for performance metrics purposes
+        cudaEvent_t start, stop;
+        cudaEventCreate(&start);
+        cudaEventCreate(&stop);
+        // Start recording before the kernel call
+        cudaEventRecord(start); 
         // Kernel Call
         //finalPosition<<<nBlocks,THREADS_PER_BLOCK>>>(time(0), states , _gpuPoints, boundary, rng, NUMBER_OF_PHOTONS);
         finalState<<<nBlocks, THREADS_PER_BLOCK>>>(time(0), states, _gpuPhotons, detector, rng, tissue, NUMBER_OF_PHOTONS);
+        // Stop recording after kernel finishes execution
+        cudaEventRecord(stop);
         // Copy device data to host memory to stream them out
         cudaMemcpy(_cpuPhotons, _gpuPhotons, NUMBER_OF_PHOTONS * sizeof(Photon), cudaMemcpyDeviceToHost);
+        // Synchronize before using in calculations
+        cudaEventSynchronize(stop);
+        // Print Bandwidth
+        printMetrics(start,stop, nBlocks);
+        cudaEventDestroy( start );
+        cudaEventDestroy( stop );
         streamOut(&_cpuPhotons[0]);
         free(_cpuPhotons);
         cudaFree(_gpuPhotons);
@@ -135,3 +150,16 @@ bool parseUserInput(int argc, char *argv[], int &nPhotons, int &nThreads, float 
             return false;
         }
     }
+
+void printMetrics(cudaEvent_t e1, cudaEvent_t e2, int NUMBER_OF_BLOCKS){
+    float milliseconds = 0;
+    cudaEventElapsedTime(&milliseconds, e1, e2);
+    printf("    ---------------------------------------------------------------     \n");
+    printf("    Number of Photons   |   Blocks Used  |   Threads per Block used     \n");
+    printf("    ---------------------------------------------------------------     \n");
+    printf("            %i          |       %i       |              %i              \n", NUMBER_OF_PHOTONS, NUMBER_OF_BLOCKS, THREADS_PER_BLOCK);
+    printf("    ---------------------------------------------------------------     \n");
+    printf("Elapsed time (ms): %f\n", milliseconds);
+    printf("Theoretical Bandwidth (GB/s): %f\n", 2500*1e6*(128/8)*2/1e9);
+    printf("Effective Bandwidth (GB/s): %f\n", NUMBER_OF_PHOTONS*4*3/milliseconds/1e6);
+}

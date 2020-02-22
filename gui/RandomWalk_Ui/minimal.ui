@@ -1097,9 +1097,16 @@
     </widget>
     <addaction name="menuFill_with_Sample_parameters"/>
    </widget>
+   <widget class="QMenu" name="menuBuild">
+    <property name="title">
+     <string>Build</string>
+    </property>
+    <addaction name="actionRebuild"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuTools"/>
+   <addaction name="menuBuild"/>
   </widget>
   <action name="actionplaceholder">
    <property name="text">
@@ -1149,6 +1156,11 @@
   <action name="actionSample3_3">
    <property name="text">
     <string>Sample3</string>
+   </property>
+  </action>
+  <action name="actionRebuild">
+   <property name="text">
+    <string>Rebuild</string>
    </property>
   </action>
  </widget>

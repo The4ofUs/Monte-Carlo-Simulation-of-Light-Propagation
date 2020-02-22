@@ -500,6 +500,8 @@ class Ui_MainWindow(object):
         self.menuTools.setObjectName("menuTools")
         self.menuFill_with_Sample_parameters = QtWidgets.QMenu(self.menuTools)
         self.menuFill_with_Sample_parameters.setObjectName("menuFill_with_Sample_parameters")
+        self.menuBuild = QtWidgets.QMenu(self.menuBar)
+        self.menuBuild.setObjectName("menuBuild")
         MainWindow.setMenuBar(self.menuBar)
         self.actionplaceholder = QtWidgets.QAction(MainWindow)
         self.actionplaceholder.setObjectName("actionplaceholder")
@@ -521,14 +523,18 @@ class Ui_MainWindow(object):
         self.actionSample2_2.setObjectName("actionSample2_2")
         self.actionSample3_3 = QtWidgets.QAction(MainWindow)
         self.actionSample3_3.setObjectName("actionSample3_3")
+        self.actionRebuild = QtWidgets.QAction(MainWindow)
+        self.actionRebuild.setObjectName("actionRebuild")
         self.menuFill_with_Sample_parameters.addAction(self.actionSample)
         self.menuFill_with_Sample_parameters.addAction(self.actionSample1_2)
         self.menuFill_with_Sample_parameters.addAction(self.actionSample2_2)
         self.menuFill_with_Sample_parameters.addAction(self.actionSample3_3)
         self.menuTools.addAction(self.menuFill_with_Sample_parameters.menuAction())
+        self.menuBuild.addAction(self.actionRebuild)
         self.menuBar.addAction(self.menuFile.menuAction())
         self.menuBar.addAction(self.menuEdit.menuAction())
         self.menuBar.addAction(self.menuTools.menuAction())
+        self.menuBar.addAction(self.menuBuild.menuAction())
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(0)
@@ -579,6 +585,7 @@ class Ui_MainWindow(object):
         self.menuEdit.setTitle(_translate("MainWindow", "Edit"))
         self.menuTools.setTitle(_translate("MainWindow", "Tools"))
         self.menuFill_with_Sample_parameters.setTitle(_translate("MainWindow", "Fill with Sample parameters"))
+        self.menuBuild.setTitle(_translate("MainWindow", "Build"))
         self.actionplaceholder.setText(_translate("MainWindow", "placeholder"))
         self.actionplaceholder_2.setText(_translate("MainWindow", "placeholder"))
         self.actionSample1.setText(_translate("MainWindow", "Sample1"))
@@ -589,6 +596,7 @@ class Ui_MainWindow(object):
         self.actionSample1_2.setText(_translate("MainWindow", "Sample1"))
         self.actionSample2_2.setText(_translate("MainWindow", "Sample2"))
         self.actionSample3_3.setText(_translate("MainWindow", "Sample3"))
+        self.actionRebuild.setText(_translate("MainWindow", "Rebuild"))
 from mplwidget import MplWidget, MplWidget3D
 
 
