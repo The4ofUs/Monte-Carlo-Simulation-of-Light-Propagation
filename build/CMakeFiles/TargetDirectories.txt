@@ -1,4 +1,4 @@
-/home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles/rebuild_cache.dir
-/home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles/RandomWalk.dir
-/home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles/edit_cache.dir
-/home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles/RandomWalk_autogen.dir
+/home/eman/3D-Random-Walk-CUDA/build/CMakeFiles/rebuild_cache.dir
+/home/eman/3D-Random-Walk-CUDA/build/CMakeFiles/RandomWalk.dir
+/home/eman/3D-Random-Walk-CUDA/build/CMakeFiles/edit_cache.dir
+/home/eman/3D-Random-Walk-CUDA/build/CMakeFiles/RandomWalk_autogen.dir

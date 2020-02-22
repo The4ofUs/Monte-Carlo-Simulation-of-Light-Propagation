@@ -1,6 +1,7 @@
 #include "code/headers/randomwalk.h"
-//#include "Network/Headers/socket.h"
-#define NUMBER_OF_PHOTONS 10
+#include "Network/Client/Headers/socket.h"
+#include <QVector>
+#define NUMBER_OF_PHOTONS 10000
 #define THREADS_PER_BLOCK 1024
 #define DETECTOR_RADIUS 10.f
 #define DETECTOR_POSITION Point(0.f, 0.f, 50.f)
@@ -10,11 +11,10 @@
 #define TISSUE_SCATTERING_COEFFICIENT 100.f
 #define TISSUE_CENTER_1 Point(0.f, 0.f, 50.f)
 #define TISSUE_CENTER_2 Point(0.f, 0.f, -50.f)
-
+QVector<Photon> photons;
 void streamOut(Photon *_cpuPhotons);
 char *stateToString(int state);
-void creatSocket();
-void getResults();
+void writeToSocket(Photon *_cpuPhotons);
 __global__ void finalState(unsigned int seed, curandState_t *states, Photon *_gpuPhotons, Detector detector, RNG rng, Tissue tissue, int n)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -47,15 +47,27 @@ int main()
     // Copy device data to host memory to stream them out
     cudaMemcpy(_cpuPhotons, _gpuPhotons, NUMBER_OF_PHOTONS * sizeof(Photon), cudaMemcpyDeviceToHost);
     streamOut(&_cpuPhotons[0]);
+    writeToSocket(&_cpuPhotons[0]);
     free(_cpuPhotons);
     cudaFree(_gpuPhotons);
-    creatSocket();
     return 0;
 }
 
-void creatSocket(){
-    std::cout << "here";
- }
+
+
+void writeToSocket(Photon *_cpuPhotons){
+    socket *newSocket =new socket();
+
+
+    for (int i = 0; i < NUMBER_OF_PHOTONS; i++)
+    {
+        newSocket->getPhotonFinalState(_cpuPhotons[i].getPosition().x(), _cpuPhotons[i].getPosition().y(), _cpuPhotons[i].getPosition().z(), _cpuPhotons[i].getWeight(),_cpuPhotons[i].getState());
+    }
+    newSocket->createSocket();
+
+   //newSocket->startSerialization();
+
+}
 
 
 
@@ -84,5 +96,7 @@ void streamOut(Photon *_cpuPhotons)
         }
         // Streaming out my output in a log file
         fprintf(output, "%f,%f,%f,%f,%s\n", _cpuPhotons[i].getPosition().x(), _cpuPhotons[i].getPosition().y(), _cpuPhotons[i].getPosition().z(), _cpuPhotons[i].getWeight(), state.c_str());
+
+
     }
 }

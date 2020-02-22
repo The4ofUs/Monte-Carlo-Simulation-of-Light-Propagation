@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA
+CMAKE_SOURCE_DIR = /home/eman/3D-Random-Walk-CUDA
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build
+CMAKE_BINARY_DIR = /home/eman/3D-Random-Walk-CUDA/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eman/3D-Random-Walk-CUDA/build/CMakeFiles /home/eman/3D-Random-Walk-CUDA/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/eman/3D-Random-Walk-CUDA/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -136,32 +136,32 @@ RandomWalk_autogen/fast:
 	$(MAKE) -f CMakeFiles/RandomWalk_autogen.dir/build.make CMakeFiles/RandomWalk_autogen.dir/build
 .PHONY : RandomWalk_autogen/fast
 
-Network/Sources/socket.o: Network/Sources/socket.cpp.o
+Network/Client/Sources/socket.o: Network/Client/Sources/socket.cpp.o
 
-.PHONY : Network/Sources/socket.o
+.PHONY : Network/Client/Sources/socket.o
 
 # target to build an object file
-Network/Sources/socket.cpp.o:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/Network/Sources/socket.cpp.o
-.PHONY : Network/Sources/socket.cpp.o
+Network/Client/Sources/socket.cpp.o:
+	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/Network/Client/Sources/socket.cpp.o
+.PHONY : Network/Client/Sources/socket.cpp.o
 
-Network/Sources/socket.i: Network/Sources/socket.cpp.i
+Network/Client/Sources/socket.i: Network/Client/Sources/socket.cpp.i
 
-.PHONY : Network/Sources/socket.i
+.PHONY : Network/Client/Sources/socket.i
 
 # target to preprocess a source file
-Network/Sources/socket.cpp.i:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/Network/Sources/socket.cpp.i
-.PHONY : Network/Sources/socket.cpp.i
+Network/Client/Sources/socket.cpp.i:
+	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/Network/Client/Sources/socket.cpp.i
+.PHONY : Network/Client/Sources/socket.cpp.i
 
-Network/Sources/socket.s: Network/Sources/socket.cpp.s
+Network/Client/Sources/socket.s: Network/Client/Sources/socket.cpp.s
 
-.PHONY : Network/Sources/socket.s
+.PHONY : Network/Client/Sources/socket.s
 
 # target to generate assembly for a file
-Network/Sources/socket.cpp.s:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/Network/Sources/socket.cpp.s
-.PHONY : Network/Sources/socket.cpp.s
+Network/Client/Sources/socket.cpp.s:
+	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/Network/Client/Sources/socket.cpp.s
+.PHONY : Network/Client/Sources/socket.cpp.s
 
 RandomWalk_autogen/mocs_compilation.o: RandomWalk_autogen/mocs_compilation.cpp.o
 
@@ -200,9 +200,9 @@ help:
 	@echo "... RandomWalk"
 	@echo "... edit_cache"
 	@echo "... RandomWalk_autogen"
-	@echo "... Network/Sources/socket.o"
-	@echo "... Network/Sources/socket.i"
-	@echo "... Network/Sources/socket.s"
+	@echo "... Network/Client/Sources/socket.o"
+	@echo "... Network/Client/Sources/socket.i"
+	@echo "... Network/Client/Sources/socket.s"
 	@echo "... RandomWalk_autogen/mocs_compilation.o"
 	@echo "... RandomWalk_autogen/mocs_compilation.i"
 	@echo "... RandomWalk_autogen/mocs_compilation.s"

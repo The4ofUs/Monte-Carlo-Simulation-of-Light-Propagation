@@ -52,10 +52,10 @@ set( CUDA_SOURCE_FILES
 )
 
 set (NETWORK_HEADER_FILES
-    Network/Headers/socket.h
+    Network/Client/Headers/socket.h
    )
 set (NETWORK_SOURCE_FILES
-    Network/Sources/socket.cpp
+    Network/Client/Sources/socket.cpp
    )
 
  set(EXTRA_CXX_FLAGS "--std=c++11" CACHE STRING "common C++ build flags")
