@@ -5,6 +5,7 @@ float RNG::generate(unsigned seed)
     std::default_random_engine generator(seed);
     std::uniform_real_distribution<float> distribution(0.0, 1.0);
     float random = distribution(generator);
+    std:: cout << random << ',';
     return random;
 }
 

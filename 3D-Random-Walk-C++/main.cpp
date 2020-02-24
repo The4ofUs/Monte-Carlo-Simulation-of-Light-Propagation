@@ -2,7 +2,7 @@
 #include <sstream>
 #include <iostream>
 
-int NUMBER_OF_PHOTONS = 5000;
+int NUMBER_OF_PHOTONS = 500;
 float DETECTOR_RADIUS = 10.f;
 Point DETECTOR_POSITION = Point(0.f, 0.f, 50.f);
 Vector DETECTOR_LOOKAT = Vector(0.f, 0.f, -1.f);
@@ -50,7 +50,7 @@ int main()
     streamOut(&_cpuPhotons[0]);
     delete[] _cpuPhotons;
 
-    std::cout << "RandomWalk.o Executed Successfully." << std::endl;
+  //  std::cout << "RandomWalk.o Executed Successfully." << std::endl;
     return 0;
 }
 
@@ -88,3 +88,4 @@ void streamOut(Photon *_cpuPhotons)
         fprintf(output, "%f,%f,%f,%f,%s\n", _cpuPhotons[i].getPosition().x(), _cpuPhotons[i].getPosition().y(), _cpuPhotons[i].getPosition().z(), _cpuPhotons[i].getWeight(), state.c_str());
     }
 }
+
