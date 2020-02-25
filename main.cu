@@ -1,7 +1,8 @@
 #include "code/headers/randomwalk.h"
 #include "Network/Client/Headers/socket.h"
+#include <QDebug>
 #include <QVector>
-#define NUMBER_OF_PHOTONS 10000
+#define NUMBER_OF_PHOTONS 10
 #define THREADS_PER_BLOCK 1024
 #define DETECTOR_RADIUS 10.f
 #define DETECTOR_POSITION Point(0.f, 0.f, 50.f)
@@ -56,16 +57,18 @@ int main()
 
 
 void writeToSocket(Photon *_cpuPhotons){
-    socket *newSocket =new socket();
 
-
+QVector<Photon> vectorOfPhotons;
     for (int i = 0; i < NUMBER_OF_PHOTONS; i++)
     {
-        newSocket->getPhotonFinalState(_cpuPhotons[i].getPosition().x(), _cpuPhotons[i].getPosition().y(), _cpuPhotons[i].getPosition().z(), _cpuPhotons[i].getWeight(),_cpuPhotons[i].getState());
-    }
-    newSocket->createSocket();
+     //newSocket->getPhotonFinalState(_cpuPhotons[i].getPosition().x(), _cpuPhotons[i].getPosition().y(), _cpuPhotons[i].getPosition().z(), _cpuPhotons[i].getWeight(),_cpuPhotons[i].getState());
+    vectorOfPhotons.push_back(_cpuPhotons[i]);
+    qDebug()<<vectorOfPhotons.size()<<vectorOfPhotons[i].getPosition().x();
 
-   //newSocket->startSerialization();
+    }
+    socket *newSocket =new socket();
+    newSocket->socket::getVectorOfPhotons(vectorOfPhotons);
+    newSocket->createSocket();
 
 }
 

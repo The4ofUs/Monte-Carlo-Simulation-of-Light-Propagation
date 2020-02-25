@@ -2,7 +2,11 @@
 #define PHOTON_H
 
 #include "Ray.h"
-
+#include <helper_cuda.h>
+#include <helper_functions.h>
+#include <helper_timer.h>
+#include <curand.h>
+#include <curand_kernel.h>
 /**
  * @brief Represents the object that's going to random walk through the **Tissue**
  * 
