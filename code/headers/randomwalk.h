@@ -13,7 +13,7 @@
  * @return The final state of the photon
  */
 __device__ Photon randomWalk(curandState_t *states, int idx, Detector detector, RNG rng, Tissue tissue)
-{
+{  
     Photon photon = Photon(detector.getCenter());
     bool first_step = true;
     Ray path;

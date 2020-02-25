@@ -21,7 +21,7 @@ public:
  * @param normal (**Vector**)
  * 
  */
-    __host__ Detector(float radius, Point center, Vector normal);
+     __host__ Detector(float radius, Point center, Vector normal);
     /**
      * @return The center of the **Detector**'s screen as a **Point**
      */

@@ -31,13 +31,13 @@ void streamOut(Photon *_cpuPhotons);
 char *stateToString(int state);
 void printMetrics(cudaEvent_t e1, cudaEvent_t e2, int NUMBER_OF_BLOCKS);
 
-__global__ void finalState(unsigned int seed, curandState_t *states, Photon *_gpuPhotons, Detector detector, RNG rng, Tissue tissue, int n)
-{
+__global__ void finalState(unsigned int seed, curandState_t *states, Photon *_gpuPhotons, Detector dectector, RNG rng, Tissue tissue, int n)
+{  
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < n)
     {
         curand_init(seed, idx, 0, &states[idx]);
-        Photon finalState = randomWalk(states, idx, detector, rng, tissue);
+        Photon finalState = randomWalk(states, idx, dectector, rng,  tissue);
         _gpuPhotons[idx] = finalState;
     }
 }
@@ -50,7 +50,7 @@ int main( int argc, char *argv[] )
     if (parseUserInput(argc, argv ,NUMBER_OF_PHOTONS, THREADS_PER_BLOCK, DETECTOR_RADIUS, DETECTOR_POSITION, DETECTOR_LOOKAT, TISSUE_RADIUS, 
         TISSUE_ABSORBTION_COEFFICIENT, TISSUE_SCATTERING_COEFFICIENT, TISSUE_CENTER_1, TISSUE_CENTER_2, SOURCE_POSITION, SOURCE_LOOKAT)) {
         int nBlocks = NUMBER_OF_PHOTONS / THREADS_PER_BLOCK + 1;//NUMBER_OF_PHOTONS + THREADS_PER_BLOCK - 1 / THREADS_PER_BLOCK;   
-        cudaMalloc((void **)&NUMBER_OF_PHOTONS, sizeof(int));
+        //cudaMalloc((void **)&NUMBER_OF_PHOTONS, sizeof(int));
         curandState_t *states;
         cudaMalloc((void **)&states, NUMBER_OF_PHOTONS * sizeof(curandState_t));
         // Allocate host memory for final positions
@@ -60,16 +60,9 @@ int main( int argc, char *argv[] )
         cudaMalloc((void **)&_gpuPhotons, NUMBER_OF_PHOTONS * sizeof(Photon));
         // Initialize the Boundary and the RandomNumberGenerator
         RNG rng;
-        cudaMalloc((void **)&rng, sizeof(RNG));
-        //Boundary boundary = Boundary(BOUNDARY_RADIUS, Point());
         Detector detector = Detector(DETECTOR_RADIUS, DETECTOR_POSITION, DETECTOR_LOOKAT);
-        cudaMalloc((void **)&detector, sizeof(Detector));
         Tissue tissue = Tissue(TISSUE_RADIUS, TISSUE_CENTER_1, TISSUE_CENTER_2, TISSUE_ABSORBTION_COEFFICIENT, TISSUE_SCATTERING_COEFFICIENT);
-        cudaMalloc((void **)&tissue, sizeof(Tissue));
-
         unsigned int seed = time(0);
-        cudaMalloc((void **)&seed, sizeof(unsigned int));
-        // Register cudaEvents for performance metrics purposes
         cudaEvent_t start, stop;
         cudaEventCreate(&start);
         cudaEventCreate(&stop);
@@ -93,12 +86,12 @@ int main( int argc, char *argv[] )
         cudaFree(_gpuPhotons);
         cudaFree(states);
         std::cout<< "RandomWalk.o Executed Successfully." << std::endl;
-    } else {
+    } else { 
         std::cout<<"Invalid input: Arguments number expected = " <<  25 << ", Recieved = " << argc << std::endl;
         // Running DEFAULT RUN for debugging purposes
         // This part of the code should be erased by the end of developing phase
         // Starts Here
-        NUMBER_OF_PHOTONS = 1000;
+        NUMBER_OF_PHOTONS = 1000000;
         THREADS_PER_BLOCK = 1024;
         DETECTOR_RADIUS = 10.f;
         DETECTOR_POSITION = Point(0.f, 0.f, 50.f);
@@ -108,26 +101,17 @@ int main( int argc, char *argv[] )
         TISSUE_SCATTERING_COEFFICIENT = 100.f;
         TISSUE_CENTER_1 = Point(0.f, 0.f, 50.f);
         TISSUE_CENTER_2 = Point(0.f, 0.f, -50.f);
+        RNG rng;
+        Detector detector = Detector(DETECTOR_RADIUS, DETECTOR_POSITION, DETECTOR_LOOKAT);
+        Tissue tissue = Tissue(TISSUE_RADIUS, TISSUE_CENTER_1, TISSUE_CENTER_2, TISSUE_ABSORBTION_COEFFICIENT, TISSUE_SCATTERING_COEFFICIENT);
         int nBlocks = NUMBER_OF_PHOTONS / THREADS_PER_BLOCK + 1;//NUMBER_OF_PHOTONS + THREADS_PER_BLOCK - 1 / THREADS_PER_BLOCK;   
-        cudaMalloc((void **)&NUMBER_OF_PHOTONS, sizeof(int));
         curandState_t *states;
         cudaMalloc((void **)&states, NUMBER_OF_PHOTONS * sizeof(curandState_t));
         // Allocate host memory for final positions
-        Photon *_cpuPhotons = (Photon *)malloc(sizeof(Photon) * NUMBER_OF_PHOTONS);
+         Photon *_cpuPhotons = (Photon *)malloc(sizeof(Photon) * NUMBER_OF_PHOTONS);
         // Allocate device  memory for final positions
         Photon *_gpuPhotons = nullptr;
-        cudaMalloc((void **)&_gpuPhotons, NUMBER_OF_PHOTONS * sizeof(Photon));
-        // Initialize the Boundary and the RandomNumberGenerator
-        RNG rng;
-        cudaMalloc((void **)&rng, sizeof(RNG));
-        //Boundary boundary = Boundary(BOUNDARY_RADIUS, Point());
-        Detector detector = Detector(DETECTOR_RADIUS, DETECTOR_POSITION, DETECTOR_LOOKAT);
-        cudaMalloc((void **)&detector, sizeof(Detector));
-        Tissue tissue = Tissue(TISSUE_RADIUS, TISSUE_CENTER_1, TISSUE_CENTER_2, TISSUE_ABSORBTION_COEFFICIENT, TISSUE_SCATTERING_COEFFICIENT);
-        cudaMalloc((void **)&tissue, sizeof(Tissue));
-
-        unsigned int seed = time(0);
-        cudaMalloc((void **)&seed, sizeof(unsigned int));
+        cudaMallocManaged((void **)&_gpuPhotons, NUMBER_OF_PHOTONS * sizeof(Photon));
         // Register cudaEvents for performance metrics purposes
         cudaEvent_t start, stop;
         cudaEventCreate(&start);
@@ -136,7 +120,7 @@ int main( int argc, char *argv[] )
         cudaEventRecord(start); 
         // Kernel Call
         //finalPosition<<<nBlocks,THREADS_PER_BLOCK>>>(time(0), states , _gpuPoints, boundary, rng, NUMBER_OF_PHOTONS);
-        finalState<<<nBlocks, THREADS_PER_BLOCK>>>(seed, states, _gpuPhotons, detector, rng, tissue, NUMBER_OF_PHOTONS);
+        finalState<<<nBlocks, THREADS_PER_BLOCK>>>(time(0), states, _gpuPhotons, detector, rng, tissue, NUMBER_OF_PHOTONS);
         // Stop recording after kernel finishes execution
         cudaEventRecord(stop);
         // Copy device data to host memory to stream them out
@@ -147,9 +131,9 @@ int main( int argc, char *argv[] )
         printMetrics(start,stop, nBlocks);
         cudaEventDestroy( start );
         cudaEventDestroy( stop );
-        streamOut(&_cpuPhotons[0]);
+        streamOut(&_gpuPhotons[0]);
         free(_cpuPhotons);
-        cudaFree(_gpuPhotons);
+        cudaFree(_cpuPhotons);
         cudaFree(states);
         std::cout<< "Default Run Executed Successfully." << std::endl;
 
@@ -167,11 +151,11 @@ void streamOut(Photon *_cpuPhotons)
     /*
     *   This Particular order should be maintained if the output was to be read using the Plotter 
     */
-    fprintf(output, "X, Y, Z, WEIGHT, STATE,photon_num,%i,threads_per_block,%i,detector_radius,%f,detector_pos,%f,%f,%f,detector_lookAt,%f,%f,%f,tissue_radius,%f,absorp_coeff,%f,scatter_coeff,%f,tissue_center_1,%f,%f,%f,tissue_center_2,%f,%f,%f\n"
+     fprintf(output, "X, Y, Z, WEIGHT, STATE,photon_num,%i,threads_per_block,%i,detector_radius,%f,detector_pos,%f,%f,%f,detector_lookAt,%f,%f,%f,tissue_radius,%f,absorp_coeff,%f,scatter_coeff,%f,tissue_center_1,%f,%f,%f,tissue_center_2,%f,%f,%f\n"
     ,NUMBER_OF_PHOTONS, THREADS_PER_BLOCK, DETECTOR_RADIUS, DETECTOR_POSITION.x(), DETECTOR_POSITION.y(), DETECTOR_POSITION.z()
     , DETECTOR_LOOKAT.x(), DETECTOR_LOOKAT.y(), DETECTOR_LOOKAT.z(), TISSUE_RADIUS, TISSUE_ABSORBTION_COEFFICIENT
     , TISSUE_SCATTERING_COEFFICIENT, TISSUE_CENTER_1.x(), TISSUE_CENTER_1.y(), TISSUE_CENTER_1.z(), TISSUE_CENTER_2.x(), TISSUE_CENTER_2.y()
-    , TISSUE_CENTER_2.z());
+    , TISSUE_CENTER_2.z()); 
 
     for (int i = 0; i < NUMBER_OF_PHOTONS; i++)
     {
@@ -193,7 +177,7 @@ void streamOut(Photon *_cpuPhotons)
         // Streaming out my output in a log file
         fprintf(output, "%f,%f,%f,%f,%s\n", _cpuPhotons[i].getPosition().x(), _cpuPhotons[i].getPosition().y(), _cpuPhotons[i].getPosition().z(), _cpuPhotons[i].getWeight(), state.c_str());
     }
-}
+} 
 
 
 bool parseUserInput(int argc, char *argv[], int &nPhotons, int &nThreads, float &dRadius, Point &dPosition, Vector &dLookAt, float &tRadius, float &tAbsorpCoeff,
@@ -215,7 +199,7 @@ bool parseUserInput(int argc, char *argv[], int &nPhotons, int &nThreads, float 
         } else {
             return false;
         }
-    }
+    } 
 
 void printMetrics(cudaEvent_t e1, cudaEvent_t e2, int NUMBER_OF_BLOCKS){
     float milliseconds = 0;
@@ -226,6 +210,6 @@ void printMetrics(cudaEvent_t e1, cudaEvent_t e2, int NUMBER_OF_BLOCKS){
     printf("            %i          |       %i       |              %i              \n", NUMBER_OF_PHOTONS, NUMBER_OF_BLOCKS, THREADS_PER_BLOCK);
     printf("    ---------------------------------------------------------------     \n");
     printf("Elapsed time (ms): %f\n", milliseconds);
-    printf("Theoretical Bandwidth (GB/s): %f\n", 2500*1e6*(128/8)*2/1e9);
-    printf("Effective Bandwidth (GB/s): %f\n", NUMBER_OF_PHOTONS*4*3/milliseconds/1e6);
+    printf("Theoretical Bandwidth (GB/s): %f\n", 1122*1e6*(64/8)*2/1e9); // 10e6 becuse core speed is already in MHz
+    printf("Effective Bandwidth (GB/s): %f\n", (NUMBER_OF_PHOTONS*sizeof(Photon)*1/1e6)/milliseconds); // 10e6 because time is in milliseconds
 }
