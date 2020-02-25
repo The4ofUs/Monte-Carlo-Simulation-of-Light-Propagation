@@ -55,7 +55,12 @@ int main()
 }
 
 
-
+/*
+ *
+ *
+ * Write To socket
+ *
+ */
 void writeToSocket(Photon *_cpuPhotons){
 
 QVector<Photon> vectorOfPhotons;
