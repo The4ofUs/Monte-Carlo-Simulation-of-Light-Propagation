@@ -19,7 +19,9 @@ __device__ Photon randomWalk(curandState_t *states, int idx, Detector detector, 
     Ray path;
 
     while (photon.getState() == photon.ROAMING)
-    {
+    {  
+         photon.increament();
+
         if (first_step)
         {
             path = Ray(photon.getPosition(), detector.getNormal(), rng.getRandomStep(states, idx));
