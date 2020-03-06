@@ -13,13 +13,15 @@
  * @return The final state of the photon
  */
 __device__ Photon randomWalk(curandState_t *states, int idx, Detector detector, RNG rng, Tissue tissue)
-{  
+{
     Photon photon = Photon(detector.getCenter());
     bool first_step = true;
     Ray path;
 
     while (photon.getState() == photon.ROAMING)
     {
+        photon.incrementLifetime();
+
         if (first_step)
         {
             path = Ray(photon.getPosition(), detector.getNormal(), rng.getRandomStep(states, idx));

@@ -25,6 +25,10 @@ __device__ __host__ Point Photon::getPosition() { return this->_position; }
 
 __device__ __host__ short Photon::getState() { return this->_state; }
 
+__device__ __host__ unsigned int Photon::getLifetime() { return this->lifetime; }
+
+__device__ __host__ void Photon::incrementLifetime(){ this->lifetime++; }
+
 __device__ void Photon::terminate()
 {
     this->_weight = 0.f;

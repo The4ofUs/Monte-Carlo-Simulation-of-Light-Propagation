@@ -49,6 +49,14 @@ public:
      * @return **Photon**'s current state
      */
    __device__ __host__ short getState();
+   /**
+     * @return **Photon**'s total number of walks at the end of the simulation
+     */
+   __device__ __host__ unsigned int getLifetime();
+   /**
+ * @param walksNumber (int)
+ */
+   __device__ __host__ void incrementLifetime();
 
    /**
      * @brief Terminates the Photon instantly i.e. sets its weight = 0
@@ -104,10 +112,15 @@ private:
      */
    Point _position;
    /**
-     * @brief Current state of the **Photon**
+    * @brief Current state of the **Photon**
      * 
      */
    short _state;
+   /**
+    * @brief Number of walks made by the **Photon**
+     * 
+     */
+   unsigned int lifetime;
 };
 
 #endif

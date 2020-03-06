@@ -1,18 +1,8 @@
 #include "code/headers/randomwalk.h"
 #include <sstream>
-/*
-#define NUMBER_OF_PHOTONS 1000
-#define THREADS_PER_BLOCK 1024
-#define DETECTOR_RADIUS 10.f
-#define DETECTOR_POSITION Point(0.f, 0.f, 50.f)
-#define DETECTOR_LOOK_DOWNWARDS Vector(0.f, 0.f, -1.f)
-#define TISSUE_RADIUS 100.f
-#define TISSUE_ABSORBTION_COEFFICIENT 1.f
-#define TISSUE_SCATTERING_COEFFICIENT 100.f
-#define TISSUE_CENTER_1 Point(0.f, 0.f, 50.f)
-#define TISSUE_CENTER_2 Point(0.f, 0.f, -50.f)
-*/
 
+
+unsigned int NUMBER_OF_TEST_RUNS = 100;
 int NUMBER_OF_PHOTONS = 0;
 int THREADS_PER_BLOCK = 32;
 float DETECTOR_RADIUS = 0.f;
@@ -27,6 +17,7 @@ Point SOURCE_POSITION = Point();
 Vector SOURCE_LOOKAT = Vector();
 
 
+
 void streamOut(Photon *_cpuPhotons);
 char *stateToString(int state);
 void printMetrics(cudaEvent_t e1, cudaEvent_t e2, int NUMBER_OF_BLOCKS);
@@ -38,7 +29,7 @@ __global__ void finalState(unsigned int seed, curandState_t *states, Photon *_gp
     {
         curand_init(seed, idx, 0, &states[idx]);
         Photon finalState = randomWalk(states, idx, dectector, rng,  tissue);
-        _gpuPhotons[idx] = finalState;
+        _gpuPhotons[idx] = finalState;        
     }
 }
 
@@ -77,6 +68,11 @@ int main( int argc, char *argv[] )
         cudaMemcpy(_cpuPhotons, _gpuPhotons, NUMBER_OF_PHOTONS * sizeof(Photon), cudaMemcpyDeviceToHost);
         // Synchronize before using in calculations
         cudaEventSynchronize(stop);
+        // Calculate the total number of operations done by all photons
+        for (int i =0; i < NUMBER_OF_PHOTONS; i++){
+            std::cout << _cpuPhotons[i].getLifetime() << '\n';
+            NUMBER_OF_OPERATIONS += _cpuPhotons[i].getLifetime();
+        }
         // Print Bandwidth
         printMetrics(start,stop, nBlocks);
         cudaEventDestroy( start );
@@ -88,10 +84,11 @@ int main( int argc, char *argv[] )
         std::cout<< "RandomWalk.o Executed Successfully." << std::endl;
     } else { 
         std::cout<<"Invalid input: Arguments number expected = " <<  25 << ", Recieved = " << argc << std::endl;
+        std::cout<<"Initiating Default Walk.."<< std::endl;
         // Running DEFAULT RUN for debugging purposes
         // This part of the code should be erased by the end of developing phase
         // Starts Here
-        NUMBER_OF_PHOTONS = 1000000;
+        NUMBER_OF_PHOTONS = 10;
         THREADS_PER_BLOCK = 1024;
         DETECTOR_RADIUS = 10.f;
         DETECTOR_POSITION = Point(0.f, 0.f, 50.f);
@@ -108,7 +105,7 @@ int main( int argc, char *argv[] )
         curandState_t *states;
         cudaMalloc((void **)&states, NUMBER_OF_PHOTONS * sizeof(curandState_t));
         // Allocate host memory for final positions
-         Photon *_cpuPhotons = (Photon *)malloc(sizeof(Photon) * NUMBER_OF_PHOTONS);
+        Photon *_cpuPhotons = (Photon *)malloc(sizeof(Photon) * NUMBER_OF_PHOTONS);
         // Allocate device  memory for final positions
         Photon *_gpuPhotons = nullptr;
         cudaMallocManaged((void **)&_gpuPhotons, NUMBER_OF_PHOTONS * sizeof(Photon));
@@ -127,6 +124,10 @@ int main( int argc, char *argv[] )
         cudaMemcpy(_cpuPhotons, _gpuPhotons, NUMBER_OF_PHOTONS * sizeof(Photon), cudaMemcpyDeviceToHost);
         // Synchronize before using in calculations
         cudaEventSynchronize(stop);
+        // Calculate the total number of operations done by all photons
+        for (int i =0; i < NUMBER_OF_PHOTONS; i++){
+            NUMBER_OF_OPERATIONS += _cpuPhotons[i].getLifetime();
+        }
         // Print Bandwidth
         printMetrics(start,stop, nBlocks);
         cudaEventDestroy( start );
@@ -204,12 +205,14 @@ bool parseUserInput(int argc, char *argv[], int &nPhotons, int &nThreads, float 
 void printMetrics(cudaEvent_t e1, cudaEvent_t e2, int NUMBER_OF_BLOCKS){
     float milliseconds = 0;
     cudaEventElapsedTime(&milliseconds, e1, e2);
-    printf("    ---------------------------------------------------------------     \n");
-    printf("    Number of Photons   |   Blocks Used  |   Threads per Block used     \n");
-    printf("    ---------------------------------------------------------------     \n");
-    printf("            %i          |       %i       |              %i              \n", NUMBER_OF_PHOTONS, NUMBER_OF_BLOCKS, THREADS_PER_BLOCK);
-    printf("    ---------------------------------------------------------------     \n");
+    printf("--------------------------------------------------------------------------------------------\n");
+    printf("Number of Photons: %i\n", NUMBER_OF_PHOTONS);
+    printf("Blocks Used: %i\n", NUMBER_OF_BLOCKS);
+    printf("Threads/Block used: %i\n", THREADS_PER_BLOCK);
     printf("Elapsed time (ms): %f\n", milliseconds);
+    printf("Total # of operations: %i\n", NUMBER_OF_OPERATIONS);
     printf("Theoretical Bandwidth (GB/s): %f\n", 1122*1e6*(64/8)*2/1e9); // 10e6 becuse core speed is already in MHz
     printf("Effective Bandwidth (GB/s): %f\n", (NUMBER_OF_PHOTONS*sizeof(Photon)*1/1e6)/milliseconds); // 10e6 because time is in milliseconds
+    printf("Computational Throughput (GB/s): %f\n", NUMBER_OF_OPERATIONS/ milliseconds/1e6); //Giga-FLoating-point Operations per second, 10e6 because time is in milliseconds
+    printf("--------------------------------------------------------------------------------------------\n");
 }
