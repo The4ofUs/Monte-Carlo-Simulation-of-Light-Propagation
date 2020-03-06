@@ -2,6 +2,12 @@
 #include <sstream>
 
 
+/*
+TO-DO:
+    - Loop to execute multiple runs on the same parameters and extract average for every metric produces
+*/
+
+
 unsigned int NUMBER_OF_TEST_RUNS = 100;
 int NUMBER_OF_PHOTONS = 0;
 int THREADS_PER_BLOCK = 32;
