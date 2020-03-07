@@ -23,12 +23,12 @@ __global__ void finalState(unsigned int seed, curandState_t *states, Photon *_gp
     }
 }
 
-void streamOut(int a, float c, float d, float e, float f, float g, float h, float i, int j, int k)
+void streamOut(int a, float c, float d, unsigned long long e, unsigned long long f, float g, float h, float i, int j, int k)
 {
     FILE *output;
     output = fopen("metrics.csv", "a");
     if (output != NULL){
-        fprintf(output, "%i, %f, %f, %f, %f, %f, %f, %f, %i, %i\n", a, c, d, e, f, g, h, i ,j ,k);
+        fprintf(output, "%i, %f, %f, %llu, %llu, %f, %f, %f, %i, %i\n", a, c, d, e, f, g, h, i ,j ,k);
         fclose(output);
     } else {
         std::cout<<"Failed to open file, retrying!" << std::endl;
@@ -41,10 +41,10 @@ void run(int n, float Ma){
     float TISSUE_ABSORBTION_COEFFICIENT  = Ma;
     unsigned int NUMBER_OF_TEST_RUNS = 100;
     float totalTime = 0.f;
-    float totalLifetime = 0.f;
-    float detectedRatio = 0.f;
-    float terminatedRatio = 0.f;
-    float escapedRatio = 0.f;
+    unsigned long long totalLifetime = 0;
+    float detected = 0.f;
+    float terminated = 0.f;
+    float escaped = 0.f;
     int nBlocks = NUMBER_OF_PHOTONS + THREADS_PER_BLOCK - 1 / THREADS_PER_BLOCK;
     for (int i= 0; i<NUMBER_OF_TEST_RUNS; i++){
         RNG rng;
@@ -72,11 +72,11 @@ void run(int n, float Ma){
         for (int j=0; j<NUMBER_OF_PHOTONS; j++){
             totalLifetime += _cpuPhotons[j].getLifetime();
             if ( _cpuPhotons[j].getState() == Photon::DETECTED){
-                detectedRatio += 1;
+                detected += 1;
             } else if ( _cpuPhotons[j].getState() == Photon::TERMINATED){
-                terminatedRatio += 1;
+                terminated += 1;
             } else {
-                escapedRatio += 1 ;
+                escaped += 1 ;
             }
         }
         free(_cpuPhotons);
@@ -92,17 +92,22 @@ void run(int n, float Ma){
     std::cout << "Average Escaped/Total = " << (escapedRatio/NUMBER_OF_TEST_RUNS)/NUMBER_OF_PHOTONS << std::endl;
     std::cout << "#Threads/Block = " << THREADS_PER_BLOCK << std::endl;
     std::cout << "# Blocks = " << NUMBER_OF_PHOTONS / THREADS_PER_BLOCK + 1 << std::endl; */
-    streamOut(NUMBER_OF_PHOTONS, (TISSUE_ABSORBTION_COEFFICIENT + TISSUE_SCATTERING_COEFFICIENT), (totalTime/NUMBER_OF_TEST_RUNS), (totalLifetime/NUMBER_OF_TEST_RUNS), (totalLifetime/NUMBER_OF_TEST_RUNS)/NUMBER_OF_PHOTONS, ((detectedRatio/NUMBER_OF_TEST_RUNS)/NUMBER_OF_PHOTONS), ((terminatedRatio/NUMBER_OF_TEST_RUNS)/NUMBER_OF_PHOTONS), ((escapedRatio/NUMBER_OF_TEST_RUNS)/NUMBER_OF_PHOTONS), THREADS_PER_BLOCK, (NUMBER_OF_PHOTONS / THREADS_PER_BLOCK + 1));
+    float detectedRatio = ((detected/NUMBER_OF_TEST_RUNS)/NUMBER_OF_PHOTONS);
+    float terminatedRatio = ((terminated/NUMBER_OF_TEST_RUNS)/NUMBER_OF_PHOTONS);
+    float escapedRatio = ((escaped/NUMBER_OF_TEST_RUNS)/NUMBER_OF_PHOTONS);
+    streamOut(NUMBER_OF_PHOTONS, (TISSUE_ABSORBTION_COEFFICIENT + TISSUE_SCATTERING_COEFFICIENT), (totalTime/NUMBER_OF_TEST_RUNS), (totalLifetime/NUMBER_OF_TEST_RUNS), (totalLifetime/NUMBER_OF_TEST_RUNS)/NUMBER_OF_PHOTONS, detectedRatio, terminatedRatio, escapedRatio, THREADS_PER_BLOCK, (NUMBER_OF_PHOTONS / THREADS_PER_BLOCK + 1));
 }
 
 int main(){
-    int number[] = {1,10,100,1000};
-    float coefficients[] = {2,101,1001};
+    int number[] = {1,10,100,1000,10000};
+    float coefficients[] = {100,1000,10000};
     for(int i = 0; i<(sizeof(number)/sizeof(int)); i++){
         for(int j= 0; j<(sizeof(coefficients)/sizeof(float)); j++){
             run(number[i],coefficients[j]);
+            std::cout<<"( "<< number[i] << ", " << coefficients[j] << ")    Done!" << std::endl;
         }
     }
+    printf("--------------------------------------\n--------------------------------------\n--------------------------------------\n--------------------------------------\n");
     return 0;
 }
 
