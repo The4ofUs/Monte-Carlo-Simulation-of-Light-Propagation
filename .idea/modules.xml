@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/3D-Random-Walk-C++.iml" filepath="$PROJECT_DIR$/.idea/3D-Random-Walk-C++.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/3D-Random-Walk-CUDA.iml" filepath="$PROJECT_DIR$/.idea/3D-Random-Walk-CUDA.iml" />
     </modules>
   </component>
 </project>

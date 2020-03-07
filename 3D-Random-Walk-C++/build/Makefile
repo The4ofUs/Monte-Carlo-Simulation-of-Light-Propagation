@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named RandomWalk
+# Target rules for targets named Test
 
 # Build rule for target.
-RandomWalk: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 RandomWalk
-.PHONY : RandomWalk
+Test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Test
+.PHONY : Test
 
 # fast build rule for target.
-RandomWalk/fast:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/build
-.PHONY : RandomWalk/fast
+Test/fast:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/build
+.PHONY : Test/fast
 
 code/src/Detector.o: code/src/Detector.cpp.o
 
@@ -129,7 +129,7 @@ code/src/Detector.o: code/src/Detector.cpp.o
 
 # target to build an object file
 code/src/Detector.cpp.o:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/Detector.cpp.o
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/Detector.cpp.o
 .PHONY : code/src/Detector.cpp.o
 
 code/src/Detector.i: code/src/Detector.cpp.i
@@ -138,7 +138,7 @@ code/src/Detector.i: code/src/Detector.cpp.i
 
 # target to preprocess a source file
 code/src/Detector.cpp.i:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/Detector.cpp.i
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/Detector.cpp.i
 .PHONY : code/src/Detector.cpp.i
 
 code/src/Detector.s: code/src/Detector.cpp.s
@@ -147,7 +147,7 @@ code/src/Detector.s: code/src/Detector.cpp.s
 
 # target to generate assembly for a file
 code/src/Detector.cpp.s:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/Detector.cpp.s
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/Detector.cpp.s
 .PHONY : code/src/Detector.cpp.s
 
 code/src/Photon.o: code/src/Photon.cpp.o
@@ -156,7 +156,7 @@ code/src/Photon.o: code/src/Photon.cpp.o
 
 # target to build an object file
 code/src/Photon.cpp.o:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/Photon.cpp.o
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/Photon.cpp.o
 .PHONY : code/src/Photon.cpp.o
 
 code/src/Photon.i: code/src/Photon.cpp.i
@@ -165,7 +165,7 @@ code/src/Photon.i: code/src/Photon.cpp.i
 
 # target to preprocess a source file
 code/src/Photon.cpp.i:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/Photon.cpp.i
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/Photon.cpp.i
 .PHONY : code/src/Photon.cpp.i
 
 code/src/Photon.s: code/src/Photon.cpp.s
@@ -174,7 +174,7 @@ code/src/Photon.s: code/src/Photon.cpp.s
 
 # target to generate assembly for a file
 code/src/Photon.cpp.s:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/Photon.cpp.s
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/Photon.cpp.s
 .PHONY : code/src/Photon.cpp.s
 
 code/src/Point.o: code/src/Point.cpp.o
@@ -183,7 +183,7 @@ code/src/Point.o: code/src/Point.cpp.o
 
 # target to build an object file
 code/src/Point.cpp.o:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/Point.cpp.o
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/Point.cpp.o
 .PHONY : code/src/Point.cpp.o
 
 code/src/Point.i: code/src/Point.cpp.i
@@ -192,7 +192,7 @@ code/src/Point.i: code/src/Point.cpp.i
 
 # target to preprocess a source file
 code/src/Point.cpp.i:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/Point.cpp.i
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/Point.cpp.i
 .PHONY : code/src/Point.cpp.i
 
 code/src/Point.s: code/src/Point.cpp.s
@@ -201,7 +201,7 @@ code/src/Point.s: code/src/Point.cpp.s
 
 # target to generate assembly for a file
 code/src/Point.cpp.s:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/Point.cpp.s
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/Point.cpp.s
 .PHONY : code/src/Point.cpp.s
 
 code/src/RNG.o: code/src/RNG.cpp.o
@@ -210,7 +210,7 @@ code/src/RNG.o: code/src/RNG.cpp.o
 
 # target to build an object file
 code/src/RNG.cpp.o:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/RNG.cpp.o
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/RNG.cpp.o
 .PHONY : code/src/RNG.cpp.o
 
 code/src/RNG.i: code/src/RNG.cpp.i
@@ -219,7 +219,7 @@ code/src/RNG.i: code/src/RNG.cpp.i
 
 # target to preprocess a source file
 code/src/RNG.cpp.i:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/RNG.cpp.i
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/RNG.cpp.i
 .PHONY : code/src/RNG.cpp.i
 
 code/src/RNG.s: code/src/RNG.cpp.s
@@ -228,7 +228,7 @@ code/src/RNG.s: code/src/RNG.cpp.s
 
 # target to generate assembly for a file
 code/src/RNG.cpp.s:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/RNG.cpp.s
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/RNG.cpp.s
 .PHONY : code/src/RNG.cpp.s
 
 code/src/Ray.o: code/src/Ray.cpp.o
@@ -237,7 +237,7 @@ code/src/Ray.o: code/src/Ray.cpp.o
 
 # target to build an object file
 code/src/Ray.cpp.o:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/Ray.cpp.o
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/Ray.cpp.o
 .PHONY : code/src/Ray.cpp.o
 
 code/src/Ray.i: code/src/Ray.cpp.i
@@ -246,7 +246,7 @@ code/src/Ray.i: code/src/Ray.cpp.i
 
 # target to preprocess a source file
 code/src/Ray.cpp.i:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/Ray.cpp.i
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/Ray.cpp.i
 .PHONY : code/src/Ray.cpp.i
 
 code/src/Ray.s: code/src/Ray.cpp.s
@@ -255,7 +255,7 @@ code/src/Ray.s: code/src/Ray.cpp.s
 
 # target to generate assembly for a file
 code/src/Ray.cpp.s:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/Ray.cpp.s
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/Ray.cpp.s
 .PHONY : code/src/Ray.cpp.s
 
 code/src/Tissue.o: code/src/Tissue.cpp.o
@@ -264,7 +264,7 @@ code/src/Tissue.o: code/src/Tissue.cpp.o
 
 # target to build an object file
 code/src/Tissue.cpp.o:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/Tissue.cpp.o
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/Tissue.cpp.o
 .PHONY : code/src/Tissue.cpp.o
 
 code/src/Tissue.i: code/src/Tissue.cpp.i
@@ -273,7 +273,7 @@ code/src/Tissue.i: code/src/Tissue.cpp.i
 
 # target to preprocess a source file
 code/src/Tissue.cpp.i:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/Tissue.cpp.i
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/Tissue.cpp.i
 .PHONY : code/src/Tissue.cpp.i
 
 code/src/Tissue.s: code/src/Tissue.cpp.s
@@ -282,7 +282,7 @@ code/src/Tissue.s: code/src/Tissue.cpp.s
 
 # target to generate assembly for a file
 code/src/Tissue.cpp.s:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/Tissue.cpp.s
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/Tissue.cpp.s
 .PHONY : code/src/Tissue.cpp.s
 
 code/src/Vector.o: code/src/Vector.cpp.o
@@ -291,7 +291,7 @@ code/src/Vector.o: code/src/Vector.cpp.o
 
 # target to build an object file
 code/src/Vector.cpp.o:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/Vector.cpp.o
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/Vector.cpp.o
 .PHONY : code/src/Vector.cpp.o
 
 code/src/Vector.i: code/src/Vector.cpp.i
@@ -300,7 +300,7 @@ code/src/Vector.i: code/src/Vector.cpp.i
 
 # target to preprocess a source file
 code/src/Vector.cpp.i:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/Vector.cpp.i
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/Vector.cpp.i
 .PHONY : code/src/Vector.cpp.i
 
 code/src/Vector.s: code/src/Vector.cpp.s
@@ -309,7 +309,7 @@ code/src/Vector.s: code/src/Vector.cpp.s
 
 # target to generate assembly for a file
 code/src/Vector.cpp.s:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/Vector.cpp.s
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/Vector.cpp.s
 .PHONY : code/src/Vector.cpp.s
 
 code/src/mathematics.o: code/src/mathematics.cpp.o
@@ -318,7 +318,7 @@ code/src/mathematics.o: code/src/mathematics.cpp.o
 
 # target to build an object file
 code/src/mathematics.cpp.o:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/mathematics.cpp.o
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/mathematics.cpp.o
 .PHONY : code/src/mathematics.cpp.o
 
 code/src/mathematics.i: code/src/mathematics.cpp.i
@@ -327,7 +327,7 @@ code/src/mathematics.i: code/src/mathematics.cpp.i
 
 # target to preprocess a source file
 code/src/mathematics.cpp.i:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/mathematics.cpp.i
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/mathematics.cpp.i
 .PHONY : code/src/mathematics.cpp.i
 
 code/src/mathematics.s: code/src/mathematics.cpp.s
@@ -336,35 +336,35 @@ code/src/mathematics.s: code/src/mathematics.cpp.s
 
 # target to generate assembly for a file
 code/src/mathematics.cpp.s:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/code/src/mathematics.cpp.s
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/code/src/mathematics.cpp.s
 .PHONY : code/src/mathematics.cpp.s
 
-main.o: main.cpp.o
+test_runs.o: test_runs.cpp.o
 
-.PHONY : main.o
+.PHONY : test_runs.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/main.cpp.o
-.PHONY : main.cpp.o
+test_runs.cpp.o:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/test_runs.cpp.o
+.PHONY : test_runs.cpp.o
 
-main.i: main.cpp.i
+test_runs.i: test_runs.cpp.i
 
-.PHONY : main.i
+.PHONY : test_runs.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/main.cpp.i
-.PHONY : main.cpp.i
+test_runs.cpp.i:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/test_runs.cpp.i
+.PHONY : test_runs.cpp.i
 
-main.s: main.cpp.s
+test_runs.s: test_runs.cpp.s
 
-.PHONY : main.s
+.PHONY : test_runs.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/main.cpp.s
-.PHONY : main.cpp.s
+test_runs.cpp.s:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/test_runs.cpp.s
+.PHONY : test_runs.cpp.s
 
 # Help Target
 help:
@@ -373,7 +373,7 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... RandomWalk"
+	@echo "... Test"
 	@echo "... edit_cache"
 	@echo "... code/src/Detector.o"
 	@echo "... code/src/Detector.i"
@@ -399,9 +399,9 @@ help:
 	@echo "... code/src/mathematics.o"
 	@echo "... code/src/mathematics.i"
 	@echo "... code/src/mathematics.s"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... test_runs.o"
+	@echo "... test_runs.i"
+	@echo "... test_runs.s"
 .PHONY : help
 
 

@@ -1,8 +1,7 @@
 #include "code/headers/randomwalk.h"
 #include <sstream>
 
-
-int NUMBER_OF_OPERATIONS =0;
+float totalTime = 0.f;
 int NUMBER_OF_PHOTONS = 0;
 int THREADS_PER_BLOCK = 32;
 float DETECTOR_RADIUS = 0.f;
@@ -19,7 +18,7 @@ Vector SOURCE_LOOKAT = Vector();
 
 void streamOut(Photon *_cpuPhotons);
 char *stateToString(int state);
-void printMetrics(cudaEvent_t e1, cudaEvent_t e2, int NUMBER_OF_BLOCKS);
+void printMetrics(cudaEvent_t e1, cudaEvent_t e2, int NUMBER_OF_BLOCKS, float &time);
 
 __global__ void finalState(unsigned int seed, curandState_t *states, Photon *_gpuPhotons, Detector dectector, RNG rng, Tissue tissue, int n)
 {  
@@ -73,7 +72,7 @@ int main( int argc, char *argv[] )
             NUMBER_OF_OPERATIONS += _cpuPhotons[i].getWalks();
         }
         // Print Bandwidth
-        printMetrics(start,stop, nBlocks);
+        printMetrics(start,stop, nBlocks, totalTime);
         cudaEventDestroy( start );
         cudaEventDestroy( stop );
         streamOut(&_cpuPhotons[0]);
@@ -81,63 +80,69 @@ int main( int argc, char *argv[] )
         cudaFree(_gpuPhotons);
         cudaFree(states);
         std::cout<< "RandomWalk.o Executed Successfully." << std::endl;
-    } else { 
-        std::cout<<"Invalid input: Arguments number expected = " <<  25 << ", Recieved = " << argc << std::endl;
+    } else {
+        //std::cout<<"Invalid input: Arguments number expected = " <<  25 << ", Recieved = " << argc << std::endl;
         // Running DEFAULT RUN for debugging purposes
         // This part of the code should be erased by the end of developing phase
         // Starts Here
-        NUMBER_OF_PHOTONS = 10;
-        THREADS_PER_BLOCK = 1024;
-        DETECTOR_RADIUS = 10.f;
-        DETECTOR_POSITION = Point(0.f, 0.f, 50.f);
-        DETECTOR_LOOKAT = Vector(0.f, 0.f, -1.f);
-        TISSUE_RADIUS = 100.f;
-        TISSUE_ABSORBTION_COEFFICIENT = 1.f;
-        TISSUE_SCATTERING_COEFFICIENT = 100.f;
-        TISSUE_CENTER_1 = Point(0.f, 0.f, 50.f);
-        TISSUE_CENTER_2 = Point(0.f, 0.f, -50.f);
-        RNG rng;
-        Detector detector = Detector(DETECTOR_RADIUS, DETECTOR_POSITION, DETECTOR_LOOKAT);
-        Tissue tissue = Tissue(TISSUE_RADIUS, TISSUE_CENTER_1, TISSUE_CENTER_2, TISSUE_ABSORBTION_COEFFICIENT, TISSUE_SCATTERING_COEFFICIENT);
-        int nBlocks = NUMBER_OF_PHOTONS / THREADS_PER_BLOCK + 1;//NUMBER_OF_PHOTONS + THREADS_PER_BLOCK - 1 / THREADS_PER_BLOCK;   
-        curandState_t *states;
-        cudaMalloc((void **)&states, NUMBER_OF_PHOTONS * sizeof(curandState_t));
-        // Allocate host memory for final positions
-        Photon *_cpuPhotons = (Photon *)malloc(sizeof(Photon) * NUMBER_OF_PHOTONS);
-        // Allocate device  memory for final positions
-        Photon *_gpuPhotons = nullptr;
-        cudaMallocManaged((void **)&_gpuPhotons, NUMBER_OF_PHOTONS * sizeof(Photon));
-        // Register cudaEvents for performance metrics purposes
-        cudaEvent_t start, stop;
-        cudaEventCreate(&start);
-        cudaEventCreate(&stop);
-        // Start recording before the kernel call
-        cudaEventRecord(start); 
-        // Kernel Call
-        //finalPosition<<<nBlocks,THREADS_PER_BLOCK>>>(time(0), states , _gpuPoints, boundary, rng, NUMBER_OF_PHOTONS);
-        finalState<<<nBlocks, THREADS_PER_BLOCK>>>(time(0), states, _gpuPhotons, detector, rng, tissue, NUMBER_OF_PHOTONS);
-        // Stop recording after kernel finishes execution
-        cudaEventRecord(stop);
-        // Copy device data to host memory to stream them out
-        cudaMemcpy(_cpuPhotons, _gpuPhotons, NUMBER_OF_PHOTONS * sizeof(Photon), cudaMemcpyDeviceToHost);
-        // Synchronize before using in calculations
-        cudaEventSynchronize(stop);
-        // Calculate the total number of operations done by all photons
-        for (int i =0; i < NUMBER_OF_PHOTONS; i++){
-            std::cout << _cpuPhotons[i].getWalks() << '\n';
-            NUMBER_OF_OPERATIONS += _cpuPhotons[i].getWalks();
-        }
-        // Print Bandwidth
-        printMetrics(start,stop, nBlocks);
-        cudaEventDestroy( start );
-        cudaEventDestroy( stop );
-        streamOut(&_gpuPhotons[0]);
-        free(_cpuPhotons);
-        cudaFree(_cpuPhotons);
-        cudaFree(states);
-        std::cout<< "Default Run Executed Successfully." << std::endl;
+        int NUMBER_OF_TEST_RUNS = 10;
+        for (int i= 0; i<NUMBER_OF_TEST_RUNS; i++){
+            NUMBER_OF_PHOTONS = 100;
+            THREADS_PER_BLOCK = 1024;
+            DETECTOR_RADIUS = 10.f;
+            DETECTOR_POSITION = Point(0.f, 0.f, 50.f);
+            DETECTOR_LOOKAT = Vector(0.f, 0.f, -1.f);
+            TISSUE_RADIUS = 100.f;
+            TISSUE_ABSORBTION_COEFFICIENT = 1.f;
+            TISSUE_SCATTERING_COEFFICIENT = 100.f;
+            TISSUE_CENTER_1 = Point(0.f, 0.f, 50.f);
+            TISSUE_CENTER_2 = Point(0.f, 0.f, -50.f);
+            int nBlocks = NUMBER_OF_PHOTONS / THREADS_PER_BLOCK + 1;//NUMBER_OF_PHOTONS + THREADS_PER_BLOCK - 1 / THREADS_PER_BLOCK;   
 
+            // Initialize the Boundary and the RandomNumberGenerator
+            RNG rng;
+            //Boundary boundary = Boundary(BOUNDARY_RADIUS, Point());
+            Detector detector = Detector(DETECTOR_RADIUS, DETECTOR_POSITION, DETECTOR_LOOKAT);
+            Tissue tissue = Tissue(TISSUE_RADIUS, TISSUE_CENTER_1, TISSUE_CENTER_2, TISSUE_ABSORBTION_COEFFICIENT, TISSUE_SCATTERING_COEFFICIENT);
+            
+            curandState_t *states;
+            cudaMalloc((void **)&states, NUMBER_OF_PHOTONS * sizeof(curandState_t));
+            // Allocate host memory for final positions
+            Photon *_cpuPhotons = (Photon *)malloc(sizeof(Photon) * NUMBER_OF_PHOTONS);
+            // Allocate device  memory for final positions
+            Photon *_gpuPhotons = nullptr;
+            cudaMalloc((void **)&_gpuPhotons, NUMBER_OF_PHOTONS * sizeof(Photon));
+            unsigned int seed = time(0);
+            // Register cudaEvents for performance metrics purposes
+            cudaEvent_t start, stop;
+            cudaEventCreate(&start);
+            cudaEventCreate(&stop);
+            // Start recording before the kernel call
+            cudaEventRecord(start); 
+            // Kernel Call
+            //finalPosition<<<nBlocks,THREADS_PER_BLOCK>>>(time(0), states , _gpuPoints, boundary, rng, NUMBER_OF_PHOTONS);
+            finalState<<<nBlocks, THREADS_PER_BLOCK>>>(seed, states, _gpuPhotons, detector, rng, tissue, NUMBER_OF_PHOTONS);
+            // Stop recording after kernel finishes execution
+            cudaEventRecord(stop);
+            // Copy device data to host memory to stream them out
+            cudaMemcpy(_cpuPhotons, _gpuPhotons, NUMBER_OF_PHOTONS * sizeof(Photon), cudaMemcpyDeviceToHost);
+            // Synchronize before using in calculations
+            cudaEventSynchronize(stop);
+            // Print Bandwidth
+            float milliseconds = 0;
+            cudaEventElapsedTime(&milliseconds, start, stop);
+            totalTime += milliseconds;
+            //printMetrics(start,stop, nBlocks, totalTime);
+            cudaEventDestroy( start );
+            cudaEventDestroy( stop );
+            streamOut(&_cpuPhotons[0]);
+            free(_cpuPhotons);
+            cudaFree(_gpuPhotons);
+            cudaFree(states);
+            //std::cout<< "Default Run Executed Successfully." << std::endl;
+        }
         //Ends Here
+        std::cout << "Average = " << totalTime/NUMBER_OF_TEST_RUNS << " ms" << std::endl;
     }
     return 0;
 }
@@ -201,10 +206,12 @@ bool parseUserInput(int argc, char *argv[], int &nPhotons, int &nThreads, float 
         }
     } 
 
-void printMetrics(cudaEvent_t e1, cudaEvent_t e2, int NUMBER_OF_BLOCKS){
+void printMetrics(cudaEvent_t e1, cudaEvent_t e2, int NUMBER_OF_BLOCKS, float &time){
     float milliseconds = 0;
     cudaEventElapsedTime(&milliseconds, e1, e2);
-    printf("    ---------------------------------------------------------------     \n");
+    std::cout << milliseconds << std::endl;
+    time += milliseconds;
+    /* printf("    ---------------------------------------------------------------     \n");
     printf("    Number of Photons   |   Blocks Used  |   Threads per Block used     \n");
     printf("    ---------------------------------------------------------------     \n");
     printf("            %i          |       %i       |              %i              \n", NUMBER_OF_PHOTONS, NUMBER_OF_BLOCKS, THREADS_PER_BLOCK);

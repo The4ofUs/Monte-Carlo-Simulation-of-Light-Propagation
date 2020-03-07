@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named RandomWalk
+# Target rules for targets named Test
 
 # Build rule for target.
-RandomWalk: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 RandomWalk
-.PHONY : RandomWalk
+Test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Test
+.PHONY : Test
 
 # fast build rule for target.
-RandomWalk/fast:
-	$(MAKE) -f CMakeFiles/RandomWalk.dir/build.make CMakeFiles/RandomWalk.dir/build
-.PHONY : RandomWalk/fast
+Test/fast:
+	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/build
+.PHONY : Test/fast
 
 # Help Target
 help:
@@ -130,7 +130,7 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... RandomWalk"
+	@echo "... Test"
 	@echo "... edit_cache"
 .PHONY : help
 
