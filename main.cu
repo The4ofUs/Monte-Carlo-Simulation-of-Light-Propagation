@@ -20,14 +20,14 @@ void streamOut(Photon *_cpuPhotons);
 char *stateToString(int state);
 void printMetrics(cudaEvent_t e1, cudaEvent_t e2, int NUMBER_OF_BLOCKS, float &time);
 
-__global__ void finalState(unsigned int seed, curandState_t *states, Photon *_gpuPhotons, Detector dectector, RNG rng, Tissue tissue, int n)
-{  
+__global__ void finalState(unsigned int seed, curandState_t *states, Photon *_gpuPhotons, Detector detector, RNG rng, Tissue tissue, int n)
+{
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     if (idx < n)
     {
         curand_init(seed, idx, 0, &states[idx]);
-        Photon finalState = randomWalk(states, idx, dectector, rng,  tissue);
-        _gpuPhotons[idx] = finalState;        
+        Photon finalState = randomWalk(states, idx, detector, rng, tissue);
+        _gpuPhotons[idx] = finalState;
     }
 }
 
@@ -39,7 +39,7 @@ int main( int argc, char *argv[] )
     if (parseUserInput(argc, argv ,NUMBER_OF_PHOTONS, THREADS_PER_BLOCK, DETECTOR_RADIUS, DETECTOR_POSITION, DETECTOR_LOOKAT, TISSUE_RADIUS, 
         TISSUE_ABSORBTION_COEFFICIENT, TISSUE_SCATTERING_COEFFICIENT, TISSUE_CENTER_1, TISSUE_CENTER_2, SOURCE_POSITION, SOURCE_LOOKAT)) {
         int nBlocks = NUMBER_OF_PHOTONS / THREADS_PER_BLOCK + 1;//NUMBER_OF_PHOTONS + THREADS_PER_BLOCK - 1 / THREADS_PER_BLOCK;   
-        //cudaMalloc((void **)&NUMBER_OF_PHOTONS, sizeof(int));
+        cudaMalloc((void **)&NUMBER_OF_PHOTONS, sizeof(int));
         curandState_t *states;
         cudaMalloc((void **)&states, NUMBER_OF_PHOTONS * sizeof(curandState_t));
         // Allocate host memory for final positions
@@ -49,9 +49,16 @@ int main( int argc, char *argv[] )
         cudaMalloc((void **)&_gpuPhotons, NUMBER_OF_PHOTONS * sizeof(Photon));
         // Initialize the Boundary and the RandomNumberGenerator
         RNG rng;
+        cudaMalloc((void **)&rng, sizeof(RNG));
+        //Boundary boundary = Boundary(BOUNDARY_RADIUS, Point());
         Detector detector = Detector(DETECTOR_RADIUS, DETECTOR_POSITION, DETECTOR_LOOKAT);
+        cudaMalloc((void **)&detector, sizeof(Detector));
         Tissue tissue = Tissue(TISSUE_RADIUS, TISSUE_CENTER_1, TISSUE_CENTER_2, TISSUE_ABSORBTION_COEFFICIENT, TISSUE_SCATTERING_COEFFICIENT);
+        cudaMalloc((void **)&tissue, sizeof(Tissue));
+
         unsigned int seed = time(0);
+        cudaMalloc((void **)&seed, sizeof(unsigned int));
+        // Register cudaEvents for performance metrics purposes
         cudaEvent_t start, stop;
         cudaEventCreate(&start);
         cudaEventCreate(&stop);
@@ -66,11 +73,6 @@ int main( int argc, char *argv[] )
         cudaMemcpy(_cpuPhotons, _gpuPhotons, NUMBER_OF_PHOTONS * sizeof(Photon), cudaMemcpyDeviceToHost);
         // Synchronize before using in calculations
         cudaEventSynchronize(stop);
-        // Calculate the total number of operations done by all photons
-        for (int i =0; i < NUMBER_OF_PHOTONS; i++){
-            std::cout << _cpuPhotons[i].getWalks() << '\n';
-            NUMBER_OF_OPERATIONS += _cpuPhotons[i].getWalks();
-        }
         // Print Bandwidth
         printMetrics(start,stop, nBlocks, totalTime);
         cudaEventDestroy( start );
@@ -156,11 +158,11 @@ void streamOut(Photon *_cpuPhotons)
     /*
     *   This Particular order should be maintained if the output was to be read using the Plotter 
     */
-     fprintf(output, "X, Y, Z, WEIGHT, STATE,photon_num,%i,threads_per_block,%i,detector_radius,%f,detector_pos,%f,%f,%f,detector_lookAt,%f,%f,%f,tissue_radius,%f,absorp_coeff,%f,scatter_coeff,%f,tissue_center_1,%f,%f,%f,tissue_center_2,%f,%f,%f\n"
+    fprintf(output, "X, Y, Z, WEIGHT, STATE,photon_num,%i,threads_per_block,%i,detector_radius,%f,detector_pos,%f,%f,%f,detector_lookAt,%f,%f,%f,tissue_radius,%f,absorp_coeff,%f,scatter_coeff,%f,tissue_center_1,%f,%f,%f,tissue_center_2,%f,%f,%f\n"
     ,NUMBER_OF_PHOTONS, THREADS_PER_BLOCK, DETECTOR_RADIUS, DETECTOR_POSITION.x(), DETECTOR_POSITION.y(), DETECTOR_POSITION.z()
     , DETECTOR_LOOKAT.x(), DETECTOR_LOOKAT.y(), DETECTOR_LOOKAT.z(), TISSUE_RADIUS, TISSUE_ABSORBTION_COEFFICIENT
     , TISSUE_SCATTERING_COEFFICIENT, TISSUE_CENTER_1.x(), TISSUE_CENTER_1.y(), TISSUE_CENTER_1.z(), TISSUE_CENTER_2.x(), TISSUE_CENTER_2.y()
-    , TISSUE_CENTER_2.z()); 
+    , TISSUE_CENTER_2.z());
 
     for (int i = 0; i < NUMBER_OF_PHOTONS; i++)
     {
@@ -182,7 +184,7 @@ void streamOut(Photon *_cpuPhotons)
         // Streaming out my output in a log file
         fprintf(output, "%f,%f,%f,%f,%s\n", _cpuPhotons[i].getPosition().x(), _cpuPhotons[i].getPosition().y(), _cpuPhotons[i].getPosition().z(), _cpuPhotons[i].getWeight(), state.c_str());
     }
-} 
+}
 
 
 bool parseUserInput(int argc, char *argv[], int &nPhotons, int &nThreads, float &dRadius, Point &dPosition, Vector &dLookAt, float &tRadius, float &tAbsorpCoeff,
@@ -204,7 +206,7 @@ bool parseUserInput(int argc, char *argv[], int &nPhotons, int &nThreads, float 
         } else {
             return false;
         }
-    } 
+    }
 
 void printMetrics(cudaEvent_t e1, cudaEvent_t e2, int NUMBER_OF_BLOCKS, float &time){
     float milliseconds = 0;
@@ -217,8 +219,6 @@ void printMetrics(cudaEvent_t e1, cudaEvent_t e2, int NUMBER_OF_BLOCKS, float &t
     printf("            %i          |       %i       |              %i              \n", NUMBER_OF_PHOTONS, NUMBER_OF_BLOCKS, THREADS_PER_BLOCK);
     printf("    ---------------------------------------------------------------     \n");
     printf("Elapsed time (ms): %f\n", milliseconds);
-    printf("Theoretical Bandwidth (GB/s): %f\n", 1122*1e6*(64/8)*2/1e9); // 10e6 becuse core speed is already in MHz
-    printf("Effective Bandwidth (GB/s): %f\n", (NUMBER_OF_PHOTONS*sizeof(Photon)*1/1e6)/milliseconds); // 10e6 because time is in milliseconds
-    printf("Computational Throughput (GB/s): %f\n", NUMBER_OF_OPERATIONS/ milliseconds*1e6); //Giga-FLoating-point Operations per second, 10e6 because time is in milliseconds
-
+    printf("Theoretical Bandwidth (GB/s): %f\n", 2500*1e6*(128/8)*2/1e9);
+    printf("Effective Bandwidth (GB/s): %f\n", NUMBER_OF_PHOTONS*4*3/milliseconds/1e6); */
 }
