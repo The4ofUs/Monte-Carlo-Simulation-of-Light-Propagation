@@ -51,16 +51,6 @@ array
 -
 math.h
 -
-helper_cuda.h
--
-helper_functions.h
--
-helper_timer.h
--
-curand.h
--
-curand_kernel.h
--
 string
 -
 

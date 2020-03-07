@@ -52,11 +52,11 @@ public:
   /**
      * @return **Photon**'s total number of walks at the end of the simulation
      */
-   __device__ __host__ unsigned int getLifetime();
+  unsigned int getLifetime();
    /**
  * @param walksNumber (int)
  */
-   __device__ __host__ void incrementLifetime();
+  void incrementLifetime();
 
 
   /**
