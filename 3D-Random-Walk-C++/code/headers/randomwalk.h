@@ -12,7 +12,7 @@
  * keeps wandering around with the photon in the 3D space
  * @return The final state of the photon
  */
-Photon randomWalk(Detector detector, RNG rng, Tissue tissue, unsigned seed)
+Photon randomWalk(Detector detector, RNG rng, Tissue tissue)
 {
     Photon photon = Photon(detector.getCenter());
     bool first_step = true;
@@ -22,12 +22,13 @@ Photon randomWalk(Detector detector, RNG rng, Tissue tissue, unsigned seed)
     {
         if (first_step)
         {
-            path = Ray(photon.getPosition(), detector.getNormal(), rng.getRandomStep(seed));
+            path = Ray(photon.getPosition(), detector.getNormal(), rng.getRandomStep());
             first_step = false;
         }
         else
         {
-            path = Ray(photon.getPosition(), rng.getRandomDirection(seed), rng.getRandomStep(seed));
+            path = Ray(photon.getPosition(), rng.getRandomDirection(), rng.getRandomStep());
+
         }
 
         photon.moveAlong(path);
@@ -41,8 +42,8 @@ Photon randomWalk(Detector detector, RNG rng, Tissue tissue, unsigned seed)
         if (!tissue.escaped(photon.getPosition()))
         {
             if (photon.getWeight() < WEIGHT_THRESHOLD)
-            {   std::cout <<"here"<<'\n';
-                rng.roulette(photon, ROULETTE_CHANCE, seed);
+            {   
+                rng.roulette(photon, ROULETTE_CHANCE);
             }
         }
         else

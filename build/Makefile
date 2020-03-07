@@ -48,10 +48,17 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
+<<<<<<< HEAD
 CMAKE_SOURCE_DIR = /home/mustafa/3D-Random-Walk-CUDA
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /home/mustafa/3D-Random-Walk-CUDA/build
+=======
+CMAKE_SOURCE_DIR = /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA
+
+# The top-level build directory on which CMake was run.
+CMAKE_BINARY_DIR = /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build
+>>>>>>> 6a56b6c3f1338ecd5638512e991a711ac525a2f2
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +87,15 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
+<<<<<<< HEAD
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/mustafa/3D-Random-Walk-CUDA/build/CMakeFiles /home/mustafa/3D-Random-Walk-CUDA/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/mustafa/3D-Random-Walk-CUDA/build/CMakeFiles 0
+=======
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles/progress.marks
+	$(MAKE) -f CMakeFiles/Makefile2 all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles 0
+>>>>>>> 6a56b6c3f1338ecd5638512e991a711ac525a2f2
 .PHONY : all
 
 # The main clean target

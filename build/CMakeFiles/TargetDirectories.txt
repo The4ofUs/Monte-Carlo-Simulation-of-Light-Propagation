@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 /home/mustafa/3D-Random-Walk-CUDA/build/CMakeFiles/rebuild_cache.dir
 /home/mustafa/3D-Random-Walk-CUDA/build/CMakeFiles/Test.dir
 /home/mustafa/3D-Random-Walk-CUDA/build/CMakeFiles/edit_cache.dir
+=======
+/home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles/rebuild_cache.dir
+/home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles/Test.dir
+/home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles/edit_cache.dir
+>>>>>>> 6a56b6c3f1338ecd5638512e991a711ac525a2f2

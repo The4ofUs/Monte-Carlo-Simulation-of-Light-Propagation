@@ -148,6 +148,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/Test.dir/code/src/Test_generated_Vector.cu.o.cmake.pre-gen"
   "CMakeFiles/Test.dir/code/src/Test_generated_Tissue.cu.o.cmake.pre-gen"
   "CMakeFiles/Test.dir/code/src/Test_generated_Photon.cu.o.cmake.pre-gen"
+<<<<<<< HEAD
   "CMakeFiles/Test.dir/Test_generated_test_runs.cu.o.Debug.cmake"
   "CMakeFiles/Test.dir/code/src/Test_generated_RNG.cu.o.Debug.cmake"
   "CMakeFiles/Test.dir/code/src/Test_generated_Ray.cu.o.Debug.cmake"
@@ -157,6 +158,17 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/Test.dir/code/src/Test_generated_Vector.cu.o.Debug.cmake"
   "CMakeFiles/Test.dir/code/src/Test_generated_Tissue.cu.o.Debug.cmake"
   "CMakeFiles/Test.dir/code/src/Test_generated_Photon.cu.o.Debug.cmake"
+=======
+  "CMakeFiles/Test.dir/Test_generated_test_runs.cu.o.cmake"
+  "CMakeFiles/Test.dir/code/src/Test_generated_RNG.cu.o.cmake"
+  "CMakeFiles/Test.dir/code/src/Test_generated_Ray.cu.o.cmake"
+  "CMakeFiles/Test.dir/code/src/Test_generated_Point.cu.o.cmake"
+  "CMakeFiles/Test.dir/code/src/Test_generated_Detector.cu.o.cmake"
+  "CMakeFiles/Test.dir/code/src/Test_generated_mathematics.cu.o.cmake"
+  "CMakeFiles/Test.dir/code/src/Test_generated_Vector.cu.o.cmake"
+  "CMakeFiles/Test.dir/code/src/Test_generated_Tissue.cu.o.cmake"
+  "CMakeFiles/Test.dir/code/src/Test_generated_Photon.cu.o.cmake"
+>>>>>>> 6a56b6c3f1338ecd5638512e991a711ac525a2f2
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 

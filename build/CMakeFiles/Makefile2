@@ -54,10 +54,17 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
+<<<<<<< HEAD
 CMAKE_SOURCE_DIR = /home/mustafa/3D-Random-Walk-CUDA
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /home/mustafa/3D-Random-Walk-CUDA/build
+=======
+CMAKE_SOURCE_DIR = /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA
+
+# The top-level build directory on which CMake was run.
+CMAKE_BINARY_DIR = /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build
+>>>>>>> 6a56b6c3f1338ecd5638512e991a711ac525a2f2
 
 #=============================================================================
 # Target rules for target CMakeFiles/Test.dir
@@ -66,7 +73,11 @@ CMAKE_BINARY_DIR = /home/mustafa/3D-Random-Walk-CUDA/build
 CMakeFiles/Test.dir/all:
 	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/depend
 	$(MAKE) -f CMakeFiles/Test.dir/build.make CMakeFiles/Test.dir/build
+<<<<<<< HEAD
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mustafa/3D-Random-Walk-CUDA/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11 "Built target Test"
+=======
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11 "Built target Test"
+>>>>>>> 6a56b6c3f1338ecd5638512e991a711ac525a2f2
 .PHONY : CMakeFiles/Test.dir/all
 
 # Include target in all.
@@ -76,9 +87,15 @@ all: CMakeFiles/Test.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Test.dir/rule: cmake_check_build_system
+<<<<<<< HEAD
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/mustafa/3D-Random-Walk-CUDA/build/CMakeFiles 11
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/Test.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/mustafa/3D-Random-Walk-CUDA/build/CMakeFiles 0
+=======
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles 11
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/Test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/CMakeFiles 0
+>>>>>>> 6a56b6c3f1338ecd5638512e991a711ac525a2f2
 .PHONY : CMakeFiles/Test.dir/rule
 
 # Convenience name for target.

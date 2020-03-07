@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Install script for directory: /home/mustafa/3D-Random-Walk-CUDA
+=======
+# Install script for directory: /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA
+>>>>>>> 6a56b6c3f1338ecd5638512e991a711ac525a2f2
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -12,7 +16,11 @@ if(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
     string(REGEX REPLACE "^[^A-Za-z0-9_]+" ""
            CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
   else()
+<<<<<<< HEAD
     set(CMAKE_INSTALL_CONFIG_NAME "Debug")
+=======
+    set(CMAKE_INSTALL_CONFIG_NAME "")
+>>>>>>> 6a56b6c3f1338ecd5638512e991a711ac525a2f2
   endif()
   message(STATUS "Install configuration: \"${CMAKE_INSTALL_CONFIG_NAME}\"")
 endif()
@@ -45,5 +53,9 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
+<<<<<<< HEAD
 file(WRITE "/home/mustafa/3D-Random-Walk-CUDA/build/${CMAKE_INSTALL_MANIFEST}"
+=======
+file(WRITE "/home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/build/${CMAKE_INSTALL_MANIFEST}"
+>>>>>>> 6a56b6c3f1338ecd5638512e991a711ac525a2f2
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

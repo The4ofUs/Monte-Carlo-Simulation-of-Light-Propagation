@@ -6,5 +6,5 @@ CXX_FLAGS =   -std=c++11
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/HEADER_FILES 
+CXX_INCLUDES = -I/home/mustafa/3D-Random-Walk-CUDA/3D-Random-Walk-C++/HEADER_FILES 
 

@@ -1,4 +1,5 @@
 # Hashes of file build rules.
+<<<<<<< HEAD
 c57412b312b1379e77f3397c90c4dc41 CMakeFiles/Test.dir/Test_generated_test_runs.cu.o
 6dabbaa9c5b7112ed3652cf0347df181 CMakeFiles/Test.dir/Test_intermediate_link.o
 e542dce1e3840618dbcb364b4aefce6c CMakeFiles/Test.dir/code/src/Test_generated_Detector.cu.o
@@ -9,3 +10,15 @@ a9f5e8a28e537af0b5865914f4b7a3c3 CMakeFiles/Test.dir/code/src/Test_generated_Ray
 02fe5e07283ee976e87bf4d11ca17a1e CMakeFiles/Test.dir/code/src/Test_generated_Tissue.cu.o
 1c20332f5da528c436a7ed0397707b5b CMakeFiles/Test.dir/code/src/Test_generated_Vector.cu.o
 1432ad13e5b9b0dffe4bad3e179ce6a5 CMakeFiles/Test.dir/code/src/Test_generated_mathematics.cu.o
+=======
+456c358fc3fda99b454f53bba8baf9b2 CMakeFiles/Test.dir/Test_generated_test_runs.cu.o
+08f4e0c3132ef543edac6c77e159fc4b CMakeFiles/Test.dir/Test_intermediate_link.o
+93f0bfa6ce5e0427f129c109684ad37a CMakeFiles/Test.dir/code/src/Test_generated_Detector.cu.o
+69456f202dd992f730fb2d60bc6fb0de CMakeFiles/Test.dir/code/src/Test_generated_Photon.cu.o
+1227d39af9e9cf1faef6fba463b914dd CMakeFiles/Test.dir/code/src/Test_generated_Point.cu.o
+0e355c159b1da09a5cbb01a0b3fb2abf CMakeFiles/Test.dir/code/src/Test_generated_RNG.cu.o
+9780b613f9e5c0955386f7b79bf6f2b8 CMakeFiles/Test.dir/code/src/Test_generated_Ray.cu.o
+80ae67118fd761580a91e27c8c7469e1 CMakeFiles/Test.dir/code/src/Test_generated_Tissue.cu.o
+13b82281719e08f89dc324ffb6bca8ea CMakeFiles/Test.dir/code/src/Test_generated_Vector.cu.o
+d6ee525b689a9a5c4e674d16963d56f9 CMakeFiles/Test.dir/code/src/Test_generated_mathematics.cu.o
+>>>>>>> 6a56b6c3f1338ecd5638512e991a711ac525a2f2
