@@ -20,19 +20,19 @@ public:
  * 
  * @return Random float
  */
-  float generate(unsigned seed);
+  float generate();
   /**
  * @brief Uses generate() to generate a Randomized step
  * 
  * @return Random float 
  */
-  float getRandomStep(unsigned seed);
+  float getRandomStep();
   /**
  * @brief Uses generate() to get a Randomized direction  **Vector**
  * 
  * @return Random **Vector**
  */
-  Vector getRandomDirection(unsigned seed);
+  Vector getRandomDirection();
 
   /**
      * @brief Uses generate() to get a Randomized **Point**
@@ -40,7 +40,7 @@ public:
      * @return Random **Point**
      */
 
-  Point getRandomPoint(unsigned seed);
+  Point getRandomPoint();
 
   /**
      * @brief The roulette tries a randomly generated float against the *chance* parameter and terminates the **Photon** if the roulette succeeds
@@ -49,6 +49,6 @@ public:
      * @param chance (float) The chance to roulette against
      */
 
-  void roulette(Photon &photon, float chance, unsigned seed);
+  void roulette(Photon &photon, float chance);
 };
 #endif

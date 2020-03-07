@@ -2,7 +2,7 @@
 #include <sstream>
 #include <iostream>
 
-int NUMBER_OF_PHOTONS = 500;
+int NUMBER_OF_PHOTONS = 1000;
 float DETECTOR_RADIUS = 10.f;
 Point DETECTOR_POSITION = Point(0.f, 0.f, 50.f);
 Vector DETECTOR_LOOKAT = Vector(0.f, 0.f, -1.f);
@@ -14,6 +14,7 @@ Point TISSUE_CENTER_2 = Point(0.f, 0.f, -50.f);
 Point SOURCE_POSITION = Point(0.f, 0.f, 50.f);
 Vector SOURCE_LOOKAT = Vector(0.f, 0.f, -1.f);
 
+
 void streamOut(Photon *_cpuPhotons);
 char *stateToString(int state);
 
@@ -21,8 +22,8 @@ void finalState(Photon *_cpuPhotons, Detector detector, RNG rng, Tissue tissue)
 {
     for (int i = 0; i < NUMBER_OF_PHOTONS; i++)
     {
-        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-        Photon finalState = randomWalk(detector, rng, tissue, seed);
+
+       Photon finalState = randomWalk(detector, rng, tissue);
         _cpuPhotons[i] = finalState;
     }
 }
@@ -50,7 +51,6 @@ int main()
     streamOut(&_cpuPhotons[0]);
     delete[] _cpuPhotons;
 
-  //  std::cout << "RandomWalk.o Executed Successfully." << std::endl;
     return 0;
 }
 
