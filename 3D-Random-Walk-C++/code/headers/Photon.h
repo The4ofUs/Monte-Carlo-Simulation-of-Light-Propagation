@@ -52,11 +52,20 @@ public:
    /**
      * @return **Photon**'s total number of walks at the end of the simulation
      */
+<<<<<<< HEAD
    unsigned int getLifetime();
    /**
  * @param walksNumber (int)
  */
    void incrementLifetime();
+=======
+  unsigned int getLifetime();
+   /**
+ * @param walksNumber (int)
+ */
+  void incrementLifetime();
+
+>>>>>>> 7e3b71a0a8409d7ef4dfdcd8963d4d2eb8e45a52
 
    /**
      * @brief Terminates the Photon instantly i.e. sets its weight = 0

@@ -52,10 +52,10 @@ void run(int n, float Ma)
         Tissue tissue = Tissue(TISSUE_RADIUS, TISSUE_CENTER_1, TISSUE_CENTER_2, TISSUE_ABSORBTION_COEFFICIENT, TISSUE_SCATTERING_COEFFICIENT);
         Photon *_cpuPhotons;
         _cpuPhotons = new Photon[NUMBER_OF_PHOTONS];
-        auto start = std::chrono::high_resolution_clock::now();
+        std::chrono::high_resolution_clock::time_point start = std::chrono::high_resolution_clock::now();
         finalState(&_cpuPhotons[0], detector, rng, tissue, NUMBER_OF_PHOTONS);
-        auto stop = std::chrono::high_resolution_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+        std::chrono::high_resolution_clock::time_point stop = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
         totalTime += duration.count();
         for (int j = 0; j < NUMBER_OF_PHOTONS; j++)
         {
