@@ -8,11 +8,11 @@
 class Vector : public Point
 {
 public:
-   /**
+    /**
  * @brief Constructs a (0,0,0) **Vector**
  */
    Vector();
-   /**
+    /**
  * @brief Constructs a **Vector** of direction (*x*,*y*,*z*) relative to (0,0,0)
  * 
  * @param x (float) X coordinate
@@ -20,14 +20,14 @@ public:
  * @param z (float) Z coordinate
  */
    Vector(float x, float y, float z);
-   /**
+    /**
  * @brief Constructs a **Vector** of direction *point* relative to (0,0,0)
  * 
  * @param point (**Point**)
  */
    Vector(Point point);
 
-   /**
+    /**
  * @brief Constructs a relative **Vector**
  * 
  * @param point1 (**Point**)

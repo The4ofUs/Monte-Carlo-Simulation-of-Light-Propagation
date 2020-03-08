@@ -1,7 +1,7 @@
 #ifndef MATHEMATICS_H
 #define MATHEMATICS_H
 #include "Vector.h"
-
+#include "common.h"
 namespace Mathematics
 {
 

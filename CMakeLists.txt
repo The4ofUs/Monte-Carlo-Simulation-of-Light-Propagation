@@ -29,8 +29,8 @@ set( CUDA_SOURCE_FILES
 
 
 cuda_add_executable(
-    #RandomWalk main.cu
-    Test test_runs.cu
+    RandomWalk main.cu
+    #Test test_runs.cu
     ${CUDA_SOURCE_FILES}
     ${CUDA_HEADER_FILES}
     )

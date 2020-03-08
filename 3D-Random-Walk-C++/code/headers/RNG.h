@@ -3,8 +3,6 @@
 
 #include "Photon.h"
 #include "common.h"
-#include <chrono>
-#include <random> //To use unifrom distributed random number generation function
 /**
  * @brief The RNG class
  * 
@@ -15,40 +13,50 @@
 class RNG
 {
 public:
-  /**
+    /**
  * @brief Generates the random floats for the rest of the working parts
  * 
+ * @param states 
+ * @param i (int) index for the sake of changing the seed of the RNG
  * @return Random float
  */
-  float generate();
-  /**
+   float generate();
+    /**
  * @brief Uses generate() to generate a Randomized step
  * 
+ * @param states 
+ * @param i (int) index for the sake of changing the seed of the RNG
  * @return Random float 
  */
-  float getRandomStep();
-  /**
+   float getRandomStep();
+    /**
  * @brief Uses generate() to get a Randomized direction  **Vector**
  * 
+ * @param states 
+ * @param i (int) index for the sake of changing the seed of the RNG
  * @return Random **Vector**
  */
-  Vector getRandomDirection();
+   Vector getRandomDirection();
 
-  /**
+    /**
      * @brief Uses generate() to get a Randomized **Point**
      * 
+     * @param states 
+     * @param i (int) index for the sake of changing the seed of the RNG
      * @return Random **Point**
      */
 
-  Point getRandomPoint();
+   Point getRandomPoint();
 
-  /**
+    /**
      * @brief The roulette tries a randomly generated float against the *chance* parameter and terminates the **Photon** if the roulette succeeds
      * 
      * @param photon (**Photon**) The target **Photon**
      * @param chance (float) The chance to roulette against
+     * @param globalState 
+     * @param i (int) index for the sake of changing the seed of the RNG
      */
 
-  void roulette(Photon &photon, float chance);
+   void roulette(Photon &photon, float chance);
 };
 #endif

@@ -19,7 +19,6 @@ CMakeFiles/RandomWalk.dir/code/src/Photon.cpp.o: ../code/headers/mathematics.h
 CMakeFiles/RandomWalk.dir/code/src/Photon.cpp.o: ../code/src/Photon.cpp
 
 CMakeFiles/RandomWalk.dir/code/src/Point.cpp.o: ../code/headers/Point.h
-CMakeFiles/RandomWalk.dir/code/src/Point.cpp.o: ../code/headers/common.h
 CMakeFiles/RandomWalk.dir/code/src/Point.cpp.o: ../code/src/Point.cpp
 
 CMakeFiles/RandomWalk.dir/code/src/RNG.cpp.o: ../code/headers/Photon.h
@@ -49,7 +48,6 @@ CMakeFiles/RandomWalk.dir/code/src/Tissue.cpp.o: ../code/src/Tissue.cpp
 
 CMakeFiles/RandomWalk.dir/code/src/Vector.cpp.o: ../code/headers/Point.h
 CMakeFiles/RandomWalk.dir/code/src/Vector.cpp.o: ../code/headers/Vector.h
-CMakeFiles/RandomWalk.dir/code/src/Vector.cpp.o: ../code/headers/common.h
 CMakeFiles/RandomWalk.dir/code/src/Vector.cpp.o: ../code/src/Vector.cpp
 
 CMakeFiles/RandomWalk.dir/code/src/mathematics.cpp.o: ../code/headers/Point.h

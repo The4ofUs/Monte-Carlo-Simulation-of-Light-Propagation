@@ -12,7 +12,7 @@ Point::Point()
     setCoordinates(0.f, 0.f, 0.f);
 }
 
- void Point::setCoordinates(float x, float y, float z)
+void Point::setCoordinates(float x, float y, float z)
 {
     this->_x = x;
     this->_y = y;
@@ -25,7 +25,8 @@ float Point::y() const { return this->_y; }
 float Point::z() const { return this->_z; }
 
 
-Point Point::operator-(Point const &other)
+    Point
+    Point::operator-(Point const &other)
 {
     float result_x = this->_x - other.x();
     float result_y = this->_y - other.y();
@@ -34,7 +35,8 @@ Point Point::operator-(Point const &other)
 }
 
 
-Point Point::operator+(Point const &other)
+    Point
+    Point::operator+(Point const &other)
 {
     float result_x = this->_x + other.x();
     float result_y = this->_y + other.y();
@@ -43,7 +45,7 @@ Point Point::operator+(Point const &other)
 }
 
 
-Point Point::operator*(float const &other)
+    Point Point::operator*(float const &other)
 {
     float result_x = this->_x * other;
     float result_y = this->_y * other;

@@ -2,7 +2,7 @@
 #include <sstream>
 #include <iostream>
 
-int NUMBER_OF_PHOTONS = 1000;
+int NUMBER_OF_PHOTONS = 10000;
 float DETECTOR_RADIUS = 10.f;
 Point DETECTOR_POSITION = Point(0.f, 0.f, 50.f);
 Vector DETECTOR_LOOKAT = Vector(0.f, 0.f, -1.f);
@@ -22,7 +22,6 @@ void finalState(Photon *_cpuPhotons, Detector detector, RNG rng, Tissue tissue)
 {
     for (int i = 0; i < NUMBER_OF_PHOTONS; i++)
     {
-
        Photon finalState = randomWalk(detector, rng, tissue);
         _cpuPhotons[i] = finalState;
     }
@@ -43,7 +42,7 @@ int main()
     // End point exact time
     auto stop = std::chrono::high_resolution_clock::now();
     // Calculate duration
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
     std::cout << "Execution time: " << duration.count() << "ms"
               << "\n";
 
@@ -85,7 +84,7 @@ void streamOut(Photon *_cpuPhotons)
         //Streaming out my output in terminal
         // std::cout << _cpuPhotons[i].getPosition().x()<<','<<_cpuPhotons[i].getPosition().y()<<','<< _cpuPhotons[i].getPosition().z()<<','<<_cpuPhotons[i].getWeight()<<','<< state.c_str() << '\n';
         //Streaming out my output in a log file
-        fprintf(output, "%f,%f,%f,%f,%s\n", _cpuPhotons[i].getPosition().x(), _cpuPhotons[i].getPosition().y(), _cpuPhotons[i].getPosition().z(), _cpuPhotons[i].getWeight(), state.c_str());
+        fprintf(output, "%f,%f,%f,%f,%s,%i\n", _cpuPhotons[i].getPosition().x(), _cpuPhotons[i].getPosition().y(), _cpuPhotons[i].getPosition().z(), _cpuPhotons[i].getWeight(), state.c_str(), _cpuPhotons[i].getLifetime());
     }
 }
 

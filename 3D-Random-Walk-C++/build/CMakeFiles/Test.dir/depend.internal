@@ -20,7 +20,6 @@ CMakeFiles/Test.dir/code/src/Photon.cpp.o
  /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/src/Photon.cpp
 CMakeFiles/Test.dir/code/src/Point.cpp.o
  /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/Point.h
- /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/common.h
  /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/src/Point.cpp
 CMakeFiles/Test.dir/code/src/RNG.cpp.o
  /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/Photon.h
@@ -50,7 +49,6 @@ CMakeFiles/Test.dir/code/src/Tissue.cpp.o
 CMakeFiles/Test.dir/code/src/Vector.cpp.o
  /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/Point.h
  /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/Vector.h
- /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/common.h
  /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/src/Vector.cpp
 CMakeFiles/Test.dir/code/src/mathematics.cpp.o
  /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/Point.h

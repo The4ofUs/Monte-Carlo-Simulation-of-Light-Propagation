@@ -15,18 +15,12 @@ Ray.h
 /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/Ray.h
 
 /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/Point.h
-common.h
-/home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/common.h
 
 /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/RNG.h
 Photon.h
 /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/Photon.h
 common.h
 /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/common.h
-chrono
--
-random
--
 
 /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/Ray.h
 Vector.h
@@ -51,12 +45,20 @@ array
 -
 math.h
 -
+random
+-
 string
+-
+chrono
+-
+ctime
 -
 
 /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/mathematics.h
 Vector.h
 /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/Vector.h
+common.h
+/home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/common.h
 
 /home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/randomwalk.h
 RNG.h

@@ -1,6 +1,6 @@
 #ifndef POINT_H
 #define POINT_H
-#include "common.h"
+
 /**
  * A point in the space defined by the cartesian coordinates (X, Y, Z)
  */
@@ -11,13 +11,13 @@ public:
     /**
      * @brief Constructor
      */
-
+    
     Point(float x, float y, float z);
 
     /**
      * @brief Constructor
      */
-
+    
     Point();
 
     /**
@@ -27,43 +27,43 @@ public:
      * @param y (float)
      * @param z (float)
      */
-    void setCoordinates(float x, float y, float z);
+     void setCoordinates(float x, float y, float z);
 
     /**
      * @return The X coordinate of the point.
      */
-    float x() const;
+     float x() const;
 
     /**
      * @return The Y coordinate of the point.
      */
-    float y() const;
+     float y() const;
 
     /**
      * @return The Z coordinate of the point.
      */
-    float z() const;
+     float z() const;
 
     /**
      * Overloading the + operator
      */
-
-    Point
-    operator+(Point const &other);
+    
+        Point
+        operator+(Point const &other);
 
     /**
      * Overloading the - operator
      */
-
-    Point
-    operator-(Point const &other);
+    
+        Point
+        operator-(Point const &other);
 
     /**
      * Overloading the * operator
      */
-
-    Point
-    operator*(float const &other);
+    
+        Point
+        operator*(float const &other);
 
 protected:
     /**

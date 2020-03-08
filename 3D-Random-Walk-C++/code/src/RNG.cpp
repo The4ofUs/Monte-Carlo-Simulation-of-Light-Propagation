@@ -1,14 +1,16 @@
 #include "../headers/RNG.h"
-
 float RNG::generate()
 {
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::default_random_engine generator(seed);
-    std::uniform_real_distribution<float> distribution(0.0, 1.0);
+   // unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    //std::default_random_engine generator(seed);
+    std::random_device                  rand_dev;
+    std::mt19937                        generator(rand_dev());
+    std::uniform_real_distribution<> distribution(0.0, 1.0);
     float random = distribution(generator);
-   /* std::ofstream outfile;
+    /*std::ofstream outfile;
     outfile.open("random.csv", std::ios_base::app); // append instead of overwrite
     outfile << random << '\n';*/
+    //std::cout << random << '\n';
     return random;
 }
 

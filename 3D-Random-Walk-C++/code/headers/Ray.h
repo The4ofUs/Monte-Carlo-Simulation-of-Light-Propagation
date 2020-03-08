@@ -2,7 +2,6 @@
 #define RAY_H
 #include "Vector.h"
 #include "mathematics.h"
-
 /**
  * @brief The Ray class
  */

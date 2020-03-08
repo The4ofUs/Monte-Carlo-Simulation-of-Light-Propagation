@@ -20,6 +20,8 @@ Photon randomWalk(Detector detector, RNG rng, Tissue tissue)
 
     while (photon.getState() == photon.ROAMING)
     {
+        photon.incrementLifetime();
+
         if (first_step)
         {
             path = Ray(photon.getPosition(), detector.getNormal(), rng.getRandomStep());
@@ -28,7 +30,6 @@ Photon randomWalk(Detector detector, RNG rng, Tissue tissue)
         else
         {
             path = Ray(photon.getPosition(), rng.getRandomDirection(), rng.getRandomStep());
-
         }
 
         photon.moveAlong(path);
@@ -42,7 +43,7 @@ Photon randomWalk(Detector detector, RNG rng, Tissue tissue)
         if (!tissue.escaped(photon.getPosition()))
         {
             if (photon.getWeight() < WEIGHT_THRESHOLD)
-            {   
+            {
                 rng.roulette(photon, ROULETTE_CHANCE);
             }
         }
