@@ -47,6 +47,7 @@ void run(int n, float Ma){
     float escaped = 0.f;
     int nBlocks = NUMBER_OF_PHOTONS + THREADS_PER_BLOCK - 1 / THREADS_PER_BLOCK;
     for (int i= 0; i<NUMBER_OF_TEST_RUNS; i++){
+        std::cout << "Progress %" << i << "\r";
         RNG rng;
         Detector detector = Detector(DETECTOR_RADIUS, DETECTOR_POSITION, DETECTOR_LOOKAT);
         Tissue tissue = Tissue(TISSUE_RADIUS, TISSUE_CENTER_1, TISSUE_CENTER_2, TISSUE_ABSORBTION_COEFFICIENT, TISSUE_SCATTERING_COEFFICIENT);
@@ -79,10 +80,13 @@ void run(int n, float Ma){
                 escaped += 1 ;
             }
         }
+
         free(_cpuPhotons);
         cudaFree(_gpuPhotons);
         cudaFree(states);
         }
+        std::cout << "Progress %100" ;
+
     /*std::cout << "# Photons = " << NUMBER_OF_PHOTONS << std::endl;
     std::cout << "Attenuation Coefficient = " << TISSUE_ABSORBTION_COEFFICIENT + TISSUE_SCATTERING_COEFFICIENT << std::endl;
     std::cout << "Average Time = " << totalTime/NUMBER_OF_TEST_RUNS << " ms" << std::endl;
@@ -99,15 +103,15 @@ void run(int n, float Ma){
 }
 
 int main(){
-    int number[] = {1,10,100,1000,10000};
+    int start = time(NULL);
+    int number[] = {1,10,20,50,100,200,500,1000,2000,5000,10000,20000,50000,100000,200000,500000,1000000,2000000,5000000};
     float coefficients[] = {100,1000,10000};
     for(int i = 0; i<(sizeof(number)/sizeof(int)); i++){
         for(int j= 0; j<(sizeof(coefficients)/sizeof(float)); j++){
             run(number[i],coefficients[j]);
-            std::cout<<"( "<< number[i] << ", " << coefficients[j] << ")    Done!" << std::endl;
+            std::cout<<"\t|\t"<< number[i] << "\t|\t" << coefficients[j] << "\t|\t" << time(NULL) - start << " Second(s)" <<  std::endl;
         }
     }
-    printf("--------------------------------------\n--------------------------------------\n--------------------------------------\n--------------------------------------\n");
     return 0;
 }
 

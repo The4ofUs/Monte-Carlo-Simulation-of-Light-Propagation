@@ -87,7 +87,9 @@ int main()
         for (int j = 0; j < (sizeof(coefficients) / sizeof(float)); j++)
         {
             run(number[i], coefficients[j]);
+            std::cout << "( " << number[i] << ", " << coefficients[j] << ")    Done!" << std::endl;
         }
     }
+    printf("--------------------------------------\n--------------------------------------\n--------------------------------------\n--------------------------------------\n");
     return 0;
 }
