@@ -14,49 +14,49 @@ public:
  * @brief Constructor
  * 
  */
-   Photon();
+  Photon();
    /**
      * @brief Constructor
      * Initiates a **Photon** at a certain **Point** in the 3D Space
      * 
      * @param position (**Point**)
      */
-   Photon(Point position);
+  Photon(Point position);
 
    /**
  * @param weight (float)
  */
-   void setWeight(float weight);
+  void setWeight(float weight);
    /**
      * @param point (**Point**)
      */
-   void setPosition(Point point);
+  void setPosition(Point point);
    /**
      * @see Photon::ROAMING, Photon::DETECTED, Photon::TERMINATED and Photon::ESCAPED
      * 
      * @param state (int)
      */
-   void setState(short state);
+  void setState(short state);
    /**
      * @return **Photon**'s current weight
      */
-   float getWeight();
+  float getWeight();
    /**
      * @return **Photon**'s current position
      */
-   Point getPosition();
+  Point getPosition();
    /**
      * @return **Photon**'s current state
      */
-   short getState();
+  short getState();
    /**
      * @return **Photon**'s total number of walks at the end of the simulation
      */
-   unsigned int getLifetime();
+  unsigned int getLifetime();
    /**
  * @param walksNumber (int)
  */
-   void incrementLifetime();
+  void incrementLifetime();
 
    /**
      * @brief Terminates the Photon instantly i.e. sets its weight = 0
@@ -65,7 +65,7 @@ public:
      * - RNG::roulette()
      * - Tissue::escaped()
      */
-   void terminate();
+  void terminate();
 
    /**
      * @brief Boosts the **Photon** with an incrementation in its weight
@@ -74,14 +74,14 @@ public:
      * 
      * @param factor (float) this factor is the same factor the **RNG** uses to roulette the **Photon**
      */
-   void boost(float factor);
+  void boost(float factor);
 
    /**
  * @brief Moves the **Photon** along the given path
  * 
  * @param path (**Ray**)
  */
-   void moveAlong(Ray path);
+  void moveAlong(Ray path);
 
    /**
  * @brief Photon::ROAMING means the **Photon** is still Random walking

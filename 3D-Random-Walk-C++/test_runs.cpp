@@ -1,4 +1,6 @@
 #include "code/headers/randomwalk.h"
+#include <sstream>
+
 
 //#define NUMBER_OF_PHOTONS 1000
 #define DETECTOR_RADIUS 10.f
@@ -23,26 +25,30 @@ void streamOut(int a, float c, float d, unsigned long long int e, unsigned long 
 {
     FILE *output;
     output = fopen("metrics.csv", "a");
-    if (output != NULL){
+    if (output != NULL)
+    {
         fprintf(output, "%i, %f, %f, %llu, %llu, %f, %f, %f\n", a, c, d, e, f, g, h, i);
         fclose(output);
-    } else {
-        std::cout<<"Failed to open file, retrying!" << std::endl;
-        streamOut(a,c,d,e,f,g,h,i);
+    }
+    else
+    {
+        std::cout << "Failed to open file, retrying!" << std::endl;
+        streamOut(a, c, d, e, f, g, h, i);
     }
 }
 
-void run(int n, float Ma){
+void run(int n, float Ma)
+{
     int NUMBER_OF_PHOTONS = n;
-    float TISSUE_ABSORBTION_COEFFICIENT  = Ma;
+    float TISSUE_ABSORBTION_COEFFICIENT = Ma;
     unsigned int NUMBER_OF_TEST_RUNS = 100;
     float totalTime = 0.f;
     unsigned long long int totalLifetime = 0;
-    float detectedRatio = 0.f;
-    float terminatedRatio = 0.f;
-    float escapedRatio = 0.f;
+    float detected = 0.f;
+    float terminated = 0.f;
+    float escaped = 0.f;
     for (int i = 0; i < NUMBER_OF_TEST_RUNS; i++)
-    {
+    {   std::cout << "Progress %" << i << "\r";
         RNG rng;
         Detector detector = Detector(DETECTOR_RADIUS, DETECTOR_POSITION, DETECTOR_LOOKAT);
         Tissue tissue = Tissue(TISSUE_RADIUS, TISSUE_CENTER_1, TISSUE_CENTER_2, TISSUE_ABSORBTION_COEFFICIENT, TISSUE_SCATTERING_COEFFICIENT);
@@ -53,32 +59,41 @@ void run(int n, float Ma){
         std::chrono::high_resolution_clock::time_point stop = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
         totalTime += duration.count();
-        for (int j=0; j<NUMBER_OF_PHOTONS; j++){
-                totalLifetime += _cpuPhotons[j].getLifetime();
-                if ( _cpuPhotons[j].getState() == Photon::DETECTED){
-                    detectedRatio += 1;
-                } else if ( _cpuPhotons[j].getState() == Photon::TERMINATED){
-                    terminatedRatio += 1;
-                } else {
-                    escapedRatio += 1 ;
-                }
+        for (int j = 0; j < NUMBER_OF_PHOTONS; j++)
+        {
+            totalLifetime += _cpuPhotons[j].getLifetime();
+            if (_cpuPhotons[j].getState() == Photon::DETECTED)
+            {
+                detected += 1;
             }
+            else if (_cpuPhotons[j].getState() == Photon::TERMINATED)
+            {
+                terminated += 1;
+            }
+            else
+            {
+                escaped += 1;
+            }
+        }
         delete[] _cpuPhotons;
     }
-         streamOut(NUMBER_OF_PHOTONS, (TISSUE_ABSORBTION_COEFFICIENT + TISSUE_SCATTERING_COEFFICIENT), (totalTime/NUMBER_OF_TEST_RUNS), (totalLifetime/NUMBER_OF_TEST_RUNS), (totalLifetime/NUMBER_OF_TEST_RUNS)/NUMBER_OF_PHOTONS, ((detectedRatio/NUMBER_OF_TEST_RUNS)/NUMBER_OF_PHOTONS), ((terminatedRatio/NUMBER_OF_TEST_RUNS)/NUMBER_OF_PHOTONS), ((escapedRatio/NUMBER_OF_TEST_RUNS)/NUMBER_OF_PHOTONS));
-
+    std::cout << "Progress %100" ;
+    float detectedRatio = ((detected/NUMBER_OF_TEST_RUNS)/NUMBER_OF_PHOTONS);
+    float terminatedRatio = ((terminated/NUMBER_OF_TEST_RUNS)/NUMBER_OF_PHOTONS);
+    float escapedRatio = ((escaped/NUMBER_OF_TEST_RUNS)/NUMBER_OF_PHOTONS);
+    streamOut(NUMBER_OF_PHOTONS, (TISSUE_ABSORBTION_COEFFICIENT + TISSUE_SCATTERING_COEFFICIENT), (totalTime/NUMBER_OF_TEST_RUNS), (totalLifetime/NUMBER_OF_TEST_RUNS), (totalLifetime/NUMBER_OF_TEST_RUNS)/NUMBER_OF_PHOTONS, detectedRatio, terminatedRatio, escapedRatio);
 }
 
-int main(){
-    int number[] = {1,10,100,1000};
-    float coefficients[] = {2,101,1001};
+int main()
+{
+    int start = time(NULL);
+    int number[] = {1,10,20,50,100,200,500,1000,2000,5000,10000,20000,50000,100000,200000,500000,1000000,2000000,5000000};
+    float coefficients[] = {100,1000,10000};
     for(int i = 0; i<(sizeof(number)/sizeof(int)); i++){
         for(int j= 0; j<(sizeof(coefficients)/sizeof(float)); j++){
             run(number[i],coefficients[j]);
+            std::cout<<"\t|\t"<< number[i] << "\t|\t" << coefficients[j] << "\t|\t" << time(NULL) - start << " Second(s)" <<  std::endl;
         }
     }
     return 0;
 }
-
-
-

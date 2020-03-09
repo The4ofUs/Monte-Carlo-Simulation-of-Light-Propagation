@@ -87,14 +87,14 @@ int main( int argc, char *argv[] )
         // Running DEFAULT RUN for debugging purposes
         // This part of the code should be erased by the end of developing phase
         // Starts Here
-        int NUMBER_OF_TEST_RUNS = 10;
+        int NUMBER_OF_TEST_RUNS = 1;
         for (int i= 0; i<NUMBER_OF_TEST_RUNS; i++){
-            NUMBER_OF_PHOTONS = 100;
+            NUMBER_OF_PHOTONS = 1000;
             THREADS_PER_BLOCK = 1024;
             DETECTOR_RADIUS = 10.f;
             DETECTOR_POSITION = Point(0.f, 0.f, 50.f);
             DETECTOR_LOOKAT = Vector(0.f, 0.f, -1.f);
-            TISSUE_RADIUS = 100.f;
+            TISSUE_RADIUS = 1000.f;
             TISSUE_ABSORBTION_COEFFICIENT = 1.f;
             TISSUE_SCATTERING_COEFFICIENT = 100.f;
             TISSUE_CENTER_1 = Point(0.f, 0.f, 50.f);
@@ -158,11 +158,11 @@ void streamOut(Photon *_cpuPhotons)
     /*
     *   This Particular order should be maintained if the output was to be read using the Plotter 
     */
-    fprintf(output, "X, Y, Z, WEIGHT, STATE,photon_num,%i,threads_per_block,%i,detector_radius,%f,detector_pos,%f,%f,%f,detector_lookAt,%f,%f,%f,tissue_radius,%f,absorp_coeff,%f,scatter_coeff,%f,tissue_center_1,%f,%f,%f,tissue_center_2,%f,%f,%f\n"
+   /* fprintf(output, "X, Y, Z, WEIGHT, STATE,photon_num,%i,threads_per_block,%i,detector_radius,%f,detector_pos,%f,%f,%f,detector_lookAt,%f,%f,%f,tissue_radius,%f,absorp_coeff,%f,scatter_coeff,%f,tissue_center_1,%f,%f,%f,tissue_center_2,%f,%f,%f\n"
     ,NUMBER_OF_PHOTONS, THREADS_PER_BLOCK, DETECTOR_RADIUS, DETECTOR_POSITION.x(), DETECTOR_POSITION.y(), DETECTOR_POSITION.z()
     , DETECTOR_LOOKAT.x(), DETECTOR_LOOKAT.y(), DETECTOR_LOOKAT.z(), TISSUE_RADIUS, TISSUE_ABSORBTION_COEFFICIENT
     , TISSUE_SCATTERING_COEFFICIENT, TISSUE_CENTER_1.x(), TISSUE_CENTER_1.y(), TISSUE_CENTER_1.z(), TISSUE_CENTER_2.x(), TISSUE_CENTER_2.y()
-    , TISSUE_CENTER_2.z());
+    , TISSUE_CENTER_2.z());*/
 
     for (int i = 0; i < NUMBER_OF_PHOTONS; i++)
     {

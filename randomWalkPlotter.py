@@ -24,8 +24,8 @@ class Point:
 
 detectorCenter = Point(0.0, 0.0, 50.0)
 
-fig = plt.figure(1)
-fig2, ax = plt.subplots()
+# fig = plt.figure(1)
+# fig2, ax = plt.subplots()
 
 DETECTED = "DETECTED"
 ESCAPED = "ESCAPED"
@@ -69,53 +69,54 @@ with open('build/output.csv', 'r', newline='') as file:
         Y.append(float(row[1]))
         Z.append(float(row[2]))
 
-collective = fig.add_subplot(221, projection='3d')
+# collective = fig.add_subplot(221, projection='3d')
+# collective.title.set_text('Photons' + ' | ' + str(len(X)))
 
-collective.title.set_text('Photons' + ' | ' + str(len(X)))
-detected = fig.add_subplot(222, projection='3d')
+fig= plt.figure()
+terminated = fig.add_subplot(111, projection='3d')
 
-detected.title.set_text('Detected Photons' + ' | ' + str(len(X_detected)))
-terminated = fig.add_subplot(223, projection='3d')
-
+#detected = fig.add_subplot(222, projection='3d')
+#detected.title.set_text('Detected Photons' + ' | ' + str(len(X_detected)))
+# terminated = fig.add_subplot(223, projection='3d')
 terminated.title.set_text('Terminated Photons' + ' | ' + str(len(X_terminated)))
-escaped = fig.add_subplot(224, projection='3d')
+# escaped = fig.add_subplot(224, projection='3d')
+#escaped.title.set_text('Escaped Photons' + ' | ' + str(len(X_escaped)))
 
-escaped.title.set_text('Escaped Photons' + ' | ' + str(len(X_escaped)))
-
-collective.scatter(X, Y, Z, c='b', marker='o')
-detected.scatter(X_detected, Y_detected, Z_detected, c='g', marker='o')
+#collective.scatter(X, Y, Z, c='b', marker='o')
+#detected.scatter(X_detected, Y_detected, Z_detected, c='g', marker='o')
 terminated.scatter(X_terminated, Y_terminated, Z_terminated, c='r', marker='o')
-escaped.scatter(X_escaped, Y_escaped, Z_escaped, c='y', marker='o')
+#escaped.scatter(X_escaped, Y_escaped, Z_escaped, c='y', marker='o')
 
-collective.set_xlabel('X')
-collective.set_ylabel('Y')
-collective.set_zlabel('Z')
-
-detected.set_xlabel('X')
-detected.set_ylabel('Y')
-detected.set_zlabel('Z')
+# collective.set_xlabel('X')
+# collective.set_ylabel('Y')
+# collective.set_zlabel('Z')
+#
+# detected.set_xlabel('X')
+# detected.set_ylabel('Y')
+# detected.set_zlabel('Z')
 
 terminated.set_xlabel('X')
 terminated.set_ylabel('Y')
 terminated.set_zlabel('Z')
-
-escaped.set_xlabel('X')
-escaped.set_ylabel('Y')
-escaped.set_zlabel('Z')
-
-
-def absDistance(x, y, z):
-    temp1 = (x - detectorCenter.x) * (x - detectorCenter.x)
-    temp2 = (y - detectorCenter.y) * (y - detectorCenter.y)
-    temp3 = (z - detectorCenter.z) * (z - detectorCenter.z)
-    result = math.sqrt((temp1 + temp2 + temp3))
-    return result
+#
+# escaped.set_xlabel('X')
+# escaped.set_ylabel('Y')
+# escaped.set_zlabel('Z')
 
 
-for point in X_detected:
-    index = X_detected.index(point)
-    detected_dist.append(absDistance(X_detected[index], Y_detected[index], Z_detected[index]))
-sns.set()
-sns.distplot(detected_dist, bins=math.floor(len(detected_dist) / 5))
+# def absDistance(x, y, z):
+#     temp1 = (x - detectorCenter.x) * (x - detectorCenter.x)
+#     temp2 = (y - detectorCenter.y) * (y - detectorCenter.y)
+#     temp3 = (z - detectorCenter.z) * (z - detectorCenter.z)
+#     result = math.sqrt((temp1 + temp2 + temp3))
+#     return result
+#
+#
+# for point in X_detected:
+#     index = X_detected.index(point)
+#     detected_dist.append(absDistance(X_detected[index], Y_detected[index], Z_detected[index]))
+# sns.set()
+# sns.set_color_codes()
+# sns.distplot(detected_dist, color = sns.xkcd_rgb["denim blue"], bins=math.floor(len(detected_dist) / 5))
 
 plt.show()
