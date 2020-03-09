@@ -2,7 +2,7 @@
 #include "Network/Client/Headers/socket.h"
 #include <QDebug>
 #include <QVector>
-#define NUMBER_OF_PHOTONS 10
+#define NUMBER_OF_PHOTONS 10000
 #define THREADS_PER_BLOCK 1024
 #define DETECTOR_RADIUS 10.f
 #define DETECTOR_POSITION Point(0.f, 0.f, 50.f)
