@@ -19,11 +19,11 @@ __device__ void Photon::setPosition(Point point) { this->_position = point; }
 
 __device__ void Photon::setState(int state) { this->_state = state; }
 
-__device__ __host__ float Photon::getWeight() { return this->_weight; }
+__device__ __host__ float Photon::getWeight() const { return this->_weight; }
 
-__device__ __host__ Point Photon::getPosition() { return this->_position; }
+__device__ __host__ Point Photon::getPosition() const { return this->_position; }
 
-__device__ __host__ int Photon::getState() { return this->_state; }
+__device__ __host__ int Photon::getState() const { return this->_state; }
 
 __device__ void Photon::terminate()
 {

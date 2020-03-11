@@ -81,7 +81,7 @@ QDataStream &operator>>(QDataStream &in,  QVector<Photon> &inComingResults) {
     qDebug("SiZE OF SIZE STREAM");
     qDebug()<<size;
 
-    for(int i=0; i<10000;i++){
+    for(int i=0; i<size;i++){
         //qDebug()<<i;
 
         Photon ph;

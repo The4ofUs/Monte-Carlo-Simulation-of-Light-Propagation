@@ -44,15 +44,15 @@ public:
     /**
      * @return **Photon**'s current weight
      */
-    __device__ __host__ float getWeight();
+    __device__ __host__ float getWeight() const;
     /**
      * @return **Photon**'s current position
      */
-    __device__ __host__ Point getPosition();
+    __device__ __host__ Point getPosition() const;
     /**
      * @return **Photon**'s current state
      */
-    __device__ __host__ int getState();
+    __device__ __host__ int getState() const;
 
     /**
      * @brief Terminates the Photon instantly i.e. sets its weight = 0

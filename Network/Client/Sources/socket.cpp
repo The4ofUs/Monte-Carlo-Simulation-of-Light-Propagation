@@ -41,7 +41,7 @@ void socket::createSocket()
     connect(newSocket,SIGNAL(bytesWritten(qint64)),this,SLOT(bytesWritten(qint64)));
     qDebug ()<< "Connecting .....";
     newSocket->abort();
-    newSocket->connectToHost(QHostAddress::LocalHost, 4567);
+    newSocket->connectToHost("172.28.132.95", 4567);
 
     if(!newSocket->waitForConnected(1000))
     {
@@ -79,7 +79,7 @@ void socket::startSerialization(){
     QByteArray sendArray;
     QDataStream out(&sendArray,QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_8);
-    QDataStream &operator<<(QDataStream &out,  QVector<Photon> &V);
+    QDataStream &operator<<(QDataStream &out, const QVector<Photon> &V);
     out<<V;
     newSocket->write(sendArray);
     newSocket->disconnectFromHost();
@@ -88,8 +88,9 @@ void socket::startSerialization(){
 
 
 
-QDataStream &operator<<(QDataStream &out,  QVector<Photon> &V) {
-    out<<V.size();
+QDataStream &operator<<(QDataStream &out, const  QVector<Photon> &V) {
+   int size=V.size();
+    out<<size;
     for(int i=0; i<V.size();i++){
         out <<V[i].getPosition().x()<<V[i].getPosition().y()<<V[i].getPosition().z()<<V[i].getWeight()<<V[i].getState();
     }
