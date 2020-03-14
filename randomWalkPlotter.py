@@ -24,8 +24,8 @@ class Point:
 
 detectorCenter = Point(0.0, 0.0, 50.0)
 
-# fig = plt.figure(1)
-# fig2, ax = plt.subplots()
+fig = plt.figure(1)
+fig2, ax = plt.subplots()
 
 DETECTED = "DETECTED"
 ESCAPED = "ESCAPED"
@@ -68,24 +68,26 @@ with open('build/output.csv', 'r', newline='') as file:
         X.append(float(row[0]))
         Y.append(float(row[1]))
         Z.append(float(row[2]))
-
+#
 # collective = fig.add_subplot(221, projection='3d')
 # collective.title.set_text('Photons' + ' | ' + str(len(X)))
 
 fig= plt.figure()
-terminated = fig.add_subplot(111, projection='3d')
+escaped = fig.add_subplot(111, projection='3d')
 
-#detected = fig.add_subplot(222, projection='3d')
-#detected.title.set_text('Detected Photons' + ' | ' + str(len(X_detected)))
-# terminated = fig.add_subplot(223, projection='3d')
-terminated.title.set_text('Terminated Photons' + ' | ' + str(len(X_terminated)))
+# detected = fig.add_subplot(222, projection='3d')
+#detected.set_title('Detected Photons' + ' | ' + str(len(X_detected)), fontsize = 20)
+# terminated = fig.add_subplot(223, projection='3d', fontsize =20)
+#terminated.set_title('Terminated Photons' + ' | ' + str(len(X_terminated)), fontsize = 20)
 # escaped = fig.add_subplot(224, projection='3d')
-#escaped.title.set_text('Escaped Photons' + ' | ' + str(len(X_escaped)))
+# escaped.title.set_text('Escaped Photons' + ' | ' + str(len(X_escaped)), fontsize=20)
+escaped.set_title('Escaped Photons' + ' | ' + str(len(X_escaped)), fontsize = 20)
 
-#collective.scatter(X, Y, Z, c='b', marker='o')
+
+# collective.scatter(X, Y, Z, c='b', marker='o')
 #detected.scatter(X_detected, Y_detected, Z_detected, c='g', marker='o')
-terminated.scatter(X_terminated, Y_terminated, Z_terminated, c='r', marker='o')
-#escaped.scatter(X_escaped, Y_escaped, Z_escaped, c='y', marker='o')
+#terminated.scatter(X_terminated, Y_terminated, Z_terminated, c='r', marker='o')
+escaped.scatter(X_escaped, Y_escaped, Z_escaped, c='b', marker='o')
 
 # collective.set_xlabel('X')
 # collective.set_ylabel('Y')
@@ -94,14 +96,14 @@ terminated.scatter(X_terminated, Y_terminated, Z_terminated, c='r', marker='o')
 # detected.set_xlabel('X')
 # detected.set_ylabel('Y')
 # detected.set_zlabel('Z')
-
-terminated.set_xlabel('X')
-terminated.set_ylabel('Y')
-terminated.set_zlabel('Z')
 #
-# escaped.set_xlabel('X')
-# escaped.set_ylabel('Y')
-# escaped.set_zlabel('Z')
+# # terminated.set_xlabel('X')
+# # terminated.set_ylabel('Y')
+# # terminated.set_zlabel('Z')
+
+escaped.set_xlabel('X')
+escaped.set_ylabel('Y')
+escaped.set_zlabel('Z')
 
 
 # def absDistance(x, y, z):
