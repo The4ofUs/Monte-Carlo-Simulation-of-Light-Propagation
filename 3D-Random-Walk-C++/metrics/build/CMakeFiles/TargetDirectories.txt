@@ -1,0 +1,3 @@
+/home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/metrics/build/CMakeFiles/rebuild_cache.dir
+/home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/metrics/build/CMakeFiles/Test.dir
+/home/gamila/Documents/GP/Task4-RandomWalkCUDA/3D-Random-Walk-CUDA/3D-Random-Walk-C++/metrics/build/CMakeFiles/edit_cache.dir
