@@ -17,13 +17,14 @@ __device__ void Photon::setWeight(float weight) { this->_weight = weight; }
 
 __device__ void Photon::setPosition(Point point) { this->_position = point; }
 
-__device__ void Photon::setState(int state) { this->_state = state; }
+__device__ void Photon::setState(short state) { this->_state = state; }
 
 __device__ __host__ float Photon::getWeight() { return this->_weight; }
 
 __device__ __host__ Point Photon::getPosition() { return this->_position; }
 
-__device__ __host__ int Photon::getState() { return this->_state; }
+__device__ __host__ short Photon::getState() { return this->_state; }
+
 
 __device__ void Photon::terminate()
 {

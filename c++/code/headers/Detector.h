@@ -21,15 +21,15 @@ public:
  * @param normal (**Vector**)
  * 
  */
-    __host__ Detector(float radius, Point center, Vector normal);
+    Detector(float radius, Point center, Vector normal);
     /**
      * @return The center of the **Detector**'s screen as a **Point**
      */
-    __device__ Point getCenter();
+    Point getCenter();
     /**
      * @return The normal of the **Detector**'s screen as a normalized **Vector**
      */
-    __device__ Vector getNormal();
+    Vector getNormal();
     /**
      * @brief Checks whether the **Photon** has actually hit the **Detector**'s screen or not
      * 
@@ -41,7 +41,7 @@ public:
      * @param path (**Ray**)
      * @return Whether the **Photon** did hit the **Detector**'s screen or not
      */
-    __device__ bool isHit(Photon &photon, Ray path);
+    bool isHit(Photon &photon, Ray path);
 
     /**
      * @brief Calculates the intersection **Point** between the **Photon**'s path and the **Detector**'s screen
@@ -49,7 +49,7 @@ public:
      * @param path (**Ray**)
      * @return The exact **Point** of intersection
      */
-    __device__ Point calculateIntersectionPoint(Ray path);
+    Point calculateIntersectionPoint(Ray path);
 
 private:
     /**

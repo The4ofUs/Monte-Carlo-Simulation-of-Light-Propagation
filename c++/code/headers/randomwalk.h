@@ -7,12 +7,7 @@
 #define WEIGHT_THRESHOLD 0.0001f
 #define ROULETTE_CHANCE 0.1f
 
-/**
- * @brief randomWalk
- * keeps wandering around with the photon in the 3D space
- * @return The final state of the photon
- */
-__device__ Photon randomWalk(curandState_t *states, int idx, Detector detector, RNG rng, Tissue tissue)
+Photon randomWalk(Detector detector, RNG rng, Tissue tissue)
 {
     Photon photon = Photon(detector.getCenter());
     bool first_step = true;
@@ -22,12 +17,12 @@ __device__ Photon randomWalk(curandState_t *states, int idx, Detector detector, 
     {
         if (first_step)
         {
-            path = Ray(photon.getPosition(), detector.getNormal(), rng.getRandomStep(states, idx));
+            path = Ray(photon.getPosition(), detector.getNormal(), rng.getRandomStep());
             first_step = false;
         }
         else
         {
-            path = Ray(photon.getPosition(), rng.getRandomDirection(states, idx), rng.getRandomStep(states, idx));
+            path = Ray(photon.getPosition(), rng.getRandomDirection(), rng.getRandomStep());
         }
 
         photon.moveAlong(path);
@@ -42,7 +37,7 @@ __device__ Photon randomWalk(curandState_t *states, int idx, Detector detector, 
         {
             if (photon.getWeight() < WEIGHT_THRESHOLD)
             {
-                rng.roulette(photon, ROULETTE_CHANCE, states, idx);
+                rng.roulette(photon, ROULETTE_CHANCE);
             }
         }
         else
