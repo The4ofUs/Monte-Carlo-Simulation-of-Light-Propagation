@@ -1,7 +1,7 @@
 #ifndef TISSUE_H
 #define TISSUE_H
 
-#include "Photon.h"
+#include "~/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/Photon.h"
 
 /**
  * @brief 

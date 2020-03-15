@@ -84,7 +84,7 @@ void streamOut(Photon *_cpuPhotons)
         //Streaming out my output in terminal
         // std::cout << _cpuPhotons[i].getPosition().x()<<','<<_cpuPhotons[i].getPosition().y()<<','<< _cpuPhotons[i].getPosition().z()<<','<<_cpuPhotons[i].getWeight()<<','<< state.c_str() << '\n';
         //Streaming out my output in a log file
-        fprintf(output, "%f,%f,%f,%f,%s,%i\n", _cpuPhotons[i].getPosition().x(), _cpuPhotons[i].getPosition().y(), _cpuPhotons[i].getPosition().z(), _cpuPhotons[i].getWeight(), state.c_str(), _cpuPhotons[i].getLifetime());
+        fprintf(output, "%f,%f,%f,%f,%s\n", _cpuPhotons[i].getPosition().x(), _cpuPhotons[i].getPosition().y(), _cpuPhotons[i].getPosition().z(), _cpuPhotons[i].getWeight(), state.c_str());
     }
 }
 

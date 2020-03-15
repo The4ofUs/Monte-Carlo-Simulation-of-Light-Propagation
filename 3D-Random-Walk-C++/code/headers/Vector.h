@@ -1,7 +1,7 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
-#include "Point.h"
+#include "~/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/Point.h"
 /**
  * @brief Inherits from Point
  */

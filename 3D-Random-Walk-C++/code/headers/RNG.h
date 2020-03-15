@@ -1,8 +1,8 @@
 #ifndef RNG_H
 #define RNG_H
 
-#include "Photon.h"
-#include "common.h"
+#include "~/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/Photon.h"
+#include "~/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/common.h"
 /**
  * @brief The RNG class
  * 

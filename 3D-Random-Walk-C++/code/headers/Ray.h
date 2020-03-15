@@ -1,7 +1,7 @@
 #ifndef RAY_H
 #define RAY_H
-#include "Vector.h"
-#include "mathematics.h"
+#include "~/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/Vector.h"
+#include "~/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/mathematics.h"
 /**
  * @brief The Ray class
  */

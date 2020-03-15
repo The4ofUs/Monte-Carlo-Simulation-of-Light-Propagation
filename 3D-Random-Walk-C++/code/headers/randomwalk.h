@@ -20,7 +20,6 @@ Photon randomWalk(Detector detector, RNG rng, Tissue tissue)
 
     while (photon.getState() == photon.ROAMING)
     {
-        photon.incrementLifetime();
 
         if (first_step)
         {

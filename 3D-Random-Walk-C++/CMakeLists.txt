@@ -33,7 +33,6 @@ include_directories( HEADER_FILES)
 
 add_executable(
     RandomWalk main.cpp  
-    #Test test_runs.cpp
     ${SOURCE_FILES}
     )
 

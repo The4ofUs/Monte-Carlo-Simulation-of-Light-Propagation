@@ -25,10 +25,6 @@ Point Photon::getPosition() { return this->_position; }
 
 short Photon::getState() { return this->_state; }
 
-unsigned int Photon::getLifetime() { return this->lifetime; }
-
-void Photon::incrementLifetime(){ this->lifetime++; }
-
 void Photon::terminate()
 {
     this->_weight = 0.f;

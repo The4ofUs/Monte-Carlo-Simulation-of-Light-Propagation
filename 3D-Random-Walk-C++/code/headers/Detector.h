@@ -1,7 +1,7 @@
 #ifndef DETECTOR_H
 #define DETECTOR_H
 
-#include "Photon.h"
+#include "~/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/Photon.h"
 
 /**
  * 

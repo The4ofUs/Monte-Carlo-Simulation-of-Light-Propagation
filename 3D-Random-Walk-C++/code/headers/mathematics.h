@@ -1,7 +1,7 @@
 #ifndef MATHEMATICS_H
 #define MATHEMATICS_H
-#include "Vector.h"
-#include "common.h"
+#include "~/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/Vector.h"
+#include "~/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/common.h"
 namespace Mathematics
 {
 

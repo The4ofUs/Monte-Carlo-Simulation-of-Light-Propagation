@@ -1,7 +1,7 @@
 #ifndef PHOTON_H
 #define PHOTON_H
 
-#include "Ray.h"
+#include "~/3D-Random-Walk-CUDA/3D-Random-Walk-C++/code/headers/Ray.h"
 
 /**
  * @brief Represents the object that's going to random walk through the **Tissue**
@@ -49,14 +49,6 @@ public:
      * @return **Photon**'s current state
      */
   short getState();
-   /**
-     * @return **Photon**'s total number of walks at the end of the simulation
-     */
-  unsigned int getLifetime();
-   /**
- * @param walksNumber (int)
- */
-  void incrementLifetime();
 
    /**
      * @brief Terminates the Photon instantly i.e. sets its weight = 0
@@ -116,11 +108,7 @@ private:
      * 
      */
    short _state;
-   /**
-    * @brief Number of walks made by the **Photon**
-     * 
-     */
-   unsigned int lifetime;
+
 };
 
 #endif
