@@ -3,7 +3,7 @@ import pandas as pd
 import seaborn as sns
 from mpl_toolkits.mplot3d import Axes3D
 
-OUTPUT_DIRECTORY = "../../cuda/build/results.csv"
+OUTPUT_DIRECTORY = "../../c++/build/results.csv"
 RADIUS = 10
 MARGIN = 5
 DETECTOR_CENTER = (0, 0, 50)

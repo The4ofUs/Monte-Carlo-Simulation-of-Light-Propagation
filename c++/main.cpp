@@ -2,7 +2,7 @@
 #include <sstream>
 #include <iostream>
 
-#define NUMBER_OF_PHOTONS 1000
+#define NUMBER_OF_PHOTONS 10000
 #define THREADS_PER_BLOCK 1024
 #define DETECTOR_RADIUS 10.f
 #define DETECTOR_POSITION Point(0.f, 0.f, 50.f)
@@ -43,8 +43,10 @@ int main()
 void streamOut(Photon *_cpuPhotons)
 {
     FILE *output;
-    output = fopen("output.csv", "w");
+    output = fopen("results.csv", "w");
     std::string state;
+    //Header
+    fprintf(output, "%s,%s,%s,%s,%s\n", "X", "Y", "Z", "Weight", "State");
     for (int i = 0; i < NUMBER_OF_PHOTONS; i++)
     {
         switch (_cpuPhotons[i].getState())
