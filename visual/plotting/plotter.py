@@ -7,6 +7,8 @@ OUTPUT_DIRECTORY = "../../c++/build/results.csv"
 RADIUS = 10
 MARGIN = 5
 DETECTOR_CENTER = (0, 0, 50)
+ABSORPTION_CONSTANT = 1
+SCATTERING_CONSTANT = 100
 
 data = pd.read_csv(OUTPUT_DIRECTORY)
 total = data[["X", "Y", "Z"]]
@@ -14,6 +16,7 @@ detected = data.loc[data["State"] == "DETECTED", ["X", "Y", "Z"]]
 terminated = data.loc[data["State"] == "TERMINATED", ["X", "Y", "Z"]]
 escaped = data.loc[data["State"] == "ESCAPED", ["X", "Y", "Z"]]
 fig = plt.figure(figsize=(plt.figaspect(.5)))
+fig.suptitle('Ma = {}  |   Ms = {}'.format(ABSORPTION_CONSTANT,SCATTERING_CONSTANT), fontsize=16)
 fig.canvas.set_window_title("Monte Carlo Simulation")
 # 3D Plots
 ax1 = fig.add_subplot(231, projection='3d')
