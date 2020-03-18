@@ -11,24 +11,15 @@ int Terminated;
 
 threads::threads(int ID, QObject *parent):
     QThread(parent)
-{  //the Descriptor is an index of that socket in an array of sockets from the underlying OS (more or less).
+{
     this->socketDescriptor = ID;
     dataSize=0;
-
 }
 
 
-/*
- *
- *
- * run
- * readPhotonVector
- * overridding Operator >>
- */
-
 void  threads::run()
 {
-    qDebug() << socketDescriptor << " Starting Thread";
+    qDebug() << "Starting Thread";
     socket = new QTcpSocket();
 
     if (!socket->setSocketDescriptor(this->socketDescriptor))
@@ -38,10 +29,9 @@ void  threads::run()
     }
 
     connect(socket, SIGNAL(readyRead()),this, SLOT(readPhotonsVector()),Qt::DirectConnection);
-    connect(socket, SIGNAL(disconnected()),this, SLOT(disconnected()),Qt::DirectConnection);
-    qDebug() << socketDescriptor << " Client Connected!";
+  //  connect(socket, SIGNAL(disconnected()),this, SLOT(disconnected()),Qt::DirectConnection);
+    qDebug() << socketDescriptor << "Client Connected!";
     exec();
-
 }
 
 
@@ -61,12 +51,15 @@ void threads::readyRead()
 
 void threads::readPhotonsVector(){
     QVector<Photon> inComingResults;
-    QByteArray array = socket->readAll();
+    QByteArray array;
+    array= socket->readAll();
+    qDebug()<<"Capacity"<<socket->readBufferSize();
+    qDebug()<<"array Size"<<array.size();
     QDataStream in(&array,QIODevice::ReadOnly);
     in.setVersion(QDataStream::Qt_4_8);
     QDataStream &operator>>(QDataStream &in, QVector<Photon>  &inComingResults);
     in>>inComingResults;
-    qDebug()<<" inComing Vector Size"<<inComingResults.size();
+    qDebug()<<"inComing Vector Size"<<inComingResults.size();
     //qDebug()<<inComingResults[0].getPosition().x()<<inComingResults[0].getPosition().y();
     emitSignalReady();
     qDebug()<<"Emitting signal";
@@ -75,15 +68,11 @@ void threads::readPhotonsVector(){
 
 QDataStream &operator>>(QDataStream &in,  QVector<Photon> &inComingResults) {
 
-    int size,s;
-    float x,y,z,w;
-    in>>size;
-    qDebug("SiZE OF SIZE STREAM");
-    qDebug()<<size;
+    int size=0,s=0;
+    float x=0.0,y=0.0,z=0.0,w=0.0;
 
-    for(int i=0; i<size;i++){
-        //qDebug()<<i;
 
+    for(int i=0; i<16000;i++){
         Photon ph;
         Point P;
         in >> x>>y>>z>>w>>s;
@@ -99,8 +88,9 @@ QDataStream &operator>>(QDataStream &in,  QVector<Photon> &inComingResults) {
             Detected++;
         }
     }
-    qDebug()<<Terminated;
-    qDebug()<<Detected;
+    qDebug()<<"from inside the stream";
+    qDebug()<<"Terminated"<<Terminated;
+    qDebug()<<"Detected"<<Detected;
 
     return in;
 }
@@ -141,7 +131,6 @@ void threads::disconnected()
 
     qDebug() << socketDescriptor << "Disconnected";
     socket->deleteLater();
-    // closing thread
     exit(0);
 }
 

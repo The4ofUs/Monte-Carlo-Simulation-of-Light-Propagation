@@ -4,13 +4,6 @@ initiateServer::initiateServer(QObject *parent) :  QTcpServer(parent)
 {
 }
 
-/*
- *
- *
- * startServer
- * incomingConnection
- *
- */
 void initiateServer::StartServer()
 {
 
@@ -24,9 +17,6 @@ void initiateServer::StartServer()
         qDebug() << "Listening .....";
 
     }
-    Photon p;
-    p.setState(0);
-    qDebug()<<"photon state"<<p.getState();
 
 }
 
@@ -36,10 +26,8 @@ void initiateServer::incomingConnection(qintptr socketDescriptor)
     thread = new threads(socketDescriptor,this);
     thread->start();
     connect(thread,SIGNAL(emitSignalReady()),SLOT(readIsReady()));
-    qDebug()<<socketDescriptor;
     Descriptor= socketDescriptor;
-   connect(thread,SIGNAL(finished()),thread,SLOT(deleteLater()));
-
+    connect(thread,SIGNAL(finished()),thread,SLOT(deleteLater()));
 
 }
 
@@ -51,7 +39,7 @@ int initiateServer::sendDescriptor(){
 
 
 void initiateServer::readIsReady(){
-    qDebug()<<"ready is read";
+    qDebug()<<"Read signal to emit another signal to notify the ui displaying slot";
     readyISREAD();
 }
 int initiateServer::DetectedCounter(){

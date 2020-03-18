@@ -12,6 +12,7 @@ class threads : public QThread
 {
     Q_OBJECT
 public:
+    QTcpSocket *socket;
     explicit threads(int ID, QObject *parent = nullptr);
     void run();
     void sendData();
@@ -31,7 +32,6 @@ public slots:
     void readPhotonsVector();
 private:
 
-    QTcpSocket *socket;
     int socketDescriptor; // the underlying socket ID number from the operating system
     int dataSize;
     bool readflag;

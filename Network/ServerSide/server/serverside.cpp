@@ -13,7 +13,7 @@ serverSide::serverSide(QWidget *parent) :
     //emitSignal is being emiited as long as the thread is Running
     //connect(server,SIGNAL(emitSinal()),this,SLOT(displayCounter()));
     connect(server,SIGNAL(newConnection()),this,SLOT(newConnection()));
-  connect(server,SIGNAL(readyISREAD()),SLOT(displayCounter()));
+    connect(server,SIGNAL(readyISREAD()),SLOT(displayCounter()));
     ui->tableWidget->hide();
 }
 
@@ -51,8 +51,6 @@ int i=1;
 void serverSide::displayCounter(){
     int D=server->DetectedCounter();
     int T=server->terminatedCounter();
-    qDebug()<<"PHOTONS"<<D<<T;
-    qDebug()<<i;
     ui->tableWidget->insertRow(i);
     QTableWidgetItem* item2 = new QTableWidgetItem;
     item2->setData(Qt::EditRole, i);

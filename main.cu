@@ -2,7 +2,7 @@
 #include "Network/Client/Headers/socket.h"
 #include <QDebug>
 #include <QVector>
-#define NUMBER_OF_PHOTONS 1000
+#define NUMBER_OF_PHOTONS 16000
 #define THREADS_PER_BLOCK 1024
 #define DETECTOR_RADIUS 10.f
 #define DETECTOR_POSITION Point(0.f, 0.f, 50.f)
@@ -71,6 +71,7 @@ QVector<Photon> vectorOfPhotons;
     socket *newSocket =new socket();
     newSocket->socket::getVectorOfPhotons(vectorOfPhotons);
     newSocket->createSocket();
+    newSocket->socket::getVectorOfPhotons(vectorOfPhotons);
 
 }
 
