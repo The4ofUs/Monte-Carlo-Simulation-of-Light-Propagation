@@ -44,9 +44,11 @@ void streamOut(Photon *_cpuPhotons)
 {
     FILE *output;
     output = fopen("results.csv", "w");
+
     std::string state;
     //Header
     fprintf(output, "%s,%s,%s,%s,%s\n", "X", "Y", "Z", "Weight", "State");
+
     for (int i = 0; i < NUMBER_OF_PHOTONS; i++)
     {
         switch (_cpuPhotons[i].getState())

@@ -51,7 +51,7 @@ int main()
 void streamOut(Photon *_cpuPhotons)
 {
     FILE *output;
-    output = fopen("results.csv", "w");
+    output = fopen("Results.csv", "w");
     std::string state;
     //Header
     fprintf(output, "%s,%s,%s,%s,%s\n", "X", "Y", "Z", "Weight", "State");
