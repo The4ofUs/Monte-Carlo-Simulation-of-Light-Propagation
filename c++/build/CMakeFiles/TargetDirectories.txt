@@ -1,3 +1,0 @@
-/home/mustafa/Monte-Carlo-Simulation-of-Light-Propagation/c++/build/CMakeFiles/rebuild_cache.dir
-/home/mustafa/Monte-Carlo-Simulation-of-Light-Propagation/c++/build/CMakeFiles/RandomWalk.dir
-/home/mustafa/Monte-Carlo-Simulation-of-Light-Propagation/c++/build/CMakeFiles/edit_cache.dir
