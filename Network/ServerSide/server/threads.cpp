@@ -8,7 +8,7 @@
 #include <QDebug>
 int Detected;
 int Terminated;
-
+int counter=0;
 threads::threads(int ID, QObject *parent):
     QThread(parent)
 {
@@ -27,9 +27,9 @@ void  threads::run()
         emit error(socket->error());
         return;
     }
-
+    dataSize=0;
     connect(socket, SIGNAL(readyRead()),this, SLOT(readPhotonsVector()),Qt::DirectConnection);
-  //  connect(socket, SIGNAL(disconnected()),this, SLOT(disconnected()),Qt::DirectConnection);
+    //  connect(socket, SIGNAL(disconnected()),this, SLOT(disconnected()),Qt::DirectConnection);
     qDebug() << socketDescriptor << "Client Connected!";
     exec();
 }
@@ -50,19 +50,58 @@ void threads::readyRead()
 
 
 void threads::readPhotonsVector(){
-    QVector<Photon> inComingResults;
-    QByteArray array;
-    array= socket->readAll();
-    qDebug()<<"Capacity"<<socket->readBufferSize();
-    qDebug()<<"array Size"<<array.size();
-    QDataStream in(&array,QIODevice::ReadOnly);
-    in.setVersion(QDataStream::Qt_4_8);
-    QDataStream &operator>>(QDataStream &in, QVector<Photon>  &inComingResults);
-    in>>inComingResults;
-    qDebug()<<"inComing Vector Size"<<inComingResults.size();
-    //qDebug()<<inComingResults[0].getPosition().x()<<inComingResults[0].getPosition().y();
-    emitSignalReady();
-    qDebug()<<"Emitting signal";
+     qDebug()<<"Bytes available"<<socket->bytesAvailable();
+    if( dataSize == 0 )
+    {
+        QDataStream stream(socket);
+        stream.setVersion(QDataStream::Qt_4_8);
+        if( socket->bytesAvailable() < sizeof(quint32) )
+            return;
+        stream >> dataSize;
+    }
+    if( dataSize > socket->bytesAvailable() )
+        return;
+
+    QByteArray array = socket->readAll();
+    qDebug()<<"Ready Read emitting counter"<<counter;
+    qDebug()<<"Total Size"<<dataSize;
+    QVector<float> X[1];
+    QVector<float> Y[1];
+    QVector<float> Z[1];
+    QVector<float> W[1];
+    QVector<float> ST[1];
+    QVector<float> TotalX;
+    qDebug()<<"Recived Array Bytes"<<array.size();
+
+    QDataStream streamm(&array, QIODevice::ReadOnly);
+    streamm.setVersion(QDataStream::Qt_4_8);
+    streamm >> X[0]>>Y[0]>>Z[0]>>W[0]>>ST[0];
+    qDebug()<<"Recieved Result";
+    qDebug()<<"Xs Size"<<X[0].size()<<"Ys Size "<<Y[0].size();
+    qDebug()<<"Zs Size"<<Z[0].size()<<"Ws Size "<<W[0].size()<<"States Size"<<ST[0].size();
+    qDebug()<<"Random Point";
+    qDebug()<<X[0][50];
+    qDebug()<<Y[0][50];
+    qDebug()<<Z[0][50];
+    qDebug()<<W[0][50];
+    qDebug()<<ST[0]50];
+
+    /*
+        QVector<Photon> inComingResults;
+        array= socket->readAll();
+        qDebug()<<"Capacity"<<socket->readBufferSize();
+        int arrsize=array.size();
+        qDebug()<<"array Size"<<array.size();
+        QDataStream in(&array,QIODevice::ReadOnly);
+        in.setVersion(QDataStream::Qt_4_8);
+        QDataStream &operator>>(QDataStream &in, QVector<Photon>  &inComingResults);
+        in>>inComingResults;
+        qDebug()<<"inComing Vector Size"<<inComingResults.size();
+        //qDebug()<<inComingResults[0].getPosition().x()<<inComingResults[0].getPosition().y();
+        emitSignalReady();
+        qDebug()<<"Emitting signal";
+*/
+    counter++;
 
 }
 

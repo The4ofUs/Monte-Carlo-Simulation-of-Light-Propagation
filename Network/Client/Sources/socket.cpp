@@ -10,7 +10,7 @@
 #include <string>
 #include <iostream>
 #include <QVector>
-
+#include <time.h>
 socket::socket(QObject *parent) : QObject(parent)
 {
 
@@ -51,12 +51,13 @@ bool socket::isConnected(){
 
 void socket::startSerialization(){
     QVector<Photon> V=getVectorToBeSend();
+    qDebug()<<"Vevtor of photons size"<<V.size();
     QByteArray sendArray;
     QVector<float> X;
     QVector<float>Y;
     QVector<float>Z;
     QVector<float>W;
-    QVector<int> ST;
+    QVector<float> ST;
     for(int i=0;i<=V.size()-1;i++){
         X.append(V[i].getPosition().x());
         Y.append(V[i].getPosition().y());
@@ -65,18 +66,37 @@ void socket::startSerialization(){
         ST.append(V[i].getState());
     }
 
+    /* SIZE IN BYTES
     qDebug()<<"XSIZE"<<sizeof(std::vector<float>) + (sizeof(float) * X.size());
     qDebug()<<"YSIZE"<<sizeof(std::vector<float>) + (sizeof(float) * Y.size());
     qDebug()<<"WSIZE"<<sizeof(std::vector<float>) + (sizeof(float) * W.size());
     qDebug()<<"ZSIZE"<<sizeof(std::vector<float>) + (sizeof(float) * Z.size());
-    qDebug()<<"STSIZE"<<sizeof(std::vector<int>) + (sizeof(int) * ST.size());
+    qDebug()<<"STSIZE"<<sizeof(std::vector<int>) + (sizeof(int) * ST.size());*/
 
+    qDebug()<<"Total Size"<<X.size()+Y.size()+Z.size()+W.size()+ST.size();
+    qDebug()<<"Random Point";
+    qDebug()<<X[50];
+    qDebug()<<Y[50];
+    qDebug()<<Z[50];
+    qDebug()<<W[50];
+    qDebug()<<ST[50];
 
+    QByteArray sendArrayTest;
+    QDataStream streamTest(&sendArrayTest, QIODevice::WriteOnly);
+    streamTest<<X.size()+Y.size()+Z.size()+W.size()+ST.size();
+    streamTest <<X;
+    streamTest<<Y;
+    streamTest<<Z;
+    streamTest<<W;
+    streamTest<<ST;
     QDataStream out(&sendArray,QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_8);
     QDataStream &operator<<(QDataStream &out, const QVector<Photon> &V);
     out<<V;
-    newSocket->write(sendArray);
+
+    newSocket->write(sendArrayTest);
+    //newSocket->write(sendArray);
+
     qDebug()<<"send array size"<<sendArray.size();
     newSocket->disconnectFromHost();
     newSocket->waitForDisconnected();
@@ -100,37 +120,6 @@ QDataStream &operator<<(QDataStream &out, const  QVector<Photon> &V) {
     qDebug()<<"Vector Streaming"<<V.size();
     qDebug()<<"Detec"<<Detected<<"ter"<<Terminated;
     return out;
-}
-
-
-
-
-
-/*   //Encoding, Sanity-check
-   QVector<photon> A;
-   QDataStream &operator>>(QDataStream &in, QVector<photon> &A);
-   photon d;
-   QDataStream in(&sendArray,QIODevice::ReadOnly);
-   in.setVersion(QDataStream::Qt_4_8);
-   in>>A;
-   qDebug()<<"Vector Size after Decoding"<<A.size();
-
-  for(int i=0; i<A.size();i++){
-       qDebug()<<"Vector copy "<<A[i].n<<" "<<A[i].x;
-
-   }*/
-QDataStream &operator>>(QDataStream &in, QVector<Photon> &A) {
-    int size;
-    in>>size;
-    qDebug()<<"SIZE"<<size;
-    for(int i=0; i<size-1;i++){
-        Photon s;
-    //    in >>A[i].getPosition().x()>>A[i].getPosition().y()>>A[i].getPosition().z()>>A[i].getWeight()>>A[i].getState();
-        A.push_back(s);
-        //qDebug()<<"Vector COPPY"<<A.size();
-
-    }
-    return in;
 }
 
 
