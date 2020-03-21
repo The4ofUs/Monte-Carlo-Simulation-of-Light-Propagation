@@ -84,7 +84,7 @@ void threads::readPhotonsVector(){
     qDebug()<<Y[0][50];
     qDebug()<<Z[0][50];
     qDebug()<<W[0][50];
-    qDebug()<<ST[0]50];
+    qDebug()<<ST[0][50];
 
     /*
         QVector<Photon> inComingResults;
