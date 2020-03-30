@@ -3,12 +3,11 @@ import pandas as pd
 import seaborn as sns
 from mpl_toolkits.mplot3d import Axes3D
 
-OUTPUT_DIRECTORY = "../../c++/build/results.csv"
-RADIUS = 10
+OUTPUT_DIRECTORY = "/home/rania/gp/Monte-Carlo-Simulation-of-Light-Propagation/cuda/build/results.csv"
+RADIUS = 100
 MARGIN = 5
 DETECTOR_CENTER = (0, 0, 50)
-ABSORPTION_CONSTANT = 1
-SCATTERING_CONSTANT = 100
+
 
 data = pd.read_csv(OUTPUT_DIRECTORY)
 total = data[["X", "Y", "Z"]]
@@ -16,7 +15,7 @@ detected = data.loc[data["State"] == "DETECTED", ["X", "Y", "Z"]]
 terminated = data.loc[data["State"] == "TERMINATED", ["X", "Y", "Z"]]
 escaped = data.loc[data["State"] == "ESCAPED", ["X", "Y", "Z"]]
 fig = plt.figure(figsize=(plt.figaspect(.5)))
-fig.suptitle('Ma = {}  |   Ms = {}'.format(ABSORPTION_CONSTANT,SCATTERING_CONSTANT), fontsize=16)
+#fig.suptitle('Ma = {}  |   Ms = {}'.format(ABSORPTION_CONSTANT,SCATTERING_CONSTANT), fontsize=16)
 fig.canvas.set_window_title("Monte Carlo Simulation")
 # 3D Plots
 ax1 = fig.add_subplot(231, projection='3d')
@@ -50,6 +49,7 @@ sns.set(style="white", palette="muted", color_codes=True)
 sns.despine(left=True)
 sns.distplot(distribution, hist=False, ax=ax5, color='g', kde_kws={"shade": True})
 ax5.tick_params(axis='both', which='both', left=False, bottom=False, labelleft=False)
+#ax5.set(xlim=(-20, 20))
 ax5.set(xlim=(-RADIUS, RADIUS))
 
 plt.show()

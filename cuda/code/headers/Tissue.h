@@ -1,12 +1,12 @@
-#ifndef TISSUE_H
-#define TISSUE_H
+#ifndef LAYER_H
+#define LAYER_H
 
 #include "Photon.h"
-
+/**
 /**
  * @brief 
  * A tissue class to represent cylindrical tissue in 3D space
- */
+ 
 
 class Tissue
 {
@@ -43,7 +43,7 @@ public:
      * 
      *   where
      * 
-     *   A : **Photon**'s position
+     *   A : **Photon**s position
      * 
      *   B : Center of one of the two circular faces of the cylinder
      * 
@@ -57,47 +57,75 @@ public:
      * 
      * @param point (**Point**) The current position of the **Photon**
      * @return Whether the photon escaped the tissue or not
-     */
+     
     __device__ bool escaped(Point position);
-    /**
+    
      * @brief The passed **Photon**'s weight gets decremented according to the **Tissue**'s coefficients
      * 
      * @param photon (**Photon**)
-     */
+     
     __device__ void attenuate(Photon &photon);
 
 private:
-    /**
- * @brief **Tissue**'s Radius
+    
+ * @brief **Tissue**s Radius
  * 
- */
+ 
     float _radius;
-    /**
+    
      * @brief First circular face center of the **Tissue**
-     */
+     
     Point _center0;
-    /**
+    
      * @brief Second circular face center of the **Tissue**
-     */
+     
     Point _center1;
-    /**
+    
      * @brief Where the circulare faces look at
-     */
+    
     Vector _normal;
-    /**
+    
      * @brief Scattering Coefficient
-     */
+     
     float _Ms;
-    /**
+    
      * @brief Absorption Coefficient
-     */
+     
     float _Ma;
-    /**
+    
      * @brief Total Coefficient
      * 
      * Calculated from both the Absorption and the Scattering Coefficients
-     */
+     
     float _Mt;
+};
+*/
+
+
+
+class MultiLayer
+{
+public:
+
+    __host__ MultiLayer(float radius, Point c0, Point c1, float absorpCoeff, float scatterCoeff);
+
+    //__device__ int crossedBoundary(Point position);
+    __device__ bool crossedBoundaryUp(Point position);
+    __device__ bool crossedBoundaryDown(Point position);
+    __device__ void attenuate(Photon &photon);
+
+
+private:
+
+    float _radius;
+    Point _center0;
+    Point _center1;
+    Vector _normal;
+    float _Ms;
+    float _Ma;
+    float _Mt;
+   
+
 };
 
 #endif
