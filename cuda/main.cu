@@ -1,9 +1,8 @@
 #include "code/headers/randomwalk.h"
 #include <sstream>
-
 #define NUMBER_OF_PHOTONS 1000
 #define THREADS_PER_BLOCK 1024
-#define DETECTOR_RADIUS 100.f
+#define DETECTOR_RADIUS 10.f
 #define DETECTOR_POSITION Point(0.f, 0.f, 50.f)
 #define DETECTOR_LOOKAT Vector(0.f, 0.f, -1.f)
 #define TISSUE_RADIUS 1000.f
@@ -14,10 +13,9 @@
 #define LAYER_ABSORBTION_COEFFICIENT3 10.f
 #define LAYER_SCATTERING_COEFFICIENT3 100.f
 #define LAYER_CENTER_00 Point(0.f, 0.f, 50.f)
-#define LAYER_CENTER_01 Point(0.f, 0.f, -50.f)
-#define LAYER_CENTER_11 Point(0.f, 0.f, -150.f)
-#define LAYER_CENTER_22 Point(0.f, 0.f, -250.f)
-
+#define LAYER_CENTER_01 Point(0.f, 0.f, 40.f)
+#define LAYER_CENTER_11 Point(0.f, 0.f, 30.f)
+#define LAYER_CENTER_22 Point(0.f, 0.f, 20.f)
 
 void streamOut(Photon *_cpuPhotons);
 
@@ -62,7 +60,7 @@ void streamOut(Photon *_cpuPhotons)
     output = fopen("results.csv", "w");
     std::string state;
     //Header
-    fprintf(output, "%s,%s,%s,%s,%s\n", "X", "Y", "Z", "Weight", "State");
+    //printf(output, "%s,%s,%s,%s,%s\n", "X", "Y", "Z", "Weight", "State");
     for (int i = 0; i < NUMBER_OF_PHOTONS; i++)
     {
         switch (_cpuPhotons[i].getState())

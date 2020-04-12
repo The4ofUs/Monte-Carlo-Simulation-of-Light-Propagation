@@ -11,7 +11,7 @@ set( CUDA_HEADER_FILES
     code/headers/common.h
     code/headers/Detector.h
     code/headers/Vector.h
-    code/headers/Tissue.h
+    code/headers/MultiLayer.h
     code/headers/Photon.h
     code/headers/mathematics.h
 )
@@ -23,7 +23,7 @@ set( CUDA_SOURCE_FILES
     code/src/Detector.cu
     code/src/mathematics.cu
     code/src/Vector.cu
-    code/src/Tissue.cu
+    code/src/MultiLayer.cu
     code/src/Photon.cu
 )
 

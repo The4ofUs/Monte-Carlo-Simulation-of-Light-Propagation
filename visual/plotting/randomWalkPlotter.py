@@ -45,7 +45,7 @@ Y_escaped = []
 Z_escaped = []
 detected_dist = []
 
-with open('../cuda/build/output.csv', 'r', newline='') as file:
+with open("/home/gamila/branchRania/Monte-Carlo-Simulation-of-Light-Propagation/cuda/build/results.csv", 'r', newline='') as file:
     #has_header = csv.Sniffer().has_header(file.read(1024))
     file.seek(0)  # Rewind.
     reader = csv.reader(file)
