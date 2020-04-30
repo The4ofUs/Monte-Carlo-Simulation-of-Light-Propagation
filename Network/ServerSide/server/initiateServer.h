@@ -16,11 +16,14 @@ public:
     int sendDescriptor();
     int DetectedCounter();
     int terminatedCounter();
+    int batchPhotons;
+    int numberOFphotons;
 
 signals:
     void readyISREAD();
 public slots:
 void readIsReady();
+void decrementBatch();
 protected:
     void incomingConnection(qintptr socketDescriptor);
 private:

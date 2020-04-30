@@ -1,5 +1,6 @@
 #include "threads.h"
 #include <QTime>
+#include <iostream>
 #include <QDir>
 #include <QtWidgets>
 #include "serverside.h"
@@ -9,11 +10,19 @@
 int Detected;
 int Terminated;
 int counter=0;
+int numberOfPhotons = 1000;
+float detectorRadius = 10;
+float tissueRadius = 10;
+float tissueAbsCoeff = 1;
+float tissueScatCoeff = 100 ;
+Point *detectorPosition = new Point(0,0,50);
+Point *tissueFirstCenter = new Point(0,0,50);
+Point *tissueSecondCenter = new Point(0,0,-50);
+
 threads::threads(int ID, QObject *parent):
     QThread(parent)
 {
     this->socketDescriptor = ID;
-    dataSize=0;
 }
 
 
@@ -21,37 +30,82 @@ void  threads::run()
 {
     qDebug() << "Starting Thread";
     socket = new QTcpSocket();
-
     if (!socket->setSocketDescriptor(this->socketDescriptor))
     {
         emit error(socket->error());
         return;
     }
-    dataSize=0;
-    connect(socket, SIGNAL(readyRead()),this, SLOT(readPhotonsVector()),Qt::DirectConnection);
-    //  connect(socket, SIGNAL(disconnected()),this, SLOT(disconnected()),Qt::DirectConnection);
+    connect(socket, SIGNAL(readyRead()),this, SLOT(read()),Qt::DirectConnection);
+    connect(socket, SIGNAL(disconnected()),this, SLOT(disconnected()),Qt::DirectConnection);
     qDebug() << socketDescriptor << "Client Connected!";
+    dataSize=0;
+
     exec();
+
 }
 
 
+void threads::read(){
+    QByteArray queryTypeByteArr = socket->readAll();
+    queryType = queryTypeByteArr.toStdString();
+    if(queryType.compare("requestParameters")==0){
+        sendParameters();
+    }
+    else if(queryType.compare("requestBatch")==0){
+        sendNewBatch();
+    }
+    else{
+        readPhotonsVector(queryTypeByteArr);
+    }
+}
 
-
-
-void threads::readyRead()
-{
-    /*ReadyRead signal is emitted when the thread had received some data and Now it's
-    Ready to Read it, then we handle Reading this data using readyReady slot*/
-    qDebug()<<"Ready Read";
-    readPhotonsVector();
+void threads::sendNewBatch(){
+    QByteArray newBatchByteArray;
+    QDataStream newBatch(&newBatchByteArray,QIODevice::WriteOnly);
+    newBatch.setVersion(QDataStream::Qt_4_8);
+    if(batchPhotons==0){
+        numberOfPhotons=0;
+        //abort connection, close server and average results
+        qDebug()<<"There is no more batches";
+    }
+    newBatch<< numberOfPhotons;
+    socket->write(newBatchByteArray);
+    newBatchSignal();
 }
 
 
+void threads::getBatchremainingPhotons(int batches){
+    batchPhotons = batches;
+}
+
+void threads::sendParameters(){
+    QVector<float> userParameters;
+    QByteArray parametersByteArray;
+    QDataStream paramtersTobeSend(&parametersByteArray,QIODevice::WriteOnly);
+    paramtersTobeSend.setVersion(QDataStream::Qt_4_8);
+    userParameters.append((float)numberOfPhotons);
+    userParameters.append(detectorRadius);
+    userParameters.append((float)detectorPosition->x());
+    userParameters.append((float)detectorPosition->y());
+    userParameters.append((float)detectorPosition->z());
+    userParameters.append(tissueRadius);
+    userParameters.append(tissueAbsCoeff);
+    userParameters.append(tissueScatCoeff);
+    userParameters.append((float)tissueFirstCenter->x());
+    userParameters.append((float)tissueFirstCenter->y());
+    userParameters.append((float)tissueFirstCenter->z());
+    userParameters.append((float)tissueSecondCenter->x());
+    userParameters.append((float)tissueSecondCenter->y());
+    userParameters.append((float)tissueSecondCenter->z());
+    paramtersTobeSend << userParameters;
+    socket->write(parametersByteArray);
+    qDebug()<<"Parameters are sent";
+}
 
 
-void threads::readPhotonsVector(){
-     qDebug()<<"Bytes available"<<socket->bytesAvailable();
-    if( dataSize == 0 )
+void threads::readPhotonsVector(QByteArray data){
+    //qDebug()<<"Bytes available"<<socket->bytesAvailable();
+    /*if( dataSize == 0 )
     {
         QDataStream stream(socket);
         stream.setVersion(QDataStream::Qt_4_8);
@@ -61,10 +115,12 @@ void threads::readPhotonsVector(){
     }
     if( dataSize > socket->bytesAvailable() )
         return;
+*/
+    //qDebug()<<"Ready Read emitting counter"<<counter;
 
-    QByteArray array = socket->readAll();
-    qDebug()<<"Ready Read emitting counter"<<counter;
-    qDebug()<<"Total Size"<<dataSize;
+    //qDebug()<<"Total Size"<<dataSize;
+
+    QByteArray array = data;
     QVector<float> X[1];
     QVector<float> Y[1];
     QVector<float> Z[1];
@@ -76,7 +132,7 @@ void threads::readPhotonsVector(){
     QDataStream streamm(&array, QIODevice::ReadOnly);
     streamm.setVersion(QDataStream::Qt_4_8);
     streamm >> X[0]>>Y[0]>>Z[0]>>W[0]>>ST[0];
-    qDebug()<<"Recieved Result";
+    /*qDebug()<<"Recieved Result";
     qDebug()<<"Xs Size"<<X[0].size()<<"Ys Size "<<Y[0].size();
     qDebug()<<"Zs Size"<<Z[0].size()<<"Ws Size "<<W[0].size()<<"States Size"<<ST[0].size();
     qDebug()<<"Random Point";
@@ -84,84 +140,12 @@ void threads::readPhotonsVector(){
     qDebug()<<Y[0][50];
     qDebug()<<Z[0][50];
     qDebug()<<W[0][50];
-    qDebug()<<ST[0]50];
+    qDebug()<<ST[0][50];*/
 
-    /*
-        QVector<Photon> inComingResults;
-        array= socket->readAll();
-        qDebug()<<"Capacity"<<socket->readBufferSize();
-        int arrsize=array.size();
-        qDebug()<<"array Size"<<array.size();
-        QDataStream in(&array,QIODevice::ReadOnly);
-        in.setVersion(QDataStream::Qt_4_8);
-        QDataStream &operator>>(QDataStream &in, QVector<Photon>  &inComingResults);
-        in>>inComingResults;
-        qDebug()<<"inComing Vector Size"<<inComingResults.size();
-        //qDebug()<<inComingResults[0].getPosition().x()<<inComingResults[0].getPosition().y();
-        emitSignalReady();
-        qDebug()<<"Emitting signal";
-*/
+
     counter++;
-
-}
-
-QDataStream &operator>>(QDataStream &in,  QVector<Photon> &inComingResults) {
-
-    int size=0,s=0;
-    float x=0.0,y=0.0,z=0.0,w=0.0;
-
-
-    for(int i=0; i<16000;i++){
-        Photon ph;
-        Point P;
-        in >> x>>y>>z>>w>>s;
-        P.setCoordinates(x,y,z);
-        ph.setPosition(P);
-        ph.setWeight(w);
-        ph.setState(s);
-        inComingResults.push_back(ph);
-        if(s==-1){
-            Terminated++;
-        }
-        else if(s==1){
-            Detected++;
-        }
-    }
-    qDebug()<<"from inside the stream";
-    qDebug()<<"Terminated"<<Terminated;
-    qDebug()<<"Detected"<<Detected;
-
-    return in;
-}
-
-void threads::streamOut(QVector<Photon> V, int size)
-{
-    FILE *output;
-    output = fopen("output.csv", "w");
-    std::string state;
-    fprintf(output, "X,Y,Z,WEIGHT,STATE\n");
-    for (int i = 0; i < size; i++)
-    {
-        switch (V[i].getState())
-        {
-        case (-1):
-            state = "TERMINATED";
-            break;
-        case (0):
-            state = "ROAMING";
-            break;
-        case (1):
-            state = "DETECTED";
-            break;
-        case (2):
-            state = "ESCAPED";
-            break;
-        }
-        // Streaming out my output in a log file
-        fprintf(output, "%f,%f,%f,%f,%s\n", V[i].getPosition().x(), V[i].getPosition().y(), V[i].getPosition().z(), V[i].getWeight(), state.c_str());
-
-
-    }
+    qDebug()<<"Results are recived";
+    //socket->waitForReadyRead();
 }
 
 

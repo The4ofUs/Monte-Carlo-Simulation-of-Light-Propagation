@@ -16,25 +16,28 @@ public:
     explicit threads(int ID, QObject *parent = nullptr);
     void run();
     void sendData();
-    void streamOut(QVector<Photon> V, int size);
-
+    void sendParameters();
+    void sendNewBatch();
+    void getBatchremainingPhotons(int batches);
     int terminatedCounter();
     int DetectedCounter();
-
 signals:
     void error(QTcpSocket::SocketError socketerror);
     void emitSignalReady();
+    void newBatchSignal();
 
 public slots:
-    void readyRead(); // from QIOObject
     void disconnected();
     void readData();
-    void readPhotonsVector();
+    void readPhotonsVector(QByteArray data);
+    void read();
 private:
 
     int socketDescriptor; // the underlying socket ID number from the operating system
     int dataSize;
     bool readflag;
+    std::string queryType;
+    int batchPhotons;
 
 };
 

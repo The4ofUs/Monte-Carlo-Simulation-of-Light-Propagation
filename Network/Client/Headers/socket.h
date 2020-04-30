@@ -25,25 +25,30 @@ public:
     //void updateVector(float x, float y,float z,float w, int s);
     void getVectorOfPhotons( QVector<Photon> V);
     QVector<Photon> getVectorToBeSend();
-
+    void getServerParameters();
+    void getNewBatch();
+    QVector<float> getParameters();
+    std::string queryType;
+    int numberOfPhotons;
 signals:
     void sendImage();
 
 public slots:
 
     // some signals inereted form QAbstractSocket
-    void connected();
+    void sendResults();
     void disconnected();
-
     // some signal inhereted form QIODevice
     void bytesWritten(qint64 bytes);
     void readyRead(); // Tell when there actually information for us to read    
-
+    void requestParameters();
+    void requestBatch();
 private:
     QTcpSocket *newSocket;
     int dataSize;
     bool state;
     QVector<Photon> incomingVector;
+    QVector<float> parameters;
 
 };
 
