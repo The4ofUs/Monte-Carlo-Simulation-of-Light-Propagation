@@ -47,7 +47,7 @@ int main()
     while(newBatchAvailable){
         applyMC();
     }
-
+   // applyMC();
     return 0;
 }
 
@@ -89,7 +89,7 @@ void sendResults(Photon *_cpuPhotons){
         vectorOfPhotons.push_back(_cpuPhotons[i]);
     }
     socket *newSocket =new socket();
-    newSocket->queryType="sendResults";
+    newSocket->queryType="prepareForReceiving";
     newSocket->socket::getVectorOfPhotons(vectorOfPhotons);
     newSocket->createSocket();
 

@@ -10,7 +10,7 @@
 int Detected;
 int Terminated;
 int counter=0;
-int numberOfPhotons = 1000;
+int numberOfPhotons = 100000;
 float detectorRadius = 10;
 float tissueRadius = 10;
 float tissueAbsCoeff = 1;
@@ -28,20 +28,20 @@ threads::threads(int ID, QObject *parent):
 
 void  threads::run()
 {
-    qDebug() << "Starting Thread";
+    qDebug() << "Starting new thread";
     socket = new QTcpSocket();
     if (!socket->setSocketDescriptor(this->socketDescriptor))
     {
         emit error(socket->error());
         return;
     }
+
+    //qDebug()<<"Read on  readyRead";
     connect(socket, SIGNAL(readyRead()),this, SLOT(read()),Qt::DirectConnection);
     connect(socket, SIGNAL(disconnected()),this, SLOT(disconnected()),Qt::DirectConnection);
-    qDebug() << socketDescriptor << "Client Connected!";
+    qDebug() <<"client with socket ="<< socketDescriptor << "is Connected!";
     dataSize=0;
-
     exec();
-
 }
 
 
@@ -49,13 +49,18 @@ void threads::read(){
     QByteArray queryTypeByteArr = socket->readAll();
     queryType = queryTypeByteArr.toStdString();
     if(queryType.compare("requestParameters")==0){
+        qDebug()<<"client with socket ="<<socketDescriptor<< "is requesting parameters";
         sendParameters();
     }
     else if(queryType.compare("requestBatch")==0){
+        qDebug()<<"client with socket ="<<socketDescriptor<<"is requesting new batch";
         sendNewBatch();
     }
-    else{
-        readPhotonsVector(queryTypeByteArr);
+    else if(queryType.compare("prepareForReceiving")==0){
+        qDebug() <<"client with socket ="<< socketDescriptor<<"is sending results";
+        disconnect(socket, SIGNAL(readyRead()),this, SLOT(read()));
+        connect(socket,SIGNAL(readyRead()),this,SLOT(readPhotonsVector()),Qt::DirectConnection);
+        socket->write("readyToReceive");
     }
 }
 
@@ -66,7 +71,7 @@ void threads::sendNewBatch(){
     if(batchPhotons==0){
         numberOfPhotons=0;
         //abort connection, close server and average results
-        qDebug()<<"There is no more batches";
+        qDebug()<<"Server has no more batches";
     }
     newBatch<< numberOfPhotons;
     socket->write(newBatchByteArray);
@@ -102,10 +107,12 @@ void threads::sendParameters(){
     qDebug()<<"Parameters are sent";
 }
 
-
-void threads::readPhotonsVector(QByteArray data){
-    //qDebug()<<"Bytes available"<<socket->bytesAvailable();
-    /*if( dataSize == 0 )
+QByteArray array ;
+void threads::readPhotonsVector(){
+    qDebug()<<"read photons on readyRead";
+    socket->waitForReadyRead();
+    qDebug()<<"Bytes Available"<< socket->bytesAvailable();
+    if( dataSize == 0 )
     {
         QDataStream stream(socket);
         stream.setVersion(QDataStream::Qt_4_8);
@@ -115,44 +122,37 @@ void threads::readPhotonsVector(QByteArray data){
     }
     if( dataSize > socket->bytesAvailable() )
         return;
-*/
-    //qDebug()<<"Ready Read emitting counter"<<counter;
-
-    //qDebug()<<"Total Size"<<dataSize;
-
-    QByteArray array = data;
-    QVector<float> X[1];
-    QVector<float> Y[1];
-    QVector<float> Z[1];
-    QVector<float> W[1];
-    QVector<float> ST[1];
+    do{
+        array += socket->readAll();
+    }
+    while(array.size()<dataSize);
+    QVector<float> X;
+    QVector<float> Y;
+    QVector<float> Z;
+    QVector<float> W;
+    QVector<float> ST;
     QVector<float> TotalX;
-    qDebug()<<"Recived Array Bytes"<<array.size();
-
+    // qDebug()<<"Recived Array"<<array.size();
     QDataStream streamm(&array, QIODevice::ReadOnly);
     streamm.setVersion(QDataStream::Qt_4_8);
-    streamm >> X[0]>>Y[0]>>Z[0]>>W[0]>>ST[0];
-    /*qDebug()<<"Recieved Result";
-    qDebug()<<"Xs Size"<<X[0].size()<<"Ys Size "<<Y[0].size();
-    qDebug()<<"Zs Size"<<Z[0].size()<<"Ws Size "<<W[0].size()<<"States Size"<<ST[0].size();
-    qDebug()<<"Random Point";
-    qDebug()<<X[0][50];
-    qDebug()<<Y[0][50];
-    qDebug()<<Z[0][50];
-    qDebug()<<W[0][50];
-    qDebug()<<ST[0][50];*/
+    if (array.size()==dataSize*8+20){
+        qDebug()<<"Recived Array total size"<<array.size();
 
-
-    counter++;
-    qDebug()<<"Results are recived";
-    //socket->waitForReadyRead();
+        streamm >> X>>Y>>Z>>W>>ST;
+        qDebug()<<"Random Point";
+        qDebug()<<X[5];
+        //qDebug()<<X.size() <<Y.size()<< Z.size()<<W.size()<<ST.size();
+        qDebug()<<"Results are recived";
+        array.clear();
+    }
 }
+
 
 
 void threads::disconnected()
 {
 
-    qDebug() << socketDescriptor << "Disconnected";
+    qDebug() <<"client with socket ="<< socketDescriptor << "Disconnected";
     socket->deleteLater();
     exit(0);
 }
