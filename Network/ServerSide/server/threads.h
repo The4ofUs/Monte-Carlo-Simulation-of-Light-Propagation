@@ -29,7 +29,7 @@ signals:
 public slots:
     void disconnected();
     void readData();
-    void readPhotonsVector(QByteArray data);
+    void readPhotonsVector();
     void read();
 private:
 
@@ -38,7 +38,6 @@ private:
     bool readflag;
     std::string queryType;
     int batchPhotons;
-
 };
 
 #endif // THREADS_H

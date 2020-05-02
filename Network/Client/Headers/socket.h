@@ -20,8 +20,10 @@ public:
     void createSocket();
     void readData();
     bool isConnected();
+    bool serverIsReadytoReceive();
     void getPhotonFinalState(float x, float y,float z,float w, int s);
     void startSerialization();
+
     //void updateVector(float x, float y,float z,float w, int s);
     void getVectorOfPhotons( QVector<Photon> V);
     QVector<Photon> getVectorToBeSend();
@@ -30,6 +32,7 @@ public:
     QVector<float> getParameters();
     std::string queryType;
     int numberOfPhotons;
+
 signals:
     void sendImage();
 

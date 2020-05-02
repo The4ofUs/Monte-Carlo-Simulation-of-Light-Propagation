@@ -24,7 +24,7 @@ void socket::createSocket()
     if(queryType.compare("requestParameters")==0){
         connect(newSocket,SIGNAL(connected()),this,SLOT(requestParameters()));
     }
-    else if(queryType.compare("sendResults")==0){
+    else if(queryType.compare("prepareForReceiving")==0){
         connect(newSocket,SIGNAL(connected()),this,SLOT(sendResults()));
     }
     else if(queryType.compare("requestBatch")==0) {
@@ -44,7 +44,7 @@ void socket::createSocket()
 }
 
 void socket::requestBatch(){
-    qDebug()<<"Batch is requested";
+    qDebug()<<"requesting new batch from the server";
     newSocket->write("requestBatch");
     newSocket->waitForReadyRead();
     newSocket->disconnectFromHost();
@@ -52,7 +52,7 @@ void socket::requestBatch(){
 
 void socket::requestParameters(){
     newSocket->write("requestParameters");
-    qDebug()<<"initial";
+    qDebug()<<"requesting parameters from server";
     newSocket->waitForReadyRead();
     newSocket->disconnectFromHost();
 }
@@ -60,8 +60,8 @@ void socket::requestParameters(){
 
 void socket::sendResults()
 {
-    qDebug() <<"serialization has started";
-    startSerialization();
+    newSocket->write("prepareForReceiving");
+    newSocket->waitForReadyRead();
     state=true;
 }
 
@@ -73,6 +73,7 @@ bool socket::isConnected(){
 
 
 void socket::startSerialization(){
+    qDebug() <<"serialization has just started";
     QVector<Photon> V=getVectorToBeSend();
     //qDebug()<<"Vevtor of photons size"<<V.size();
     QByteArray sendArray;
@@ -89,9 +90,9 @@ void socket::startSerialization(){
         ST.append(V[i].getState());
     }
 
-    qDebug()<<"Total Size"<<X.size()+Y.size()+Z.size()+W.size()+ST.size();
+    qDebug()<<"Total Size of photons final state to be sent is"<<X.size()+Y.size()+Z.size()+W.size()+ST.size();
     qDebug()<<"Random Point";
-    qDebug()<<X[50];
+    qDebug()<<X[5];
     /*qDebug()<<Y[50];
     qDebug()<<Z[50];
     qDebug()<<W[50];
@@ -99,8 +100,9 @@ void socket::startSerialization(){
 
     QByteArray sendArrayTest;
     QDataStream streamTest(&sendArrayTest, QIODevice::WriteOnly);
-//  streamTest<<X.size()+Y.size()+Z.size()+W.size()+ST.size();
-    streamTest <<X;
+    //qDebug()<<"I SENT" <<X.size()+Y.size()+Z.size()+W.size()+ST.size();
+    streamTest<<X.size()+Y.size()+Z.size()+W.size()+ST.size();
+    streamTest<<X;
     streamTest<<Y;
     streamTest<<Z;
     streamTest<<W;
@@ -108,7 +110,8 @@ void socket::startSerialization(){
 
 
     newSocket->write(sendArrayTest);
-    qDebug()<<"send array size"<<sendArrayTest.size();
+    qDebug()<<"results to be sent array size is"<<sendArrayTest.size();
+   // newSocket->waitForBytesWritten();
     newSocket->disconnectFromHost();
     newSocket->waitForDisconnected();
     qDebug()<<"results are sent";
@@ -138,8 +141,14 @@ void socket::readyRead()
         getServerParameters();
     }
     else if(queryType.compare("requestBatch")==0) {
-        qDebug()<<"new Batch";
+        qDebug()<<"received new Batch";
         getNewBatch();
+    }
+    else if(queryType.compare("prepareForReceiving")==0) {
+        if(serverIsReadytoReceive()){
+            //qDebug()<<"server is ready to receive";
+            startSerialization();
+        }
     }
 
 }
@@ -149,24 +158,32 @@ void socket::getServerParameters(){
     QDataStream serverParameters(&serverParamBytaArr, QIODevice::ReadOnly);
     serverParameters.setVersion(QDataStream::Qt_4_8);
     serverParameters >> parameters;
-    qDebug()<<parameters;
+    //qDebug()<<parameters;
 }
 
 QVector<float> socket::getParameters(){
     return parameters;
 }
 
+bool socket::serverIsReadytoReceive(){
+    QByteArray serverResponseByteArr = newSocket->readAll();
+    std::string serverResponse = serverResponseByteArr.toStdString();
+    if(serverResponse.compare("readyToReceive")==0){
+        return true;
+    }
+  return false;
+}
 void socket::getNewBatch(){
     QByteArray newBatchByteArr = newSocket->readAll();
     QDataStream serverNewBatch(&newBatchByteArr, QIODevice::ReadOnly);
     serverNewBatch.setVersion(QDataStream::Qt_4_8);
     serverNewBatch >> numberOfPhotons;
-    qDebug()<<"New batch is"<< numberOfPhotons;
+    qDebug()<<"New batch size is"<< numberOfPhotons<<"photons";
 }
 
 void socket::bytesWritten(qint64 bytes)
 {
-    qDebug() <<"We wrote" << bytes;
+    qDebug() << bytes<<"bytes are written";
 
 }
 
