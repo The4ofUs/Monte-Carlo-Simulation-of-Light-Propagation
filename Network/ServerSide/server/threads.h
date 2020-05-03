@@ -19,6 +19,7 @@ public:
     void sendParameters();
     void sendNewBatch();
     void getBatchremainingPhotons(int batches);
+    void getNumberOfPhotons(int numPhotons);
     int terminatedCounter();
     int DetectedCounter();
 signals:

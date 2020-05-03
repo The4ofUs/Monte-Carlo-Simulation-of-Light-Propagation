@@ -16,8 +16,8 @@ public:
     int sendDescriptor();
     int DetectedCounter();
     int terminatedCounter();
-    int batchPhotons;
-    int numberOFphotons;
+    int serverTotalPhotons;
+    int photonsPerPatch;
 
 signals:
     void readyISREAD();

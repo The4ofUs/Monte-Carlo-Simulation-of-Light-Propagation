@@ -10,9 +10,9 @@
 int Detected;
 int Terminated;
 int counter=0;
-int numberOfPhotons = 100000;
+int photonsPerPatch = 0;
 float detectorRadius = 10;
-float tissueRadius = 10;
+float tissueRadius = 100;
 float tissueAbsCoeff = 1;
 float tissueScatCoeff = 100 ;
 Point *detectorPosition = new Point(0,0,50);
@@ -69,11 +69,11 @@ void threads::sendNewBatch(){
     QDataStream newBatch(&newBatchByteArray,QIODevice::WriteOnly);
     newBatch.setVersion(QDataStream::Qt_4_8);
     if(batchPhotons==0){
-        numberOfPhotons=0;
+        photonsPerPatch=0;
         //abort connection, close server and average results
         qDebug()<<"Server has no more batches";
     }
-    newBatch<< numberOfPhotons;
+    newBatch<< photonsPerPatch;
     socket->write(newBatchByteArray);
     newBatchSignal();
 }
@@ -83,12 +83,17 @@ void threads::getBatchremainingPhotons(int batches){
     batchPhotons = batches;
 }
 
+void threads::getNumberOfPhotons(int numPhotons)
+{
+     photonsPerPatch = numPhotons;
+}
+
 void threads::sendParameters(){
     QVector<float> userParameters;
     QByteArray parametersByteArray;
     QDataStream paramtersTobeSend(&parametersByteArray,QIODevice::WriteOnly);
     paramtersTobeSend.setVersion(QDataStream::Qt_4_8);
-    userParameters.append((float)numberOfPhotons);
+    userParameters.append((float)photonsPerPatch);
     userParameters.append(detectorRadius);
     userParameters.append((float)detectorPosition->x());
     userParameters.append((float)detectorPosition->y());
@@ -108,6 +113,7 @@ void threads::sendParameters(){
 }
 
 QByteArray array ;
+//QFile file("serverOutput.csv");
 void threads::readPhotonsVector(){
     qDebug()<<"read photons on readyRead";
     socket->waitForReadyRead();
@@ -135,14 +141,30 @@ void threads::readPhotonsVector(){
     // qDebug()<<"Recived Array"<<array.size();
     QDataStream streamm(&array, QIODevice::ReadOnly);
     streamm.setVersion(QDataStream::Qt_4_8);
+//    file.open(QIODevice::WriteOnly);
+//    QDataStream out(&file);
+//    out.setVersion(QDataStream::Qt_4_0);
+
+    // Write the data
+
     if (array.size()==dataSize*8+20){
         qDebug()<<"Recived Array total size"<<array.size();
-
         streamm >> X>>Y>>Z>>W>>ST;
         qDebug()<<"Random Point";
         qDebug()<<X[5];
         //qDebug()<<X.size() <<Y.size()<< Z.size()<<W.size()<<ST.size();
         qDebug()<<"Results are recived";
+
+        // stream out the data in a csv file
+        for (int i = 0; i< X.size(); i++)
+        {
+           // out << X[i]<< Y[i]<< Z[i]<<W[i]<< ST[i];
+            // Streaming out my output in a log file
+           // fprintf(output, "%f,%f,%f,%f,%i\n", X[i], Y[i], Z[i], W[i], ST[i]);
+            //qDebug()<< _cpuPhotons[i].getPosition().x()<< _cpuPhotons[i].getPosition().y()<< _cpuPhotons[i].getPosition().z()<< _cpuPhotons[i].getWeight()<< state.c_str();
+            qDebug()<<X[i];
+
+        }
         array.clear();
     }
 }

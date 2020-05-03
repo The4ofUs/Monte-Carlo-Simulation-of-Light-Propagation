@@ -133,7 +133,7 @@ void populateParameters(QVector<float> parameters){
 void streamOut(Photon *_cpuPhotons)
 {
     FILE *output;
-    output = fopen("output.csv", "w");
+    output = fopen("clientOutput.csv", "w");
     std::string state;
     fprintf(output, "X,Y,Z,WEIGHT,STATE\n");
     for (int i = 0; i < numberOfPhotons; i++)

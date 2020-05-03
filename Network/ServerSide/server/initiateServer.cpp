@@ -15,8 +15,8 @@ void initiateServer::StartServer()
     else
     {
         qDebug() << "Listening .....";
-        batchPhotons=50000;
-        numberOFphotons = 10000;
+        serverTotalPhotons=50;
+        photonsPerPatch = 5;
     }
 
 }
@@ -27,7 +27,8 @@ void initiateServer::incomingConnection(qintptr socketDescriptor)
     //qDebug() << "batches"<< batchPhotons;
     thread = new threads(socketDescriptor,this);
     thread->start();
-    thread->getBatchremainingPhotons(batchPhotons);
+    thread->getBatchremainingPhotons(serverTotalPhotons);
+    thread->getNumberOfPhotons(photonsPerPatch);
     connect(thread,SIGNAL(emitSignalReady()),SLOT(readIsReady()));
     Descriptor= socketDescriptor;
     connect(thread,SIGNAL(finished()),thread,SLOT(deleteLater()));
@@ -37,14 +38,14 @@ void initiateServer::incomingConnection(qintptr socketDescriptor)
 
 
 void initiateServer::decrementBatch(){
-    if(batchPhotons==0){
+    if(serverTotalPhotons==0){
         qDebug()<<"there are no more batches to be sent";
         qDebug()<< "Server is closed";
         this->close();
     }
     else{
-        batchPhotons = batchPhotons-numberOFphotons;
-        //qDebug()<<"decrement batch"<<batchPhotons;
+        serverTotalPhotons = serverTotalPhotons-photonsPerPatch;
+        qDebug()<<"decrement batch"<<serverTotalPhotons;
     }
 }
 int initiateServer::sendDescriptor(){
