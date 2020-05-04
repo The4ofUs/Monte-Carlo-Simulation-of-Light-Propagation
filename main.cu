@@ -35,7 +35,7 @@ char *stateToString(int state);
 void sendResults(Photon *_cpuPhotons);
 void requestParameters();
 void populateParameters(QVector<float> parameters);
-void applyMC();
+void applyMC(Detector detector, Tissue tissue);
 void askForNewBatch();
 void appendToVectors(QVector<Photon> Photons);
 void streamOut(QVector<Photon> results);
@@ -55,8 +55,11 @@ __global__ void finalState(unsigned int seed, curandState_t *states, Photon *_gp
 int main()
 {
     requestParameters();
+    //Boundary boundary = Boundary(BOUNDARY_RADIUS, Point());
+    Detector detector = Detector(detectorRadius, detectorPosition, DETECTOR_LOOK_DOWNWARDS);
+    Tissue tissue = Tissue(tissueRadius, tissueFirstCenter, tissueSecondCenter, tissueAbsCoeff, tissueScatCoeff);
     while(newBatchAvailable){
-        applyMC();
+        applyMC(detector, tissue);
         usleep(1000000);
     }
 
@@ -65,7 +68,7 @@ int main()
     return 0;
 }
 
-void applyMC(){
+void applyMC(Detector detector, Tissue tissue){
     int nBlocks = numberOfPhotons / THREADS_PER_BLOCK + 1;
     curandState_t *states;
     cudaMalloc((void **)&states, numberOfPhotons * sizeof(curandState_t));
@@ -76,9 +79,7 @@ void applyMC(){
     cudaMalloc((void **)&_gpuPhotons, numberOfPhotons * sizeof(Photon));
     // Initialize the Boundary and the RandomNumberGenerator
     RNG rng;
-    //Boundary boundary = Boundary(BOUNDARY_RADIUS, Point());
-    Detector detector = Detector(detectorRadius, detectorPosition, DETECTOR_LOOK_DOWNWARDS);
-    Tissue tissue = Tissue(tissueRadius, tissueFirstCenter, tissueSecondCenter, tissueAbsCoeff, tissueScatCoeff);
+
     // Kernel Call
     //finalPosition<<<nBlocks,THREADS_PER_BLOCK>>>(time(0), states , _gpuPoints, boundary, rng, NUMBER_OF_PHOTONS);
     finalState<<<nBlocks, THREADS_PER_BLOCK>>>(time(0), states, _gpuPhotons, detector, rng, tissue, numberOfPhotons);
