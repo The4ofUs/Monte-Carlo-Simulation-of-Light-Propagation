@@ -16,15 +16,23 @@ public:
     int sendDescriptor();
     int DetectedCounter();
     int terminatedCounter();
+    int serverTotalPhotons;
+    int photonsPerPatch;
+    void streamOut(QVector<Photon> results);
+
 
 signals:
     void readyISREAD();
 public slots:
-void readIsReady();
+    void readIsReady();
+    void decrementBatch();
+    void appendReceivedResults();
 protected:
     void incomingConnection(qintptr socketDescriptor);
 private:
-       threads *thread;
+    threads *thread;
+    QVector<Photon> newResults;
+    QVector<Photon> ReceivedPhotons;
 };
 
 #endif // INITIATESERVER_H

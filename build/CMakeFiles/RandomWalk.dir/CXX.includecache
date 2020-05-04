@@ -71,8 +71,6 @@ iostream
 -
 QVector
 -
-time.h
--
 
 /home/eman/3D-Random-Walk-CUDA/build/RandomWalk_autogen/ZTA52AVVIS/moc_socket.cpp
 ../../../Network/Client/Headers/socket.h

@@ -8,9 +8,8 @@
 #include <QImageReader>
 #include <QWidget>
 #include <QImageWriter>
-#include "/home/gamila/Documents/GP/Task4-RandomWalkCUDA/Monte-Carlo-Simulation-of-Light-Propagation/code/headers/common.h"
-#include "/home/gamila/Documents/GP/Task4-RandomWalkCUDA/Monte-Carlo-Simulation-of-Light-Propagation/code/headers/Photon.h"
-
+#include "/home/eman/3D-Random-Walk-CUDA/code/headers/common.h"
+#include "/home/eman/3D-Random-Walk-CUDA/code/headers/Photon.h"
 
 class socket : public QObject
 {
@@ -20,11 +19,18 @@ public:
     void createSocket();
     void readData();
     bool isConnected();
+    bool serverIsReadytoReceive();
     void getPhotonFinalState(float x, float y,float z,float w, int s);
     void startSerialization();
+
     //void updateVector(float x, float y,float z,float w, int s);
     void getVectorOfPhotons( QVector<Photon> V);
     QVector<Photon> getVectorToBeSend();
+    void getServerParameters();
+    void getNewBatch();
+    QVector<float> getParameters();
+    std::string queryType;
+    int numberOfPhotons;
 
 signals:
     void sendImage();
@@ -32,18 +38,19 @@ signals:
 public slots:
 
     // some signals inereted form QAbstractSocket
-    void connected();
+    void sendResults();
     void disconnected();
-
     // some signal inhereted form QIODevice
     void bytesWritten(qint64 bytes);
     void readyRead(); // Tell when there actually information for us to read    
-
+    void requestParameters();
+    void requestBatch();
 private:
     QTcpSocket *newSocket;
     int dataSize;
     bool state;
     QVector<Photon> incomingVector;
+    QVector<float> parameters;
 
 };
 
