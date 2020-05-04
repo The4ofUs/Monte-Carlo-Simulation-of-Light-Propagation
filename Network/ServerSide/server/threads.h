@@ -22,11 +22,14 @@ public:
     void getNumberOfPhotons(int numPhotons);
     int terminatedCounter();
     int DetectedCounter();
+    QVector<Photon> returnRecievedPhotons();
+    void reconditionResultsToPhotons(QVector<float> x,QVector<float> y, QVector<float> z, QVector<float> w, QVector<float> s);
+
 signals:
     void error(QTcpSocket::SocketError socketerror);
     void emitSignalReady();
     void newBatchSignal();
-
+    void appendNewReceivedResultsSignal();
 public slots:
     void disconnected();
     void readData();
@@ -38,7 +41,7 @@ private:
     int dataSize;
     bool readflag;
     std::string queryType;
-    int batchPhotons;
+    int batchRemainingPhotons;
 };
 
 #endif // THREADS_H

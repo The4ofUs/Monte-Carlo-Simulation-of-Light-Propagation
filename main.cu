@@ -2,6 +2,7 @@
 #include "Network/Client/Headers/socket.h"
 #include <QDebug>
 #include <QVector>
+#include <unistd.h>
 #define THREADS_PER_BLOCK 1024
 #define DETECTOR_LOOK_DOWNWARDS Vector(0.f, 0.f, -1.f)
 
@@ -22,6 +23,7 @@ Point detectorPosition;
 Point tissueFirstCenter;
 Point tissueSecondCenter;
 QVector<Photon> photons;
+QVector<Photon> totalSentResults;
 QVector<float> X;
 QVector<float> Y;
 QVector<float> Z;
@@ -33,10 +35,10 @@ char *stateToString(int state);
 void sendResults(Photon *_cpuPhotons);
 void requestParameters();
 void populateParameters(QVector<float> parameters);
-void applyMC();
+void applyMC(Detector detector, Tissue tissue);
 void askForNewBatch();
-void appendToVectors(Photon *_cpuPhotons);
-void streamOut(QVector<float> X,QVector<float> Y,QVector<float> Z,QVector<float> W,QVector<int> ST);
+void appendToVectors(QVector<Photon> Photons);
+void streamOut(QVector<Photon> results);
 
 __global__ void finalState(unsigned int seed, curandState_t *states, Photon *_gpuPhotons, Detector detector, RNG rng, Tissue tissue, int n)
 {
@@ -49,19 +51,24 @@ __global__ void finalState(unsigned int seed, curandState_t *states, Photon *_gp
     }
 }
 
+
 int main()
 {
     requestParameters();
+    //Boundary boundary = Boundary(BOUNDARY_RADIUS, Point());
+    Detector detector = Detector(detectorRadius, detectorPosition, DETECTOR_LOOK_DOWNWARDS);
+    Tissue tissue = Tissue(tissueRadius, tissueFirstCenter, tissueSecondCenter, tissueAbsCoeff, tissueScatCoeff);
     while(newBatchAvailable){
-        applyMC();
-        usleep(1000000);    }
+        applyMC(detector, tissue);
+        usleep(1000000);
+    }
 
    // applyMC();
-    streamOut(X,Y,Z,W,ST);
+    streamOut(totalSentResults);
     return 0;
 }
 
-void applyMC(){
+void applyMC(Detector detector, Tissue tissue){
     int nBlocks = numberOfPhotons / THREADS_PER_BLOCK + 1;
     curandState_t *states;
     cudaMalloc((void **)&states, numberOfPhotons * sizeof(curandState_t));
@@ -72,9 +79,7 @@ void applyMC(){
     cudaMalloc((void **)&_gpuPhotons, numberOfPhotons * sizeof(Photon));
     // Initialize the Boundary and the RandomNumberGenerator
     RNG rng;
-    //Boundary boundary = Boundary(BOUNDARY_RADIUS, Point());
-    Detector detector = Detector(detectorRadius, detectorPosition, DETECTOR_LOOK_DOWNWARDS);
-    Tissue tissue = Tissue(tissueRadius, tissueFirstCenter, tissueSecondCenter, tissueAbsCoeff, tissueScatCoeff);
+
     // Kernel Call
     //finalPosition<<<nBlocks,THREADS_PER_BLOCK>>>(time(0), states , _gpuPoints, boundary, rng, NUMBER_OF_PHOTONS);
     finalState<<<nBlocks, THREADS_PER_BLOCK>>>(time(0), states, _gpuPhotons, detector, rng, tissue, numberOfPhotons);
@@ -82,7 +87,6 @@ void applyMC(){
     cudaMemcpy(_cpuPhotons, _gpuPhotons, numberOfPhotons * sizeof(Photon), cudaMemcpyDeviceToHost);
     //streamOut(&_cpuPhotons[0]);
     sendResults(&_cpuPhotons[0]);
-    appendToVectors(&_cpuPhotons[0]);
     askForNewBatch();
     free(_cpuPhotons);
     cudaFree(_gpuPhotons);
@@ -103,6 +107,7 @@ void sendResults(Photon *_cpuPhotons){
     newSocket->queryType="prepareForReceiving";
     newSocket->socket::getVectorOfPhotons(vectorOfPhotons);
     newSocket->createSocket();
+    appendToVectors(vectorOfPhotons);
 
 }
 
@@ -143,27 +148,22 @@ void populateParameters(QVector<float> parameters){
 
 // Append photons of each patch to a vector to stream the whole photons at the client side in 1 file
 // This is used in testing phase only
-void appendToVectors(Photon *_cpuPhotons){
-    for (int i = 0; i < numberOfPhotons; i++){
-        X.push_back(_cpuPhotons[i].getPosition().x());
-        Y.push_back(_cpuPhotons[i].getPosition().y());
-        Z.push_back(_cpuPhotons[i].getPosition().z());
-        W.push_back(_cpuPhotons[i].getWeight());
-        ST.push_back(_cpuPhotons[i].getState());
-    }
+void appendToVectors(QVector<Photon> Photons){
+  totalSentResults.append(Photons);
+  qDebug()<<"total sent"<<totalSentResults.size();
 }
 
 
-void streamOut(QVector<float> X,QVector<float> Y,QVector<float> Z,QVector<float> W,QVector<int> ST)
-{
+
+void streamOut(QVector<Photon> results){
     FILE *output;
-    output = fopen("clientOutput.csv", "w");
+    output = fopen("clientSentPhotons.csv", "w");
     std::string state;
     fprintf(output, "X,Y,Z,WEIGHT,STATE\n");
 
-    for (int i = 0; i < X.size(); i++)
+    for (int i = 0; i < results.size(); i++)
     {
-        switch (ST[i])
+        switch (results[i].getState())
         {
         case (-1):
             state = "TERMINATED";
@@ -178,10 +178,11 @@ void streamOut(QVector<float> X,QVector<float> Y,QVector<float> Z,QVector<float>
             state = "ESCAPED";
             break;
         }
-        // Streaming out my output in a log file
-        fprintf(output, "%f,%f,%f,%f,%s\n", X[i], Y[i], Z[i], W[i], state.c_str());
-        //fprintf(output, "%f,%f,%f,%f,%s\n", _cpuPhotons[i].getPosition().x(), _cpuPhotons[i].getPosition().y(), _cpuPhotons[i].getPosition().z(), _cpuPhotons[i].getWeight(), state.c_str());
-        //qDebug()<< _cpuPhotons[i].getPosition().x()<< _cpuPhotons[i].getPosition().y()<< _cpuPhotons[i].getPosition().z()<< _cpuPhotons[i].getWeight()<< state.c_str();
-    }
 
+        // Streaming out my output in a log file
+        fprintf(output, "%f,%f,%f,%f,%s\n", results[i].getPosition().x(), results[i].getPosition().y(), results[i].getPosition().z(), results[i].getWeight(), state.c_str());
+       // qDebug()<<results[i].getPosition().x()<< results[i].getPosition().y()<< results[i].getPosition().z()<< results[i].getWeight()<< state.c_str();
+
+    }
+    fclose(output);
 }

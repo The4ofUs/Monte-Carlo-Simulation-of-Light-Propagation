@@ -11,7 +11,6 @@
 #include "/home/gamila/Documents/GP/Task4-RandomWalkCUDA/Monte-Carlo-Simulation-of-Light-Propagation/code/headers/common.h"
 #include "/home/gamila/Documents/GP/Task4-RandomWalkCUDA/Monte-Carlo-Simulation-of-Light-Propagation/code/headers/Photon.h"
 
-
 class socket : public QObject
 {
     Q_OBJECT

@@ -1,10 +1,8 @@
 #include "initiateServer.h"
 #include "Photon.h"
-QVector<float> X_total;
-QVector<float> Y_total;
-QVector<float> Z_total;
-QVector<float> W_total;
-QVector<float> ST_total;
+#include <unistd.h>
+
+
 QVector<float> X;
 QVector<float> Y;
 QVector<float> Z;
@@ -26,8 +24,11 @@ void initiateServer::StartServer()
     else
     {
         qDebug() << "Listening .....";
-        serverTotalPhotons=100000;
-        photonsPerPatch = 10000;
+
+        serverTotalPhotons=5000;
+        serverTotalRecievedPhotons =5000; // To make sure that we recieved the whol volume before closing the server
+        photonsPerPatch = 1000;
+        totalRecievedSize = 0;
     }
 
 }
@@ -44,6 +45,7 @@ void initiateServer::incomingConnection(qintptr socketDescriptor)
     Descriptor= socketDescriptor;
     connect(thread,SIGNAL(finished()),thread,SLOT(deleteLater()));
     connect(thread,SIGNAL(newBatchSignal()),this,SLOT(decrementBatch()));
+    connect(thread,SIGNAL(appendNewReceivedResultsSignal()),this,SLOT(appendReceivedResults()));
 
 }
 
@@ -51,15 +53,31 @@ void initiateServer::incomingConnection(qintptr socketDescriptor)
 void initiateServer::decrementBatch(){
     if(serverTotalPhotons==0){
         qDebug()<<"there are no more batches to be sent";
-        qDebug()<< "Server is closed";
-        //streamOut(X_total, Y_total, Z_total, W_total, ST_total);
         this->close();
+        qDebug()<< "Server is closed";
+
     }
     else{
         serverTotalPhotons = serverTotalPhotons-photonsPerPatch;
         qDebug()<<"decrement batch"<<serverTotalPhotons;
     }
 }
+
+void initiateServer::appendReceivedResults(){
+    newResults = thread->returnRecievedPhotons();
+    qDebug()<<"new results"<< newResults.size();
+    ReceivedPhotons.append(newResults);
+    qDebug()<<"total recieved"<<ReceivedPhotons.size();
+    totalRecievedSize +=newResults.size();
+    if (totalRecievedSize == serverTotalRecievedPhotons)
+    {
+        streamOut(ReceivedPhotons);
+
+    }
+
+}
+
+
 int initiateServer::sendDescriptor(){
     return Descriptor;
 }
@@ -78,28 +96,16 @@ int initiateServer::terminatedCounter(){
 
 }
 
-void initiateServer::appendToVectors(QVector<float> X,QVector<float> Y,QVector<float> Z,QVector<float> W,QVector<int> ST){
-    for (int i = 0; i < X.size(); i++)
-    {
-        X_total.push_back(X[i]);
-        Y_total.push_back(Y[i]);
-        Z_total.push_back(Z[i]);
-        W_total.push_back(W[i]);
-        ST_total.push_back(ST[i]);
 
-    }
-
-}
-
-void initiateServer::streamOut(QVector<float> X_total,QVector<float> Y_total,QVector<float> Z_total,QVector<float> W_total,QVector<int> ST_total){
+void initiateServer::streamOut(QVector<Photon> results){
     FILE *output;
-    output = fopen("serverOutput.csv", "w");
+    output = fopen("serverReceivedResults.csv", "w");
     std::string state;
     fprintf(output, "X,Y,Z,WEIGHT,STATE\n");
 
-    for (int i = 0; i < X.size(); i++)
+    for (int i = 0; i < results.size(); i++)
     {
-        switch (ST_total[i])
+        switch (results[i].getState())
         {
         case (-1):
             state = "TERMINATED";
@@ -114,9 +120,10 @@ void initiateServer::streamOut(QVector<float> X_total,QVector<float> Y_total,QVe
             state = "ESCAPED";
             break;
         }
-        // Streaming out my output in a log file
-        fprintf(output, "%f,%f,%f,%f,%s\n", X_total[i], Y_total[i], Z_total[i], W_total[i], state.c_str());
 
+        // Streaming out my output in a log file
+        fprintf(output, "%f,%f,%f,%f,%s\n", results[i].getPosition().x(), results[i].getPosition().y(), results[i].getPosition().z(), results[i].getWeight(), state.c_str());
+        //qDebug()<<results[i].getPosition().x()<< results[i].getPosition().y()<< results[i].getPosition().z()<< results[i].getWeight()<< state.c_str();
     }
     fclose(output);
 }

@@ -10,7 +10,6 @@
 #include <string>
 #include <iostream>
 #include <QVector>
-#include <time.h>
 socket::socket(QObject *parent) : QObject(parent)
 {
 
@@ -35,9 +34,8 @@ void socket::createSocket()
     connect(newSocket,SIGNAL(readyRead()),this,SLOT(readyRead()));
     connect(newSocket,SIGNAL(bytesWritten(qint64)),this,SLOT(bytesWritten(qint64)));
     newSocket->abort();
-    //newSocket->connectToHost(QHostAddress::LocalHost, 4567);
-    //newSocket->connectToHost("192.168.1.12", 4566);
-    newSocket->connectToHost("192.168.1.12", 4567);
+    newSocket->connectToHost(QHostAddress::LocalHost, 4567);
+    //newSocket->connectToHost("192.168.1.12", 4567);
 
     if(!newSocket->waitForConnected(1000))
     {
@@ -78,8 +76,6 @@ bool socket::isConnected(){
 void socket::startSerialization(){
     qDebug() <<"serialization has just started";
     QVector<Photon> V=getVectorToBeSend();
-    //qDebug()<<"Vevtor of photons size"<<V.size();
-    QByteArray sendArray;
     QVector<float> X;
     QVector<float>Y;
     QVector<float>Z;

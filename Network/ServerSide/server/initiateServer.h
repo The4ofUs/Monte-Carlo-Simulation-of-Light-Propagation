@@ -18,19 +18,23 @@ public:
     int terminatedCounter();
     int serverTotalPhotons;
     int photonsPerPatch;
-    void streamOut(QVector<float> X_total,QVector<float> Y_total,QVector<float> Z_total,QVector<float> W_total,QVector<int> ST_total);
-    void appendToVectors(QVector<float> X,QVector<float> Y,QVector<float> Z,QVector<float> W,QVector<int> ST);
+    int serverTotalRecievedPhotons;
+    int totalRecievedSize;
+    void streamOut(QVector<Photon> results);
 
 
 signals:
     void readyISREAD();
 public slots:
-void readIsReady();
-void decrementBatch();
+    void readIsReady();
+    void decrementBatch();
+    void appendReceivedResults();
 protected:
     void incomingConnection(qintptr socketDescriptor);
 private:
-       threads *thread;
+    threads *thread;
+    QVector<Photon> newResults;
+    QVector<Photon> ReceivedPhotons;
 };
 
 #endif // INITIATESERVER_H

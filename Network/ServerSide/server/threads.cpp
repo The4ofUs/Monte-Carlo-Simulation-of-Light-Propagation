@@ -11,8 +11,9 @@
 #include <QDebug>
 int Detected;
 int Terminated;
+QVector<Photon> receivedResults;
 int counter=0;
-int photonsPerPatch = 0;
+int photonsPerPatch;
 float detectorRadius = 10;
 float tissueRadius = 100;
 float tissueAbsCoeff = 1;
@@ -71,7 +72,7 @@ void threads::sendNewBatch(){
     QByteArray newBatchByteArray;
     QDataStream newBatch(&newBatchByteArray,QIODevice::WriteOnly);
     newBatch.setVersion(QDataStream::Qt_4_8);
-    if(batchPhotons==0){
+    if(batchRemainingPhotons==0){
         photonsPerPatch=0;
         //abort connection, close server and average results
         qDebug()<<"Server has no more batches";
@@ -83,12 +84,12 @@ void threads::sendNewBatch(){
 
 
 void threads::getBatchremainingPhotons(int batches){
-    batchPhotons = batches;
+    batchRemainingPhotons = batches;
 }
 
 void threads::getNumberOfPhotons(int numPhotons)
 {
-     photonsPerPatch = numPhotons;
+    photonsPerPatch = numPhotons;
 }
 
 void threads::sendParameters(){
@@ -113,6 +114,8 @@ void threads::sendParameters(){
     paramtersTobeSend << userParameters;
     socket->write(parametersByteArray);
     qDebug()<<"Parameters are sent";
+    newBatchSignal();
+
 }
 
 QByteArray array ;
@@ -147,13 +150,37 @@ void threads::readPhotonsVector(){
         qDebug()<<"Recived Array total size"<<array.size();
         streamm >> X>>Y>>Z>>W>>ST;
         qDebug()<<"Random Point";
-        qDebug()<<X[1];
+        qDebug()<<X[5];
         //qDebug()<<X.size() <<Y.size()<< Z.size()<<W.size()<<ST.size();
         qDebug()<<"Results are recived";
         array.clear();
     }
+    reconditionResultsToPhotons(X,Y,Z,W,ST);
+    qDebug()<<"results after conditioning"<<receivedResults.size();
+    appendNewReceivedResultsSignal();
 }
 
+QVector<Photon> threads::returnRecievedPhotons()
+{
+    qDebug()<<"at return"<<receivedResults.size();
+
+    return receivedResults;
+}
+
+
+void threads::reconditionResultsToPhotons(QVector<float> x,QVector<float> y, QVector<float> z, QVector<float> w, QVector<float> s){
+    receivedResults.clear();
+    for(int i=0; i<x.size();i++){
+        Photon ph;
+        Point P;
+        P.setCoordinates(x[i],y[i],z[i]);
+        ph.setPosition(P);
+        ph.setWeight(w[i]);
+        ph.setState(s[i]);
+        receivedResults.push_back(ph);
+    }
+    qDebug()<<"Recevied results reconditioned to array of photons size is "<<receivedResults.size();
+}
 
 
 
