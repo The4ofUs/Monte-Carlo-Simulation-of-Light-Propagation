@@ -18,6 +18,9 @@ public:
     int terminatedCounter();
     int serverTotalPhotons;
     int photonsPerPatch;
+    void streamOut(QVector<float> X_total,QVector<float> Y_total,QVector<float> Z_total,QVector<float> W_total,QVector<int> ST_total);
+    void appendToVectors(QVector<float> X,QVector<float> Y,QVector<float> Z,QVector<float> W,QVector<int> ST);
+
 
 signals:
     void readyISREAD();

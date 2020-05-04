@@ -22,14 +22,22 @@ Point detectorPosition;
 Point tissueFirstCenter;
 Point tissueSecondCenter;
 QVector<Photon> photons;
+QVector<float> X;
+QVector<float> Y;
+QVector<float> Z;
+QVector<float> W;
+QVector<int> ST;
+
 bool newBatchAvailable;
 char *stateToString(int state);
-void streamOut(Photon *_cpuPhotons);
 void sendResults(Photon *_cpuPhotons);
 void requestParameters();
 void populateParameters(QVector<float> parameters);
 void applyMC();
 void askForNewBatch();
+void appendToVectors(Photon *_cpuPhotons);
+void streamOut(QVector<float> X,QVector<float> Y,QVector<float> Z,QVector<float> W,QVector<int> ST);
+
 __global__ void finalState(unsigned int seed, curandState_t *states, Photon *_gpuPhotons, Detector detector, RNG rng, Tissue tissue, int n)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -47,7 +55,9 @@ int main()
     while(newBatchAvailable){
         applyMC();
     }
+
    // applyMC();
+    streamOut(X,Y,Z,W,ST);
     return 0;
 }
 
@@ -70,8 +80,9 @@ void applyMC(){
     finalState<<<nBlocks, THREADS_PER_BLOCK>>>(time(0), states, _gpuPhotons, detector, rng, tissue, numberOfPhotons);
     // Copy device data to host memory to stream them out
     cudaMemcpy(_cpuPhotons, _gpuPhotons, numberOfPhotons * sizeof(Photon), cudaMemcpyDeviceToHost);
-    streamOut(&_cpuPhotons[0]);
+    //streamOut(&_cpuPhotons[0]);
     sendResults(&_cpuPhotons[0]);
+    appendToVectors(&_cpuPhotons[0]);
     askForNewBatch();
     free(_cpuPhotons);
     cudaFree(_gpuPhotons);
@@ -130,15 +141,29 @@ void populateParameters(QVector<float> parameters){
     qDebug()<<"Parameters are received";
 }
 
-void streamOut(Photon *_cpuPhotons)
+// Append photons of each patch to a vector to stream the whole photons at the client side in 1 file
+// This is used in testing phase only
+void appendToVectors(Photon *_cpuPhotons){
+    for (int i = 0; i < numberOfPhotons; i++){
+        X.push_back(_cpuPhotons[i].getPosition().x());
+        Y.push_back(_cpuPhotons[i].getPosition().y());
+        Z.push_back(_cpuPhotons[i].getPosition().z());
+        W.push_back(_cpuPhotons[i].getWeight());
+        ST.push_back(_cpuPhotons[i].getState());
+    }
+}
+
+
+void streamOut(QVector<float> X,QVector<float> Y,QVector<float> Z,QVector<float> W,QVector<int> ST)
 {
     FILE *output;
     output = fopen("clientOutput.csv", "w");
     std::string state;
     fprintf(output, "X,Y,Z,WEIGHT,STATE\n");
-    for (int i = 0; i < numberOfPhotons; i++)
+
+    for (int i = 0; i < X.size(); i++)
     {
-        switch (_cpuPhotons[i].getState())
+        switch (ST[i])
         {
         case (-1):
             state = "TERMINATED";
@@ -154,9 +179,9 @@ void streamOut(Photon *_cpuPhotons)
             break;
         }
         // Streaming out my output in a log file
-        fprintf(output, "%f,%f,%f,%f,%s\n", _cpuPhotons[i].getPosition().x(), _cpuPhotons[i].getPosition().y(), _cpuPhotons[i].getPosition().z(), _cpuPhotons[i].getWeight(), state.c_str());
+        fprintf(output, "%f,%f,%f,%f,%s\n", X[i], Y[i], Z[i], W[i], state.c_str());
+        //fprintf(output, "%f,%f,%f,%f,%s\n", _cpuPhotons[i].getPosition().x(), _cpuPhotons[i].getPosition().y(), _cpuPhotons[i].getPosition().z(), _cpuPhotons[i].getWeight(), state.c_str());
         //qDebug()<< _cpuPhotons[i].getPosition().x()<< _cpuPhotons[i].getPosition().y()<< _cpuPhotons[i].getPosition().z()<< _cpuPhotons[i].getWeight()<< state.c_str();
-
-
     }
+
 }

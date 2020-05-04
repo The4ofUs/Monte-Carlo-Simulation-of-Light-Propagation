@@ -150,10 +150,11 @@ void threads::readPhotonsVector(){
         qDebug()<<X[1];
         //qDebug()<<X.size() <<Y.size()<< Z.size()<<W.size()<<ST.size();
         qDebug()<<"Results are recived";
-        initiateServer->appendToVectors(X, Y, Z, W, ST);
         array.clear();
     }
 }
+
+
 
 
 void threads::disconnected()
