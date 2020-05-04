@@ -27,7 +27,7 @@ QVector<float> Y;
 QVector<float> Z;
 QVector<float> W;
 QVector<int> ST;
-
+#include <unistd.h>
 bool newBatchAvailable;
 char *stateToString(int state);
 void sendResults(Photon *_cpuPhotons);
@@ -54,7 +54,7 @@ int main()
     requestParameters();
     while(newBatchAvailable){
         applyMC();
-    }
+        usleep(1000000);    }
 
    // applyMC();
     streamOut(X,Y,Z,W,ST);

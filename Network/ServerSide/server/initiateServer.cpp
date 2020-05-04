@@ -26,8 +26,8 @@ void initiateServer::StartServer()
     else
     {
         qDebug() << "Listening .....";
-        serverTotalPhotons=50;
-        photonsPerPatch = 10;
+        serverTotalPhotons=100000;
+        photonsPerPatch = 10000;
     }
 
 }
@@ -52,7 +52,7 @@ void initiateServer::decrementBatch(){
     if(serverTotalPhotons==0){
         qDebug()<<"there are no more batches to be sent";
         qDebug()<< "Server is closed";
-        streamOut(X_total, Y_total, Z_total, W_total, ST_total);
+        //streamOut(X_total, Y_total, Z_total, W_total, ST_total);
         this->close();
     }
     else{

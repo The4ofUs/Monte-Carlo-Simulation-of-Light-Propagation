@@ -14,7 +14,7 @@ int Terminated;
 int counter=0;
 int photonsPerPatch = 0;
 float detectorRadius = 10;
-float tissueRadius = 10;
+float tissueRadius = 100;
 float tissueAbsCoeff = 1;
 float tissueScatCoeff = 100 ;
 Point *detectorPosition = new Point(0,0,50);
@@ -150,10 +150,11 @@ void threads::readPhotonsVector(){
         qDebug()<<X[1];
         //qDebug()<<X.size() <<Y.size()<< Z.size()<<W.size()<<ST.size();
         qDebug()<<"Results are recived";
-        initiateServer->appendToVectors(X, Y, Z, W, ST);
         array.clear();
     }
 }
+
+
 
 
 void threads::disconnected()

@@ -35,8 +35,10 @@ void socket::createSocket()
     connect(newSocket,SIGNAL(readyRead()),this,SLOT(readyRead()));
     connect(newSocket,SIGNAL(bytesWritten(qint64)),this,SLOT(bytesWritten(qint64)));
     newSocket->abort();
-    newSocket->connectToHost(QHostAddress::LocalHost, 4567);
+    //newSocket->connectToHost(QHostAddress::LocalHost, 4567);
     //newSocket->connectToHost("192.168.1.12", 4566);
+    newSocket->connectToHost("192.168.1.12", 4567);
+
     if(!newSocket->waitForConnected(1000))
     {
         qDebug() <<"Error: " << newSocket->errorString();
