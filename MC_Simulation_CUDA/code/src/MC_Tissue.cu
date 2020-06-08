@@ -8,6 +8,7 @@
 
 
 __host__ MC_Tissue::MC_Tissue(float const radius, MC_Point const c0, MC_Point const c1, float const ac, float const sc) {
+
     if (radius > 0 && ac > 0 && sc > 0) {
         this->_radius = radius;
         this->_interface = c0;

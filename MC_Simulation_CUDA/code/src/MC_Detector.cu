@@ -14,6 +14,7 @@ __host__ MC_Detector::MC_Detector(float const radius, MC_Point const center, MC_
         this->_center = center;
         this->_lookAt = MCMath::normalized(lookAt);
     } else {
+
         throw std::invalid_argument("MC_Detector::MC_Detector : Illegal Argument!");
     }
 }

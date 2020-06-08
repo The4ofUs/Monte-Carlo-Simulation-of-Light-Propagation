@@ -4,7 +4,8 @@
 
 #ifndef MC_SIMULATION_MC_POINT_CUH
 #define MC_SIMULATION_MC_POINT_CUH
-
+#include <curand.h>
+#include <curand_kernel.h>
 
 class MC_Point {
 

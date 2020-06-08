@@ -7,9 +7,10 @@
 
 #include "MC_Photon.cuh"
 #include <sstream>
-
+#include <QVector>
 namespace MCHelpers {
-    void streamOut(MC_Photon *_cpuPhotons, int n);
+//void streamOut(MC_Photon *_cpuPhotons, int n);
+void streamOut(QVector<MC_Photon> results);
 }
 
 

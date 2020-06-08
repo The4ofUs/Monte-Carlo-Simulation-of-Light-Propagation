@@ -37,9 +37,9 @@ private:
 
     float _radius{};
 
-    MC_Point _interface{};
+    MC_Point _interface;
 
-    MC_Point _remote{};
+    MC_Point _remote;
 
     MC_Vector _normal{};
 
