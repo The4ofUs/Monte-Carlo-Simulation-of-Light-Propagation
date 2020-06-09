@@ -9,7 +9,8 @@
 __host__ MC_MLTissue::MC_MLTissue(float const radius, MC_Point const c0, MC_Point const c1,
                                   std::vector<float> const &absorptionCoefficients,
                                   std::vector<float> const &scatteringCoefficients) {
-    if (radius > 0 && absorptionCoefficients.size() == scatteringCoefficients.size()) {
+    if (radius > 0 && absorptionCoefficients.size() == scatteringCoefficients.size() &&
+        !absorptionCoefficients.empty() && absorptionCoefficients.size() <= MAX_SIZE) {
         this->_radius = radius;
         this->_interface = c0;
         this->_remote = c1;
@@ -17,12 +18,12 @@ __host__ MC_MLTissue::MC_MLTissue(float const radius, MC_Point const c0, MC_Poin
         this->_size = absorptionCoefficients.size();
         this->_thickness = MCMath::absDistance(this->_interface, this->_remote);
         for (int i = 0; i < this->_size; i++) {
-            // This method of population the array with undefined Points is reckless and should be modified
             MC_Point interface =
                     this->_interface + this->_normal * ((float) i * this->_thickness / (float) this->_size);
             MC_Point remote =
                     this->_interface + this->_normal * ((float) (i + 1) * this->_thickness / (float) this->_size);
-            this->_layers[i] = MC_Tissue(radius, interface, remote, absorptionCoefficients[i], scatteringCoefficients[i]);
+            this->_layers[i] = MC_Tissue(radius, interface, remote, absorptionCoefficients[i],
+                                         scatteringCoefficients[i]);
         }
     } else { throw std::invalid_argument("MC_MLTissue::MC_MLTissue : Illegal Argument!"); }
 }
