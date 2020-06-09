@@ -12,7 +12,7 @@
 class MC_Photon {
 public:
     enum State {
-        TERMINATED = -1, ROAMING = 0,  DETECTED = 1, ESCAPED =2
+        ROAMING, TERMINATED,   DETECTED , ESCAPED
     };
 
     __device__ MC_Photon();

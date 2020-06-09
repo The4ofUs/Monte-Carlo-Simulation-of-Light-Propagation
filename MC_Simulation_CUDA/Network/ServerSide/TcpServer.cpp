@@ -81,16 +81,16 @@ void TcpServer::streamOut(QVector<Photon> results){
     {
         switch (results[i].getState())
         {
-        case (-1):
-            state = "TERMINATED";
-            break;
         case (0):
-            state = "ROAMING";
+            state ="ROAMING" ;
             break;
         case (1):
-            state = "DETECTED";
+            state ="TERMINATED";
             break;
         case (2):
+            state = "DETECTED";
+            break;
+        case (3):
             state = "ESCAPED";
             break;
         }
