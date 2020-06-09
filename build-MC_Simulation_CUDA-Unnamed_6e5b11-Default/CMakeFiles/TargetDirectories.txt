@@ -1,4 +1,0 @@
-/home/eman/Monte-Carlo-Simulation-of-Light-Propagation/build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/rebuild_cache.dir
-/home/eman/Monte-Carlo-Simulation-of-Light-Propagation/build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir
-/home/eman/Monte-Carlo-Simulation-of-Light-Propagation/build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/edit_cache.dir
-/home/eman/Monte-Carlo-Simulation-of-Light-Propagation/build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation_autogen.dir
