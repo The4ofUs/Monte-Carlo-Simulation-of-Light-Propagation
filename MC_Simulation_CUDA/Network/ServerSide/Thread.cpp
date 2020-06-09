@@ -11,7 +11,7 @@ float detectorRadius = 10;
 float tissueRadius = 100;
 float tissueAbsCoeff = 1;
 float tissueScatCoeff = 100 ;
-std::vector<float> coefficients1 = {1.f, 6.f, 4.f, 15};
+std::vector<float> coefficients1 = {1.f, 6.f, 4.f,15.f};
 
 std::vector<float> coefficients2 = {100.f, 30.f, 12.f, 44.f};
 Point *detectorPosition = new Point(0,0,10);

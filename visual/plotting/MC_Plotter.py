@@ -45,7 +45,7 @@ Y_escaped = []
 Z_escaped = []
 detected_dist = []
 
-with open('/home/gamila/Documents/GP/Task4-RandomWalkCUDA/Monte-Carlo-Simulation-of-Light-Propagation/MC_Simulation_CUDA/Network/build-ServerSide-Desktop-Debug/serverReceivedResults.csv', 'r', newline='') as file:
+with open('./build-MC_Simulation_CUDA-Desktop-Debug/clientSentPhotons.csv', 'r', newline='') as file:
     has_header = csv.Sniffer().has_header(file.read(1024))
     file.seek(0)  # Rewind.
     reader = csv.reader(file)
