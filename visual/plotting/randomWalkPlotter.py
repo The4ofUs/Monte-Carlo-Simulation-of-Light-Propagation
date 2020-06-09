@@ -22,7 +22,7 @@ class Point:
         pass
 
 
-detectorCenter = Point(0.0, 0.0, 50.0)
+detectorCenter = Point(0.0, 0.0, 10.0)
 
 fig = plt.figure(1)
 fig2, ax = plt.subplots()
@@ -45,12 +45,12 @@ Y_escaped = []
 Z_escaped = []
 detected_dist = []
 
-with open('../cuda/build/output.csv', 'r', newline='') as file:
-    #has_header = csv.Sniffer().has_header(file.read(1024))
+with open('/home/gamila/Documents/GP/Task4-RandomWalkCUDA/Monte-Carlo-Simulation-of-Light-Propagation/MC_Simulation_CUDA/Network/build-ServerSide-Desktop-Debug/serverReceivedResults.csv', 'r', newline='') as file:
+    has_header = csv.Sniffer().has_header(file.read(1024))
     file.seek(0)  # Rewind.
     reader = csv.reader(file)
-    #if has_header:
-     #   next(reader)
+    if has_header:
+        next(reader)
     for row in reader:
         if row[4] == TERMINATED:
             X_terminated.append(float(row[0]))

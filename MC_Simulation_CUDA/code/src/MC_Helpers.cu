@@ -40,18 +40,18 @@ void MCHelpers::streamOut(QVector<MC_Photon> results){
     {
         switch (results[i].state())
         {
-        case (-1):
-            state = "TERMINATED";
-            break;
-        case (0):
-            state = "ROAMING";
-            break;
-        case (1):
-            state = "DETECTED";
-            break;
-        case (2):
-            state = "ESCAPED";
-            break;
+  	    case (MC_Photon::TERMINATED):
+                state = "TERMINATED";
+                break;
+            case (MC_Photon::ROAMING):
+                state = "ROAMING";
+                break;
+            case (MC_Photon::DETECTED):
+                state = "DETECTED";
+                break;
+            case (MC_Photon::ESCAPED):
+                state = "ESCAPED";
+                break;
         }
         fprintf(output, "%f,%f,%f,%f,%s\n", results[i].position().x(), results[i].position().y(), results[i].position().z(), results[i].weight(), state.c_str());
 

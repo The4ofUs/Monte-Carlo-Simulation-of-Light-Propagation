@@ -30,10 +30,6 @@ int main() {
     QVector<float> parameters = socket->requestParameters();
     dumpReceivedParameters(parameters);
     socket->setBatchPhotons(Number_of_photons);
-    int nBlocks = Number_of_photons + THREADS_PER_BLOCK - 1 / THREADS_PER_BLOCK;
-    curandState_t *states;
-    cudaMalloc((void **) &states, Number_of_photons * sizeof(curandState_t));
-
     MC_RNG rng;
     MC_Detector detector = MC_Detector(Detector_Radius, Detector_Position, DETECTOR_LOOK_AT);
     //std::vector<float> coefficients1 = {1.f, 6.f, 4.f, 15};
@@ -41,8 +37,12 @@ int main() {
     MC_MLTissue mlTissue = MC_MLTissue(Tissue_Radius, Tissue_Center_1, Tissue_Center_2, coefficients1, coefficients2);
     //MC_Tissue tissue = MC_Tissue(Tissue_Radius,Tissue_Center_1,Tissue_Center_2,Tissue_Absorption_Coefficient,Tissue_Scattering_Coefficient);
     QVector<MC_Photon> totalPhotonsSent;
+
     while(socket->getBatchAvailability()){
-        auto *_cpuPhotons = (MC_Photon *) malloc(sizeof(MC_Photon) * Number_of_photons);
+    	int nBlocks = Number_of_photons + THREADS_PER_BLOCK - 1 / THREADS_PER_BLOCK;
+	curandState_t *states;
+    	cudaMalloc((void **) &states, Number_of_photons * sizeof(curandState_t));
+	auto *_cpuPhotons = (MC_Photon *) malloc(sizeof(MC_Photon) * Number_of_photons);
         MC_Photon *_gpuPhotons = nullptr;
         cudaMalloc((void **) &_gpuPhotons, Number_of_photons * sizeof(MC_Photon));
         MCKernels::simulate<<<nBlocks, THREADS_PER_BLOCK >>>
@@ -50,14 +50,13 @@ int main() {
         cudaMemcpy(_cpuPhotons, _gpuPhotons, Number_of_photons * sizeof(MC_Photon), cudaMemcpyDeviceToHost);
         socket->sendResults(&_cpuPhotons[0]);
         //MCHelpers::streamOut(&_cpuPhotons[0], Number_of_photons);
-
-        totalPhotonsSent.append(socket->getSentPhotons());
+	totalPhotonsSent.append(socket->getSentPhotons());
         Number_of_photons = socket->requestNewBatch();
         free(_cpuPhotons);
         cudaFree(_gpuPhotons);
-        cudaFree(states);
-
+     	cudaFree(states);
     }
+ 
     MCHelpers::streamOut(totalPhotonsSent);
     return 0;
 }
