@@ -6,7 +6,6 @@
 #define MC_SIMULATION_MC_KERNELS_CUH
 
 #include <curand_kernel.h>
-#include <vector>
 #include "MC_Photon.cuh"
 #include "MC_Detector.cuh"
 #include "MC_RNG.cuh"

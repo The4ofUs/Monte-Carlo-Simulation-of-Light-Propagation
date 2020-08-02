@@ -1,6 +1,4 @@
 #include <curand_kernel.h>
-#include <array>
-#include <vector>
 #include "code/headers/MC_Photon.cuh"
 #include "code/headers/MC_Detector.cuh"
 #include "code/headers/MC_RNG.cuh"
@@ -22,6 +20,7 @@
 
 
 int main() {
+    printf("main(): Starting.");
     int nBlocks = NUMBER_OF_PHOTONS + THREADS_PER_BLOCK - 1 / THREADS_PER_BLOCK;
     curandState_t *states;
     cudaMalloc((void **) &states, NUMBER_OF_PHOTONS * sizeof(curandState_t));
@@ -34,14 +33,13 @@ int main() {
     std::vector<float> coefficients2 = {100.f, 30.f, 12.f, 44.f};
     MC_MLTissue mlTissue = MC_MLTissue(TISSUE_RADIUS, TISSUE_CENTER_1, TISSUE_CENTER_2, coefficients1, coefficients2);
     MC_Tissue tissue = MC_Tissue(TISSUE_RADIUS,TISSUE_CENTER_1,TISSUE_CENTER_2,TISSUE_ABSORPTION_COEFFICIENT,TISSUE_SCATTERING_COEFFICIENT);
-    MCKernels::simulate<<<nBlocks, THREADS_PER_BLOCK >>>
-                                   (time(nullptr), states, _gpuPhotons, detector, rng, mlTissue, NUMBER_OF_PHOTONS);
+    MCKernels::simulate <<<nBlocks, THREADS_PER_BLOCK>>> (time(nullptr), states, _gpuPhotons, detector, rng, tissue, NUMBER_OF_PHOTONS);
     cudaMemcpy(_cpuPhotons, _gpuPhotons, NUMBER_OF_PHOTONS * sizeof(MC_Photon), cudaMemcpyDeviceToHost);
     MCHelpers::streamOut(&_cpuPhotons[0], NUMBER_OF_PHOTONS);
+    MCHelpers::endMsg(NUMBER_OF_PHOTONS,DETECTOR_RADIUS,DETECTOR_POSITION,DETECTOR_LOOK_AT,TISSUE_RADIUS,TISSUE_ABSORPTION_COEFFICIENT,TISSUE_SCATTERING_COEFFICIENT,TISSUE_CENTER_1,TISSUE_CENTER_2);
     free(_cpuPhotons);
     cudaFree(_gpuPhotons);
     cudaFree(states);
-    MCHelpers::endMsg(NUMBER_OF_PHOTONS,DETECTOR_RADIUS,DETECTOR_POSITION,DETECTOR_LOOK_AT,TISSUE_RADIUS,TISSUE_ABSORPTION_COEFFICIENT,TISSUE_SCATTERING_COEFFICIENT,TISSUE_CENTER_1,TISSUE_CENTER_2);
     return 0;
 }
 

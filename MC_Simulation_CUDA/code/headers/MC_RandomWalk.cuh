@@ -17,6 +17,7 @@
 #define ROULETTE_CHANCE 0.1f
 
 __device__ MC_Photon RandomWalk(curandState_t *states, int idx, MC_Detector detector, MC_RNG rng, MC_Tissue tissue) {
+    printf("RandomWalk(): Starting.");
     MC_Photon photon = MC_Photon(detector.center());
     float step = rng.getRandomStep(states, idx);
     MC_Ray path = MC_Ray(photon.position(), detector.lookAt(), step);

@@ -5,10 +5,10 @@
 #include "../headers/MC_Kernels.cuh"
 #include "../headers/MC_RandomWalk.cuh"
 
-__global__ void
-MCKernels::simulate(unsigned int seed, curandState_t *states, MC_Photon *_gpuPhotons, MC_Detector const detector,
+__global__ void MCKernels::simulate(unsigned int seed, curandState_t *states, MC_Photon *_gpuPhotons, MC_Detector const detector,
                     MC_RNG const rng,
                     MC_Tissue const tissue, int const n) {
+    printf("simulate(): Starting.");
     int idx = (int) (blockIdx.x * blockDim.x + threadIdx.x);
     if (idx < n) {
         curand_init(seed, idx, 0, &states[idx]);
@@ -17,10 +17,10 @@ MCKernels::simulate(unsigned int seed, curandState_t *states, MC_Photon *_gpuPho
     }
 }
 
-__global__ void
-MCKernels::simulate(unsigned int seed, curandState_t *states, MC_Photon *_gpuPhotons, MC_Detector const detector,
+__global__ void MCKernels::simulate(unsigned int seed, curandState_t *states, MC_Photon *_gpuPhotons, MC_Detector const detector,
                     MC_RNG const rng,
                     MC_MLTissue tissue, int const n) {
+    printf("simulate(): Starting.");
     int idx = (int) (blockIdx.x * blockDim.x + threadIdx.x);
     if (idx < n) {
         curand_init(seed, idx, 0, &states[idx]);
