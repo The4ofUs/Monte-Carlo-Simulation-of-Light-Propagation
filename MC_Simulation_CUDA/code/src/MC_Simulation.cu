@@ -19,7 +19,7 @@ void MC_Simulation::start() {
     auto *hostMemory = (MC_Photon *) malloc(sizeof(MC_Photon) * NUMBER_OF_PHOTONS);
     MC_Photon *deviceMemory = nullptr;
     cudaMalloc((void **) &deviceMemory, NUMBER_OF_PHOTONS * sizeof(MC_Photon));
-    MCKernels::simulate<<<blocksCount, THREADS_PER_BLOCK>>>(time(nullptr), states, deviceMemory, detector, rng, mlTissue, NUMBER_OF_PHOTONS);
+    MCKernels::simulate<<<blocksCount, THREADS_PER_BLOCK>>>(time(nullptr), states, deviceMemory, detector, mlTissue, NUMBER_OF_PHOTONS);
     cudaMemcpy(hostMemory, deviceMemory, NUMBER_OF_PHOTONS * sizeof(MC_Photon), cudaMemcpyDeviceToHost);
     MCHelpers::streamOut(&hostMemory[0], NUMBER_OF_PHOTONS);
     free(hostMemory);

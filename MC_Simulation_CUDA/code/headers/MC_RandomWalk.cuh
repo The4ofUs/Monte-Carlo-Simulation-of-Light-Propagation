@@ -16,22 +16,26 @@
 #define WEIGHT_THRESHOLD 0.0001f
 #define ROULETTE_CHANCE 0.1f
 
-__device__ MC_Photon RandomWalk(curandState_t *states, int idx, MC_Detector detector, MC_RNG rng, MC_MLTissue tissue) {
+__device__ MC_Photon RandomWalk(curandState_t *states, int idx, MC_Detector detector, MC_MLTissue tissue) {
     /*
-     * Setup for initial step
+     * Initializing the Photon position at the center of the detector
      */
-    MC_Photon photon = MC_Photon(detector.center());                                                // Start at the detector's center
-    float step = -1 * log(rng.getRandomStep(states, idx))/tissue.coefficient(photon.position());    // Get a random magnitude for the step
-    MC_Path path = MC_Path(photon.position(), detector.lookAt(), step);                               // Initial Path
+    MC_Photon photon = MC_Photon(detector.center());   // Start at the detector's center
+    /*
+     * Initializing initial Path
+     */
+    float step = (-1 * log(MC_RNG::getRandomStep(states, idx)) / tissue.coefficient(photon.position()));
+    MC_Path path = MC_Path(photon.position(), detector.lookAt(), step);  // Initial Path
     /*
      * Main loop
      */
     while (photon.state() == MC_Photon::ROAMING) {
-        if(tissue.isCrossing(path)) {
+        if (tissue.isCrossing(path)) {
             /*
              * if crossing, then update the path to have its tip on the boundary
              */
             path.setTip(tissue.crossingPoint(path));
+            printf("Tip : ( %f, %f, %f )\n",path.tip().x(),path.tip().y(),path.tip().z());
             /*
              * TODO : Check for reflection or transmission
              */
@@ -44,14 +48,14 @@ __device__ MC_Photon RandomWalk(curandState_t *states, int idx, MC_Detector dete
         }
         if (!tissue.escaped(photon.position())) {
             if (photon.weight() < WEIGHT_THRESHOLD) {
-                rng.roulette(photon, ROULETTE_CHANCE, states, idx);
+                MC_RNG::roulette(photon, ROULETTE_CHANCE, states, idx);
             }
         } else {
             photon.setState(MC_Photon::ESCAPED);
             break;
         }
-        step = -1*log(rng.getRandomStep(states, idx))/tissue.coefficient(photon.position());
-        path = MC_Path(photon.position(), rng.getRandomDirection(states, idx), step);
+        step = -1 * log(MC_RNG::getRandomStep(states, idx)) / tissue.coefficient(photon.position());
+        path = MC_Path(photon.position(), MC_RNG::getRandomDirection(states, idx), step);
     }
     return photon;
 }

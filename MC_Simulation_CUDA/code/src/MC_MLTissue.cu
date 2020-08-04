@@ -103,6 +103,9 @@ __device__ bool MC_MLTissue::isCrossing(MC_Path path) {
 
 __device__ MC_Point MC_MLTissue::crossingPoint(MC_Path path) {
     /*
+     * TODO: Solve identifying the idx of the layer as duality of coordinates are mixing up negative and positive
+     */
+    /*
      * Calculate the point of intersection between the path and layer boundary
      */
     /*
@@ -110,25 +113,35 @@ __device__ MC_Point MC_MLTissue::crossingPoint(MC_Path path) {
      */
     float portion = _thickness / (float) _size;
     /*
-     * Distance of Path origin from the interface
+     * Vector from interface to path origin
      */
-    float d = MCMath::absDistance(path.origin(), _interface);
+    MC_Vector v1 = MC_Vector(_interface, path.origin());
+    /*
+     * Perpendicular Distance of ray origin to the interface plane
+     */
+    float g = abs(MCMath::dot(v1, _normal));
     /*
      * idx of the current layer
      */
-    int layerIdx = (int) (d / portion);
+    int layerIdx = (int) (g / portion);
     /*
      * Distance of that boundary from the interface
      */
-    float s = portion * ((float) layerIdx + 1);
+    float l = portion * ((float) layerIdx + 1);
+    printf("Distance : %f\nidx : %d\n",l, layerIdx);
     /*
-     * Distance the Photon has to walk in the normal direction to intersect with the boundary
+     * A Point on the boundary plane
      */
-    float t = s - d;
+    MC_Point coord = _normal*l;
+    float d = MCMath::dot(_normal,coord);
+    /*
+     * Parametrized step in the direction of the path to touch the boundary
+     */
+    float t = (d - MCMath::dot(_normal,path.origin()))/MCMath::dot(_normal,path.direction());
     /*
      * New tip that lies on the boundary
      */
-    MC_Point newTip = path.origin() + _normal * t;
+    MC_Point newTip = path.origin() + path.direction() * t;
     return newTip;
 }
 

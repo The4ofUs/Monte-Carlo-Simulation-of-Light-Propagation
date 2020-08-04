@@ -14,11 +14,7 @@
 
 namespace MCKernels {
     __global__ void
-    simulate(unsigned int seed, curandState_t *states, MC_Photon *_gpuPhotons, MC_Detector detector, MC_RNG rng,
-             MC_Tissue tissue, int n);
-
-    __global__ void
-    simulate(unsigned int seed, curandState_t *states, MC_Photon *_gpuPhotons, MC_Detector detector, MC_RNG rng,
-             MC_MLTissue tissue, int n);
+    simulate(unsigned int seed, curandState_t *states, MC_Photon *_gpuPhotons, MC_Detector detector, MC_MLTissue tissue,
+             int n);
 }
 #endif //MC_SIMULATION_MC_KERNELS_CUH

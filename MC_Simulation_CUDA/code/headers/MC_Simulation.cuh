@@ -26,7 +26,6 @@ public:
     MC_Simulation();
     void start();
 private:
-    static MC_RNG rng;
     MC_Detector detector;
     MC_MLTissue mlTissue;
 };
