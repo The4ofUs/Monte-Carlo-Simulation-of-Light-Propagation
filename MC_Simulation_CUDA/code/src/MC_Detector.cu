@@ -49,3 +49,5 @@ __device__ MC_Point MC_Detector::calculateIntersectionPoint(MC_Ray const path) {
     float t = MCMath::dot(V, this->_lookAt) / MCMath::dot(B, this->_lookAt);
     return A + B * t;
 }
+
+MC_Detector::MC_Detector() = default;

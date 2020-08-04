@@ -90,3 +90,5 @@ __device__ float MC_MLTissue::attenuationCoefficient(MC_Point const position) {
     return t.attenuationCoefficient();
 }
 
+MC_MLTissue::MC_MLTissue() = default;
+

@@ -16,6 +16,8 @@ public:
     __host__ MC_MLTissue(float radius, MC_Point c0, MC_Point c1, const std::vector<float> &absorptionCoefficients,
                          const std::vector<float> &scatteringCoefficients);
 
+    MC_MLTissue();
+
     __host__ void verbose();
 
     __device__ void attenuate(MC_Photon &photon);

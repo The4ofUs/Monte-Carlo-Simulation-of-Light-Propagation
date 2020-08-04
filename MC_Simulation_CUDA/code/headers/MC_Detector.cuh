@@ -17,6 +17,8 @@ public:
 
     __host__ MC_Detector(float radius, MC_Point center, MC_Vector normal);
 
+    MC_Detector();
+
     __device__ float radius() const;
 
     __device__ MC_Point center();
