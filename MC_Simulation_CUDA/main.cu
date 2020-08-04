@@ -20,7 +20,7 @@
 
 
 int main() {
-    printf("main(): Starting.");
+    printf("main(): Starting.\n");
     int nBlocks = NUMBER_OF_PHOTONS + THREADS_PER_BLOCK - 1 / THREADS_PER_BLOCK;
     curandState_t *states;
     cudaMalloc((void **) &states, NUMBER_OF_PHOTONS * sizeof(curandState_t));
@@ -34,6 +34,7 @@ int main() {
     MC_MLTissue mlTissue = MC_MLTissue(TISSUE_RADIUS, TISSUE_CENTER_1, TISSUE_CENTER_2, coefficients1, coefficients2);
     MC_Tissue tissue = MC_Tissue(TISSUE_RADIUS,TISSUE_CENTER_1,TISSUE_CENTER_2,TISSUE_ABSORPTION_COEFFICIENT,TISSUE_SCATTERING_COEFFICIENT);
     MCKernels::simulate <<<nBlocks, THREADS_PER_BLOCK>>> (time(nullptr), states, _gpuPhotons, detector, rng, tissue, NUMBER_OF_PHOTONS);
+    cudaError_t cudaError = cudaGetLastError();
     cudaMemcpy(_cpuPhotons, _gpuPhotons, NUMBER_OF_PHOTONS * sizeof(MC_Photon), cudaMemcpyDeviceToHost);
     MCHelpers::streamOut(&_cpuPhotons[0], NUMBER_OF_PHOTONS);
     MCHelpers::endMsg(NUMBER_OF_PHOTONS,DETECTOR_RADIUS,DETECTOR_POSITION,DETECTOR_LOOK_AT,TISSUE_RADIUS,TISSUE_ABSORPTION_COEFFICIENT,TISSUE_SCATTERING_COEFFICIENT,TISSUE_CENTER_1,TISSUE_CENTER_2);
