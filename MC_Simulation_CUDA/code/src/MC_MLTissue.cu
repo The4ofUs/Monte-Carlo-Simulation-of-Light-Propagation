@@ -72,7 +72,7 @@ __device__ int MC_MLTissue::size() const {
 
 __device__ float MC_MLTissue::coefficient(MC_Point position) { return whichLayer(position).attenuationCoefficient(); }
 
-__device__ bool MC_MLTissue::isCrossing(MC_Ray path) {
+__device__ bool MC_MLTissue::isCrossing(MC_Path path) {
     /*
      * Vector from interface to path origin
      */
@@ -100,6 +100,38 @@ __device__ bool MC_MLTissue::isCrossing(MC_Ray path) {
 
     return q1 != q2;
 }
+
+__device__ MC_Point MC_MLTissue::crossingPoint(MC_Path path) {
+    /*
+     * Calculate the point of intersection between the path and layer boundary
+     */
+    /*
+     * Layer thickness
+     */
+    float portion = _thickness / (float) _size;
+    /*
+     * Distance of Path origin from the interface
+     */
+    float d = MCMath::absDistance(path.origin(), _interface);
+    /*
+     * idx of the current layer
+     */
+    int layerIdx = (int) (d / portion);
+    /*
+     * Distance of that boundary from the interface
+     */
+    float s = portion * ((float) layerIdx + 1);
+    /*
+     * Distance the Photon has to walk in the normal direction to intersect with the boundary
+     */
+    float t = s - d;
+    /*
+     * New tip that lies on the boundary
+     */
+    MC_Point newTip = path.origin() + _normal * t;
+    return newTip;
+}
+
 
 MC_MLTissue::MC_MLTissue() = default;
 

@@ -9,7 +9,7 @@
 #include "MC_Point.cuh"
 #include "MC_Vector.cuh"
 #include "MC_Photon.cuh"
-#include "MC_Ray.cuh"
+#include "MC_Path.cuh"
 
 class MC_Detector {
 
@@ -25,9 +25,9 @@ public:
 
     __device__ MC_Vector lookAt();
 
-    __device__ bool isHit(MC_Photon &photon, MC_Ray path);
+    __device__ bool isHit(MC_Photon &photon, MC_Path path);
 
-    __device__ MC_Point calculateIntersectionPoint(MC_Ray path);
+    __device__ MC_Point calculateIntersectionPoint(MC_Path path);
 
 private:
 

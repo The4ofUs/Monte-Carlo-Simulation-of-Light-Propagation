@@ -23,8 +23,7 @@ __device__ bool MC_Tissue::escaped(MC_Point const position) {
     MC_Point A = position;
     MC_Point B = this->_interface;
     MC_Vector C = this->_normal;
-    float t =
-            MCMath::dot(C, (A - B)) / MCMath::norm(C) * MCMath::norm(C);
+    float t = MCMath::dot(C, (A - B)) / MCMath::norm(C) * MCMath::norm(C);
     MC_Point P = B + C * t;
     float d = MCMath::absDistance(A, P);
     if (d > this->_radius) { return true; }

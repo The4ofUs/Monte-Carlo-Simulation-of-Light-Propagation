@@ -22,7 +22,7 @@ __device__ MC_Point MC_Detector::center() { return this->_center; }
 
 __device__ MC_Vector MC_Detector::lookAt() { return this->_lookAt; }
 
-__device__ bool MC_Detector::isHit(MC_Photon &photon, MC_Ray const path) {
+__device__ bool MC_Detector::isHit(MC_Photon &photon, MC_Path const path) {
     float relative_distance = MCMath::absDistance(path.tip(), this->_center);
     float rayTipAbsDistance = MCMath::norm(path.tip());
     float rayOriginAbsDistance = MCMath::norm(path.origin());
@@ -40,7 +40,7 @@ __device__ bool MC_Detector::isHit(MC_Photon &photon, MC_Ray const path) {
         return false;
 }
 
-__device__ MC_Point MC_Detector::calculateIntersectionPoint(MC_Ray const path) {
+__device__ MC_Point MC_Detector::calculateIntersectionPoint(MC_Path const path) {
     MC_Point A = path.origin();
     MC_Vector B = path.direction();
     MC_Vector V = MC_Vector(A, this->_center);

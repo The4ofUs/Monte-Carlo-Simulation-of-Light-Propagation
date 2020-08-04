@@ -24,11 +24,13 @@ public:
 
     __device__ bool escaped(MC_Point position);
 
-    __device__ bool isCrossing(MC_Ray path);
+    __device__ bool isCrossing(MC_Path path);
 
     __device__ int size() const;
 
     __device__ MC_Tissue whichLayer(MC_Point position);
+
+    __device__ MC_Point crossingPoint(MC_Path path);
 
 private:
     static const int MAX_SIZE = 8;

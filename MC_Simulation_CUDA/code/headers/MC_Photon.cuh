@@ -7,7 +7,7 @@
 
 
 #include "MC_Point.cuh"
-#include "MC_Ray.cuh"
+#include "MC_Path.cuh"
 
 class MC_Photon {
 public:
@@ -35,7 +35,7 @@ public:
 
     __device__ void boost(float factor);
 
-    __device__ void moveAlong(MC_Ray path);
+    __device__ void moveAlong(MC_Path path);
 
 
 private:

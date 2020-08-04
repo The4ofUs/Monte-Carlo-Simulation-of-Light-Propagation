@@ -22,11 +22,20 @@ __device__ MC_Photon RandomWalk(curandState_t *states, int idx, MC_Detector dete
      */
     MC_Photon photon = MC_Photon(detector.center());                                                // Start at the detector's center
     float step = -1 * log(rng.getRandomStep(states, idx))/tissue.coefficient(photon.position());    // Get a random magnitude for the step
-    MC_Ray path = MC_Ray(photon.position(), detector.lookAt(), step);                               // Initial Path
+    MC_Path path = MC_Path(photon.position(), detector.lookAt(), step);                               // Initial Path
     /*
      * Main loop
      */
     while (photon.state() == MC_Photon::ROAMING) {
+        if(tissue.isCrossing(path)) {
+            /*
+             * if crossing, then update the path to have its tip on the boundary
+             */
+            path.setTip(tissue.crossingPoint(path));
+            /*
+             * TODO : Check for reflection or transmission
+             */
+        }
         photon.moveAlong(path);
         tissue.attenuate(photon);
         if (detector.isHit(photon, path)) {
@@ -42,7 +51,7 @@ __device__ MC_Photon RandomWalk(curandState_t *states, int idx, MC_Detector dete
             break;
         }
         step = -1*log(rng.getRandomStep(states, idx))/tissue.coefficient(photon.position());
-        path = MC_Ray(photon.position(), rng.getRandomDirection(states, idx), step);
+        path = MC_Path(photon.position(), rng.getRandomDirection(states, idx), step);
     }
     return photon;
 }
