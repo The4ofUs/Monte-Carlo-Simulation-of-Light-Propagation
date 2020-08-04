@@ -7,14 +7,14 @@
 #include "../headers/MC_Math.cuh"
 
 __host__ MC_MLTissue::MC_MLTissue(float const radius, MC_Point const c0, MC_Point const c1,
-                                  std::vector<float> const &absorptionCoefficients,
-                                  std::vector<float> const &scatteringCoefficients) {
-    if (radius > 0 && absorptionCoefficients.size() == scatteringCoefficients.size()) {
+                                  std::vector<float> const &absorpCoeffs,
+                                  std::vector<float> const &scatterCoeffs) {
+    if (radius > 0 && absorpCoeffs.size() == scatterCoeffs.size()) {
         this->_radius = radius;
         this->_interface = c0;
         this->_remote = c1;
         this->_normal = MCMath::normalized(MC_Vector(c0, c1));
-        this->_size = absorptionCoefficients.size();
+        this->_size = absorpCoeffs.size();
         this->_thickness = MCMath::absDistance(this->_interface, this->_remote);
         for (int i = 0; i < this->_size; i++) {
             // This method of population the array with undefined Points is reckless and should be modified
@@ -22,24 +22,10 @@ __host__ MC_MLTissue::MC_MLTissue(float const radius, MC_Point const c0, MC_Poin
                     this->_interface + this->_normal * ((float) i * this->_thickness / (float) this->_size);
             MC_Point remote =
                     this->_interface + this->_normal * ((float) (i + 1) * this->_thickness / (float) this->_size);
-            this->_layers[i] = MC_Tissue(radius, interface, remote, absorptionCoefficients[i], scatteringCoefficients[i]);
+            this->_layers[i] = MC_Tissue(radius, interface, remote, absorpCoeffs[i],
+                                         scatterCoeffs[i]);
         }
     } else { throw std::invalid_argument("MC_MLTissue::MC_MLTissue : Illegal Argument!"); }
-}
-
-__host__ void MC_MLTissue::verbose() {
-    printf("Tissue Radius : %f\nTissue Interface side position : (%f,%f,%f)\nTissue Remote side position : (%f,%f,%f)\nThickness : %f\nTissue Normal Vector : (%f,%f,%f)\nNumber of layers : %d\n\n--- Layers Properties ---",
-           this->_radius, this->_interface.x(), this->_interface.y(), this->_interface.z(), this->_remote.x(),
-           this->_remote.y(),
-           this->_remote.z(), this->_thickness, this->_normal.x(), this->_normal.y(), this->_normal.z(), this->_size);
-    for (int i = 0; i < this->_size; i++) {
-        MC_Tissue current = this->_layers[i];
-        printf("\nLayer #%d\nRadius : %f\nInterface : (%f,%f,%f)\nRemote : (%f,%f,%f)\nThickness : %f\nAbsorption Coefficient : %f\nScattering Coefficient : %f\nAttenuation Coefficient : %f\n",
-               i, current.radius(), current.interface().x(), current.interface().y(), current.interface().z(),
-               current.remote().x(),
-               current.remote().y(), current.remote().z(), current.thickness(),
-               current.absorption(), current.scattering(), current.attenuationCoefficient());
-    }
 }
 
 __device__ void MC_MLTissue::attenuate(MC_Photon &photon) {
@@ -69,8 +55,7 @@ __device__ bool MC_MLTissue::escaped(MC_Point const position) {
     MC_Point A = position;
     MC_Point B = this->_interface;
     MC_Vector C = this->_normal;
-    float t =
-            MCMath::dot(C, (A - B)) / MCMath::norm(C) * MCMath::norm(C);
+    float t = MCMath::dot(C, (A - B)) / MCMath::norm(C) * MCMath::norm(C);
     MC_Point P = B + C * t;
     float d = MCMath::absDistance(A, P);
     if (d > this->_radius) { return true; }
@@ -82,12 +67,38 @@ __device__ bool MC_MLTissue::escaped(MC_Point const position) {
 }
 
 __device__ int MC_MLTissue::size() const {
-    return _size;
+    return this->_size;
 }
 
-__device__ float MC_MLTissue::attenuationCoefficient(MC_Point const position) {
-    MC_Tissue t = whichLayer(position);
-    return t.attenuationCoefficient();
+__device__ float MC_MLTissue::coefficient(MC_Point position) { return whichLayer(position).attenuationCoefficient(); }
+
+__device__ bool MC_MLTissue::isCrossing(MC_Ray path) {
+    /*
+     * Vector from interface to path origin
+     */
+    MC_Vector v1 = MC_Vector(_interface, path.origin());
+    /*
+     * Vector from interface to path end
+     */
+    MC_Vector v2 = MC_Vector(_interface, path.tip());
+    /*
+     * Distance of ray origin to the interface plane
+     */
+    float d1 = abs(MCMath::dot(v1, _normal));
+    /*
+     * Distance of ray tip to the interface plane
+     */
+    float d2 = abs(MCMath::dot(v2, _normal));
+    /*
+     * Which portion the origin lies in
+     */
+    int q1 = (int) ((d1 / _thickness) * (float) _size);
+    /*
+     * Which portion the tip lies in
+     */
+    int q2 = (int) ((d2 / _thickness) * (float) _size);
+
+    return q1 != q2;
 }
 
 MC_MLTissue::MC_MLTissue() = default;

@@ -22,5 +22,5 @@ __device__  MC_Vector MC_Ray::direction() const { return this->_direction; }
 
 __device__  MC_Point MC_Ray::origin() const { return this->_origin; }
 
-__device__  MC_Point MC_Ray::getTip() const { return this->_tip; }
+__device__  MC_Point MC_Ray::tip() const { return this->_tip; }
 

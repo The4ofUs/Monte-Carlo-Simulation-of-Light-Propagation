@@ -37,5 +37,5 @@ __device__ void MC_Photon::terminate() {
 __device__ void MC_Photon::boost(float const factor) { this->_weight = this->_weight / factor; }
 
 __device__ void MC_Photon::moveAlong(MC_Ray const path) {
-    this->_position = path.getTip();
+    this->_position = path.tip();
 }

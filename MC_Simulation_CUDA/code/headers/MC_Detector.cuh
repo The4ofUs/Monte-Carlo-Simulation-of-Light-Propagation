@@ -31,9 +31,9 @@ public:
 
 private:
 
-    float _radius;
+    float _radius{};
 
-    MC_Point _center;
+    MC_Point _center{};
 
     MC_Vector _lookAt;
 };

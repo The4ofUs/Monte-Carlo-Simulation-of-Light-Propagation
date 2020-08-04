@@ -18,15 +18,13 @@ __host__ MC_Detector::MC_Detector(float const radius, MC_Point const center, MC_
     }
 }
 
-__device__ float MC_Detector::radius() const { return this->_radius; }
-
 __device__ MC_Point MC_Detector::center() { return this->_center; }
 
 __device__ MC_Vector MC_Detector::lookAt() { return this->_lookAt; }
 
 __device__ bool MC_Detector::isHit(MC_Photon &photon, MC_Ray const path) {
-    float relative_distance = MCMath::absDistance(path.getTip(), this->_center);
-    float rayTipAbsDistance = MCMath::norm(path.getTip());
+    float relative_distance = MCMath::absDistance(path.tip(), this->_center);
+    float rayTipAbsDistance = MCMath::norm(path.tip());
     float rayOriginAbsDistance = MCMath::norm(path.origin());
     float detectorAbsDistance = MCMath::norm(this->_center);
     if (rayTipAbsDistance >= detectorAbsDistance && rayOriginAbsDistance <= detectorAbsDistance &&

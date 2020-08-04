@@ -17,9 +17,15 @@
 #define ROULETTE_CHANCE 0.1f
 
 __device__ MC_Photon RandomWalk(curandState_t *states, int idx, MC_Detector detector, MC_RNG rng, MC_MLTissue tissue) {
-    MC_Photon photon = MC_Photon(detector.center());
-    float step = rng.getRandomStep(states, idx);
-    MC_Ray path = MC_Ray(photon.position(), detector.lookAt(), step);
+    /*
+     * Setup for initial step
+     */
+    MC_Photon photon = MC_Photon(detector.center());                                                // Start at the detector's center
+    float step = -1 * log(rng.getRandomStep(states, idx))/tissue.coefficient(photon.position());    // Get a random magnitude for the step
+    MC_Ray path = MC_Ray(photon.position(), detector.lookAt(), step);                               // Initial Path
+    /*
+     * Main loop
+     */
     while (photon.state() == MC_Photon::ROAMING) {
         photon.moveAlong(path);
         tissue.attenuate(photon);
@@ -35,7 +41,7 @@ __device__ MC_Photon RandomWalk(curandState_t *states, int idx, MC_Detector dete
             photon.setState(MC_Photon::ESCAPED);
             break;
         }
-        step = rng.getRandomStep(states, idx);
+        step = -1*log(rng.getRandomStep(states, idx))/tissue.coefficient(photon.position());
         path = MC_Ray(photon.position(), rng.getRandomDirection(states, idx), step);
     }
     return photon;

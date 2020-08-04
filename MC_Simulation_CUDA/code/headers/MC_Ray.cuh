@@ -15,7 +15,7 @@ public:
 
     __device__ MC_Ray();
 
-    __device__  MC_Point getTip() const;
+    __device__  MC_Point tip() const;
 
     __device__  MC_Vector direction() const;
 
