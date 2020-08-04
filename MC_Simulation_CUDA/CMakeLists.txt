@@ -12,7 +12,7 @@ project(MC_Simulation CUDA)
 set(CMAKE_CUDA_STANDARD 14)
 
 # To disable deprecation warning
-SET(GCC_COVERAGE_COMPILE_FLAGS "-Wno-deprecated-gpu-targets")
+SET(APPEND CMAKE_CXX_FLAGS "-Wno-deprecated-gpu-targets")
 # To set archeticture correctly, check your GPU capabilities via nVidia website
 string(APPEND CMAKE_CUDA_FLAGS " -gencode arch=compute_50,code=sm_50")
 
