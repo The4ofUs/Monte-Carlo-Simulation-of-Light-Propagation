@@ -35,7 +35,6 @@ __device__ MC_Photon RandomWalk(curandState_t *states, int idx, MC_Detector dete
              * if crossing, then update the path to have its tip on the boundary
              */
             path.setTip(tissue.crossingPoint(path));
-            printf("Tip : ( %f, %f, %f )\n",path.tip().x(),path.tip().y(),path.tip().z());
             /*
              * TODO : Check for reflection or transmission
              */

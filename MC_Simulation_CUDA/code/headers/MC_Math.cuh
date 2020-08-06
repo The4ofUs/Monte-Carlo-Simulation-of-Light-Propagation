@@ -21,6 +21,12 @@ namespace MCMath {
     __device__ __host__ MC_Vector normalized(MC_Vector v);
 
     __device__ __host__ MC_Point rayTip(MC_Point origin, MC_Vector direction, float step);
+    /*
+     * p : the point from which distance is calculated
+     * coord : point on the plane
+     * n : normal to the plane
+     */
+    __device__ __host__ float point2PlaneDist(MC_Point p, MC_Point coord, MC_Vector n);
 }
 
 

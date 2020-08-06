@@ -34,6 +34,10 @@ public:
 
 private:
     static const int MAX_SIZE = 8;
+    enum Direction {UP, DOWN};
+
+    __device__ int whichBoundary(MC_Path path);
+
     MC_Tissue _layers[MAX_SIZE];
     MC_Point _interface{};
     MC_Point _remote{};
@@ -41,6 +45,8 @@ private:
     MC_Vector _normal;
     int _size{};
     float _thickness{};
+    float _portion{};
+
 };
 
 

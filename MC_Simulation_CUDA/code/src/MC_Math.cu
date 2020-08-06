@@ -41,3 +41,8 @@ __device__ __host__ MC_Point MCMath::rayTip(MC_Point const origin, MC_Vector con
 {
     return (origin + (direction * step));
 }
+
+__device__ __host__ float MCMath::point2PlaneDist(MC_Point p, MC_Point coord, MC_Vector n) {
+    MC_Vector v = MC_Vector(coord, p);
+    return abs(MCMath::dot(v, n));
+}
