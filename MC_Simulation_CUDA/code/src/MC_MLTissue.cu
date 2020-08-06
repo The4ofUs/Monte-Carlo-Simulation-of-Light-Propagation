@@ -8,7 +8,7 @@
 
 __host__ MC_MLTissue::MC_MLTissue(float const radius, MC_Point const c0, MC_Point const c1,
                                   std::vector<float> const &absorpCoeffs,
-                                  std::vector<float> const &scatterCoeffs) {
+                                  std::vector<float> const &scatterCoeffs, std::vector<float> const &refractIndices) {
     if (radius > 0 && absorpCoeffs.size() == scatterCoeffs.size()) {
         _radius = radius;
         _interface = c0;
@@ -24,7 +24,7 @@ __host__ MC_MLTissue::MC_MLTissue(float const radius, MC_Point const c0, MC_Poin
             MC_Point remote =
                     _interface + _normal * ((float) (i + 1) * _thickness / (float) _size);
             _layers[i] = MC_Tissue(radius, interface, remote, absorpCoeffs[i],
-                                   scatterCoeffs[i]);
+                                   scatterCoeffs[i], refractIndices[i]);
         }
     } else { throw std::invalid_argument("MC_MLTissue::MC_MLTissue : Illegal Argument!"); }
 }

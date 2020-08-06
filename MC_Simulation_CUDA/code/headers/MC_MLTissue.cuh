@@ -14,7 +14,7 @@
 class MC_MLTissue {
 public:
     __host__ MC_MLTissue(float radius, MC_Point c0, MC_Point c1, const std::vector<float> &absorpCoeffs,
-                         const std::vector<float> &scatterCoeffs);
+                         const std::vector<float> &scatterCoeffs, const std::vector<float> &refractIndices);
 
     MC_MLTissue();
 

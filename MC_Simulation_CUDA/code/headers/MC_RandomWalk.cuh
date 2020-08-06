@@ -30,15 +30,13 @@ __device__ MC_Photon RandomWalk(curandState_t *states, int idx, MC_Detector dete
      * Main loop
      */
     while (photon.state() == MC_Photon::ROAMING) {
+        /*
+         * If crossing, then update the path to have its tip on the boundary
+         */
         if (tissue.isCrossing(path)) {
-            /*
-             * if crossing, then update the path to have its tip on the boundary
-             */
             tissue.updatePath(path);
-            /*
-             * TODO : Check for reflection or transmission
-             */
         }
+
         photon.moveAlong(path);
         tissue.attenuate(photon);
         if (detector.isHit(photon, path)) {

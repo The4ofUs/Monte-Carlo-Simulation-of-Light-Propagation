@@ -13,7 +13,7 @@ class MC_Tissue {
 public:
     MC_Tissue() = default;
 
-    __host__ MC_Tissue(float radius, MC_Point c0, MC_Point c1, float ac, float sc);
+    __host__ MC_Tissue(float radius, MC_Point c0, MC_Point c1, float ac, float sc, float rn);
 
     __device__ bool escaped(MC_Point position);
 
@@ -22,6 +22,8 @@ public:
     __host__ __device__ MC_Point interface();
 
     __host__ __device__ MC_Point remote();
+
+    __host__ __device__ float n() const;
 
     __host__ __device__ float radius() const;
 
@@ -37,17 +39,19 @@ private:
 
     float _radius;
 
-    MC_Point _interface;
+    MC_Point _interface{};
 
-    MC_Point _remote;
+    MC_Point _remote{};
 
-    MC_Vector _normal;
+    MC_Vector _normal{};
 
-    float Ms;
+    float _Ms;
 
-    float Ma;
+    float _Ma;
 
-    float Mt;
+    float _Mt;
+
+    float _n;
 };
 
 

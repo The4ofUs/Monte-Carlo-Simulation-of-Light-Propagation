@@ -20,6 +20,7 @@
 #define TISSUE_CENTER_2 MC_Point(0.f, 0.f, 0.f)
 #define A_COEFFICIENTS std::vector<float> {1.f, 6.f, 4.f, 2.f}
 #define S_COEFFICIENTS std::vector<float> {100.f, 30.f, 12.f, 20.f}
+#define R_INDICES std::vector<float> {0.5f, 0.3f, 0.2f, 0.8f};
 
 class MC_Simulation {
 public:
