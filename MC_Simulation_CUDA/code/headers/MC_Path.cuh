@@ -26,13 +26,13 @@ public:
 
 protected:
 
-    MC_Point _origin;
+    MC_Point _origin{};
 
-    MC_Point _tip;
+    MC_Point _tip{};
 
     float _step;
 
-    MC_Vector _direction;
+    MC_Vector _direction{};
 };
 
 

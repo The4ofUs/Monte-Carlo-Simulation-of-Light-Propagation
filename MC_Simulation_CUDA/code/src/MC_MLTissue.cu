@@ -103,29 +103,28 @@ __device__ bool MC_MLTissue::isCrossing(MC_Path path) {
 /*
  * Calculate the point of intersection between the path and layer boundary
  */
-__device__ MC_Point MC_MLTissue::crossingPoint(MC_Path path) {
+__device__ void MC_MLTissue::updatePath(MC_Path& path) {
     /*
      * First we need to get a point on the boundary, however we need to determine some parameters first:
      * 1) Which direction did the crossing happen
      * 2) at which boundary
      */
-    MC_Point coord = _interface*((float) whichBoundary(path)*_portion);
+    MC_Point coord = _interface * (1 - ((float) whichBoundary(path) * _portion));
     float d = MCMath::dot(_normal, coord);
-    float t = (d - MCMath::dot(_normal,path.origin()))/MCMath::dot(_normal,path.direction());
-    return path.origin() + path.direction()*t;
+    float t = (d - MCMath::dot(_normal, path.origin())) / MCMath::dot(_normal, path.direction());
+    path.setTip(path.origin() + path.direction() * t);
 }
 
 __device__ int MC_MLTissue::whichBoundary(MC_Path path) {
     Direction direction;
     float d1 = MCMath::point2PlaneDist(path.origin(), _interface, _normal);
     float d2 = MCMath::point2PlaneDist(path.tip(), _interface, _normal);
-    if ((d2-d1) > 0) direction = DOWN;
+    if ((d2 - d1) > 0) direction = DOWN;
     else direction = UP;
-    int layerIdx =  (int) floor(d1/_portion);
+    int layerIdx = (int) floor(d1 / _portion);
     if (direction == DOWN) return layerIdx + 1;
     else return layerIdx;
 }
-
 
 
 MC_MLTissue::MC_MLTissue() = default;

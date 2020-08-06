@@ -30,7 +30,7 @@ public:
 
     __device__ MC_Tissue whichLayer(MC_Point position);
 
-    __device__ MC_Point crossingPoint(MC_Path path);
+    __device__ void updatePath(MC_Path& path);
 
 private:
     static const int MAX_SIZE = 8;
