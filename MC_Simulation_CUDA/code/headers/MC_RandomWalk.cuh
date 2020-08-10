@@ -16,7 +16,8 @@
 
 #define ROULETTE_CHANCE 0.1f
 
-__device__ MC_Photon RandomWalk(curandState_t *states, int idx, MC_FiberGenerator mcFiberGenerator, MC_MLTissue tissue) {
+__device__ MC_Photon
+RandomWalk(curandState_t *states, int idx, MC_FiberGenerator mcFiberGenerator, MC_MLTissue tissue) {
     /*
      * Initializing first step
      */
@@ -32,18 +33,19 @@ __device__ MC_Photon RandomWalk(curandState_t *states, int idx, MC_FiberGenerato
         if (tissue.isCrossing(path)) {      // Is crossing an inner boundary ?
             tissue.updatePath(path);    // Path tip should be directly on the boundary
         }
-        if (mcFiberGenerator.isHit(path)) {     // Is hitting the screen ?
-            photon.setState(MC_Photon::DETECTED);
+        if (mcFiberGenerator.isHit(path)) {             // Is hitting the screen ?
+            photon.setState(MC_Photon::DETECTED);    // Update State
         }
-        if (tissue.escaped(path) && photon.isRoaming()) {
-            photon.setState(MC_Photon::ESCAPED);
+        if (tissue.escaped(path) && photon.isRoaming()) {   // Escaped ?
+            photon.setState(MC_Photon::ESCAPED);      // Update State
         }
-        photon.moveAlong(path);
-        tissue.attenuate(photon);
-        if (photon.isDying() && photon.isRoaming()) {
-            MC_RNG::roulette(photon, ROULETTE_CHANCE, states, idx);
+        photon.moveAlong(path);         // Move along the given path
+        tissue.attenuate(photon);   // Attenuate Photon accordingly
+        if (photon.isDying() && photon.isRoaming()) {                       // weight < Threshold ?
+            MC_RNG::roulette(photon, ROULETTE_CHANCE, states, idx);     // Roulette
         }
-        path = MC_Path(photon.position(), MC_RNG::getRandomDirection(states, idx), MC_RNG::getRandomStep(states, idx, tissue.coefficient(photon.position())));
+        // Generate a new random path
+        path = MC_RNG::getRandomPath(states, idx, photon.position(), tissue.coefficient(photon.position()));
     }
     return photon;
 }

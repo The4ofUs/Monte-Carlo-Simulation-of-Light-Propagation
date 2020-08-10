@@ -57,5 +57,10 @@ __device__ void MC_RNG::roulette(MC_Photon &photon, float const chance, curandSt
 }
 
 __device__ float MC_RNG::getRandomStep(curandState *states, int i, float coefficient) {
-    return ((-1 * log(MC_RNG::getRandomNumber(states, i)))/ coefficient);
+    return ((-1 * log(MC_RNG::getRandomNumber(states, i))) / coefficient);
+}
+
+__device__ MC_Path MC_RNG::getRandomPath(curandState *states, int i, MC_Point origin, float coefficient) {
+    return {origin, MC_RNG::getRandomDirection(states, i),
+            MC_RNG::getRandomStep(states, i, coefficient)};
 }

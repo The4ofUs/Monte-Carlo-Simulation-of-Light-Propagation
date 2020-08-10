@@ -23,6 +23,8 @@ public:
     static __device__ void roulette(MC_Photon &photon, float chance, curandState *globalState, int i);
 
     static __device__ float getRandomStep(curandState *states, int i, float coefficient);
+
+    static __device__ MC_Path getRandomPath(curandState *states, int i, MC_Point origin, float coefficient);
 };
 
 
