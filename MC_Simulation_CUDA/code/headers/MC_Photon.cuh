@@ -9,6 +9,8 @@
 #include "MC_Point.cuh"
 #include "MC_Path.cuh"
 
+#define WEIGHT_THRESHOLD 0.0001f
+
 class MC_Photon {
 public:
     enum State {
@@ -36,6 +38,10 @@ public:
     __device__ void boost(float factor);
 
     __device__ void moveAlong(MC_Path path);
+
+    __device__ bool isRoaming();
+
+    __device__ bool isDying();
 
 
 private:

@@ -14,13 +14,15 @@ class MC_RNG {
 public:
     static __device__ float generate(curandState *states, int i);
 
-    static __device__ float getRandomStep(curandState *states, int i);
+    static __device__ float getRandomNumber(curandState *states, int i);
 
     static __device__ MC_Vector getRandomDirection(curandState *states, int i);
 
     static __device__ MC_Point getRandomPoint(curandState *states, int i);
 
     static __device__ void roulette(MC_Photon &photon, float chance, curandState *globalState, int i);
+
+    static __device__ float getRandomStep(curandState *states, int i, float coefficient);
 };
 
 

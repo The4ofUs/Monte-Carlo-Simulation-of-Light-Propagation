@@ -52,8 +52,8 @@ __device__ MC_Tissue MC_MLTissue::whichLayer(MC_Point const position) {
     return currentTissue;
 }
 
-__device__ bool MC_MLTissue::escaped(MC_Point const position) {
-    MC_Point A = position;
+__device__ bool MC_MLTissue::escaped(MC_Path const path) {
+    MC_Point A = path.tip();
     MC_Point B = _interface;
     MC_Vector C = _normal;
     float t = MCMath::dot(C, (A - B)) / MCMath::norm(C) * MCMath::norm(C);
@@ -65,10 +65,6 @@ __device__ bool MC_MLTissue::escaped(MC_Point const position) {
     if (E > D) { return true; }
     E = MCMath::norm((P - _remote));
     return E > D;
-}
-
-__device__ int MC_MLTissue::size() const {
-    return _size;
 }
 
 __device__ float MC_MLTissue::coefficient(MC_Point position) { return whichLayer(position).attenuationCoefficient(); }
