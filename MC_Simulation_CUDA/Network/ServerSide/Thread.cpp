@@ -169,10 +169,11 @@ void Thread::readResults(){
         qDebug()<<"Results are recived";
         qDebug()<<ST[1];
         array.clear();
+        reconditionResultsToPhotons(X,Y,Z,W,ST);
+
 
     }
     //recondition the float vectors to one vector of photons
-    reconditionResultsToPhotons(X,Y,Z,W,ST);
     //emits signal to append the received results to the previous received ones at the server
     appendNewReceivedResultsSignal();
 }
