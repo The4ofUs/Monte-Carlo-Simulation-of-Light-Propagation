@@ -32,6 +32,7 @@ public:
 
     __device__ void updatePath(MC_Path& path);
 
+
 private:
     static const int MAX_SIZE = 8;
     enum Direction {UP, DOWN};

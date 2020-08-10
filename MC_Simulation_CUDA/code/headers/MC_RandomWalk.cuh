@@ -33,10 +33,9 @@ __device__ MC_Photon RandomWalk(curandState_t *states, int idx, MC_Detector dete
         /*
          * If crossing, then update the path to have its tip on the boundary
          */
-        if (tissue.isCrossing(path)) {
+        if (tissue.isCrossing(path) && !tissue.escaped(photon.position())) {
             tissue.updatePath(path);
         }
-
         photon.moveAlong(path);
         tissue.attenuate(photon);
         if (detector.isHit(photon, path)) {

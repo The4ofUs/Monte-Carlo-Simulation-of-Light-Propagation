@@ -126,6 +126,5 @@ __device__ int MC_MLTissue::whichBoundary(MC_Path path) {
     else return layerIdx;
 }
 
-
 MC_MLTissue::MC_MLTissue() = default;
 
