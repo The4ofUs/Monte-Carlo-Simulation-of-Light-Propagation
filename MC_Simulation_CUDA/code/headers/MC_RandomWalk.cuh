@@ -8,50 +8,42 @@
 #include <curand_kernel.h>
 #include <cstdio>
 #include "MC_Photon.cuh"
-#include "MC_Detector.cuh"
+#include "MC_FiberGenerator.cuh"
 #include "MC_Tissue.cuh"
 #include "MC_RNG.cuh"
 #include "MC_MLTissue.cuh"
 
-#define WEIGHT_THRESHOLD 0.0001f
+
 #define ROULETTE_CHANCE 0.1f
 
-__device__ MC_Photon RandomWalk(curandState_t *states, int idx, MC_Detector detector, MC_MLTissue tissue) {
+__device__ MC_Photon RandomWalk(curandState_t *states, int idx, MC_FiberGenerator mcFiberGenerator, MC_MLTissue tissue) {
     /*
-     * Initializing the Photon position at the center of the detector
+     * Initializing first step
      */
-    MC_Photon photon = MC_Photon(detector.center());   // Start at the detector's center
+    MC_Point position = mcFiberGenerator.center();
+    MC_Vector direction = mcFiberGenerator.lookAt();
+    float step = MC_RNG::getRandomStep(states, idx, tissue.coefficient(position));
+    MC_Photon photon = MC_Photon(position);
+    MC_Path path = MC_Path(position, direction, step);
     /*
-     * Initializing initial Path
+     * Main Loop
      */
-    float step = (-1 * log(MC_RNG::getRandomStep(states, idx)) / tissue.coefficient(photon.position()));
-    MC_Path path = MC_Path(photon.position(), detector.lookAt(), step);  // Initial Path
-    /*
-     * Main loop
-     */
-    while (photon.state() == MC_Photon::ROAMING) {
-        /*
-         * If crossing, then update the path to have its tip on the boundary
-         */
-        if (tissue.isCrossing(path) && !tissue.escaped(photon.position())) {
-            tissue.updatePath(path);
+    while (photon.isRoaming()) {
+        if (tissue.isCrossing(path)) {      // Is crossing an inner boundary ?
+            tissue.updatePath(path);    // Path tip should be directly on the boundary
+        }
+        if (mcFiberGenerator.isHit(path)) {     // Is hitting the screen ?
+            photon.setState(MC_Photon::DETECTED);
+        }
+        if (tissue.escaped(path) && photon.isRoaming()) {
+            photon.setState(MC_Photon::ESCAPED);
         }
         photon.moveAlong(path);
         tissue.attenuate(photon);
-        if (detector.isHit(photon, path)) {
-            photon.setState(MC_Photon::DETECTED);
-            break;
+        if (photon.isDying() && photon.isRoaming()) {
+            MC_RNG::roulette(photon, ROULETTE_CHANCE, states, idx);
         }
-        if (!tissue.escaped(photon.position())) {
-            if (photon.weight() < WEIGHT_THRESHOLD) {
-                MC_RNG::roulette(photon, ROULETTE_CHANCE, states, idx);
-            }
-        } else {
-            photon.setState(MC_Photon::ESCAPED);
-            break;
-        }
-        step = -1 * log(MC_RNG::getRandomStep(states, idx)) / tissue.coefficient(photon.position());
-        path = MC_Path(photon.position(), MC_RNG::getRandomDirection(states, idx), step);
+        path = MC_Path(photon.position(), MC_RNG::getRandomDirection(states, idx), MC_RNG::getRandomStep(states, idx, tissue.coefficient(photon.position())));
     }
     return photon;
 }

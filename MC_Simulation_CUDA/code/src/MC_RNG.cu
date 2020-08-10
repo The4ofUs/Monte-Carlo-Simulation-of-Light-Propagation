@@ -12,9 +12,9 @@ __device__ float MC_RNG::generate(curandState *globalState, int const i) {
     return random;
 }
 
-__device__ float MC_RNG::getRandomStep(curandState *globalState, int const i) {
+__device__ float MC_RNG::getRandomNumber(curandState *states, int i) {
     float step;
-    step = generate(globalState, i);
+    step = generate(states, i);
     return step;
 }
 
@@ -54,4 +54,8 @@ __device__ void MC_RNG::roulette(MC_Photon &photon, float const chance, curandSt
     } else {
         photon.boost(chance);
     }
+}
+
+__device__ float MC_RNG::getRandomStep(curandState *states, int i, float coefficient) {
+    return ((-1 * log(MC_RNG::getRandomNumber(states, i)))/ coefficient);
 }

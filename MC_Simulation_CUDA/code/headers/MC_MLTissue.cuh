@@ -22,11 +22,9 @@ public:
 
     __device__ void attenuate(MC_Photon &photon);
 
-    __device__ bool escaped(MC_Point position);
+    __device__ bool escaped(MC_Path path);
 
     __device__ bool isCrossing(MC_Path path);
-
-    __device__ int size() const;
 
     __device__ MC_Tissue whichLayer(MC_Point position);
 

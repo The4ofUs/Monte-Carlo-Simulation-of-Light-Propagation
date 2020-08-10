@@ -39,3 +39,11 @@ __device__ void MC_Photon::boost(float const factor) { this->_weight = this->_we
 __device__ void MC_Photon::moveAlong(MC_Path const path) {
     this->_position = path.tip();
 }
+
+__device__ bool MC_Photon::isRoaming() {
+    return _state == ROAMING;
+}
+
+__device__ bool MC_Photon::isDying() {
+    return _weight < WEIGHT_THRESHOLD;
+}
