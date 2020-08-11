@@ -44,8 +44,16 @@ RandomWalk(curandState_t *states, int idx, MC_FiberGenerator mcFiberGenerator, M
         if (photon.isDying() && photon.isRoaming()) {                       // weight < Threshold ?
             MC_RNG::roulette(photon, ROULETTE_CHANCE, states, idx);     // Roulette
         }
-        // Generate a new random path
-        path = MC_RNG::getRandomPath(states, idx, photon.position(), tissue.coefficient(photon.position()));
+        if (photon.isRoaming() && tissue.onBoundary(path)) {
+            if(tissue.isReflected(path, MC_RNG::getRandomNumber(states, idx))) {
+                path = tissue.reflect(path, MC_RNG::getRandomStep(states, idx, tissue.coefficient(path.origin())));
+            } else {
+                path = tissue.transmit(path);
+            }
+        } else if (photon.isRoaming()) {
+            // Generate a new random path
+            path = MC_RNG::getRandomPath(states, idx, photon.position(), tissue.coefficient(photon.position()));
+        }
     }
     return photon;
 }

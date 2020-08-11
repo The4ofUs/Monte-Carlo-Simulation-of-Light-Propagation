@@ -34,7 +34,7 @@ __device__ void MC_MLTissue::attenuate(MC_Photon &photon) {
     t.attenuate(photon);
 }
 
-__device__ MC_Tissue MC_MLTissue::whichLayer(MC_Point const position) {
+__device__ __host__ MC_Tissue MC_MLTissue::whichLayer(MC_Point const position) {
     /**
      * P : Current position of the photon
      * R : Projection of P on the tissue interface
@@ -69,7 +69,7 @@ __device__ bool MC_MLTissue::escaped(MC_Path const path) {
 
 __device__ float MC_MLTissue::coefficient(MC_Point position) { return whichLayer(position).attenuationCoefficient(); }
 
-__device__ bool MC_MLTissue::isCrossing(MC_Path path) {
+__device__ __host__ bool MC_MLTissue::isCrossing(MC_Path path) {
     /*
      * Distance of ray origin to the interface plane
      */
@@ -99,7 +99,7 @@ __device__ bool MC_MLTissue::isCrossing(MC_Path path) {
 /*
  * Calculate the point of intersection between the path and layer boundary
  */
-__device__ void MC_MLTissue::updatePath(MC_Path& path) {
+__device__ void MC_MLTissue::updatePath(MC_Path &path) {
     /*
      * First we need to get a point on the boundary, however we need to determine some parameters first:
      * 1) Which direction did the crossing happen
@@ -120,6 +120,41 @@ __device__ int MC_MLTissue::whichBoundary(MC_Path path) {
     int layerIdx = (int) floor(d1 / _portion);
     if (direction == DOWN) return layerIdx + 1;
     else return layerIdx;
+}
+
+__device__ __host__ bool MC_MLTissue::onBoundary(const MC_Path path) {
+    return fmod(MCMath::point2PlaneDist(path.tip(), _interface, _normal), _portion) == 0;
+}
+
+__device__ __host__ bool MC_MLTissue::isReflected(MC_Path path, float random) {
+    float incidentAngle = acos(abs(path.direction().z()));
+    float ni = whichLayer(path.origin()).n();
+    float nt = whichLayer(path.tip()).n();
+    float R;
+    if (ni > nt) {
+        return true;
+    } else {
+        float transmitAngle = asin(((ni * sin(incidentAngle)) / nt));
+        float term_1 = sin(incidentAngle - transmitAngle);
+        term_1 *= term_1;
+        float term_2 = sin(incidentAngle + transmitAngle);
+        term_2 *= term_2;
+        float term_3 = tan(incidentAngle - transmitAngle);
+        term_3 *= term_3;
+        float term_4 = tan(incidentAngle + transmitAngle);
+        term_4 *= term_4;
+        R = (float) 0.5*((term_1/term_2)+(term_3/term_4));
+        if (R >= random) return true;
+        return false;
+    }
+}
+
+__device__ MC_Path MC_MLTissue::reflect(MC_Path path, float step) {
+    return {path.tip(), MC_Vector(path.direction().x(),path.direction().y(),-1*path.direction().z()),step};
+}
+
+__device__ MC_Path MC_MLTissue::transmit(MC_Path path) {
+    // TODO: Implement Transmit function after calculating the new direction vector from incident angle
 }
 
 MC_MLTissue::MC_MLTissue() = default;

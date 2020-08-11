@@ -11,17 +11,19 @@
 
 class MC_Path {
 public:
-    __device__ MC_Path(MC_Point origin, MC_Vector direction, float step);
+    __device__ __host__ MC_Path(MC_Point origin, MC_Vector direction, float step);
 
     __device__ MC_Path();
 
-    __device__  MC_Point tip() const;
+    __device__ __host__  MC_Point tip() const;
 
-    __device__  MC_Vector direction() const;
+    __device__ __host__  MC_Vector direction() const;
 
-    __device__  MC_Point origin() const;
+    __device__ __host__ MC_Point origin() const;
 
     __device__ void setTip(MC_Point newTip);
+
+    __device__ void setDirection(MC_Vector newDirection);
 
 
 protected:
