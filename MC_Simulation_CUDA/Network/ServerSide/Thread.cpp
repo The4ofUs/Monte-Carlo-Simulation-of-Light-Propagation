@@ -1,8 +1,10 @@
 #include <stdio.h>
-
 #include "Thread.h"
 #include <iostream>
 #include <vector>
+#include <QTcpSocket>
+#include<QHostAddress>
+
 /**
  * user inputs
  */
@@ -35,8 +37,11 @@ void Thread::run()
     connect(socket, SIGNAL(readyRead()),this, SLOT(readQuery()),Qt::DirectConnection);
     //Connects Qthread signal disconnect to the class slot disconnect
     connect(socket, SIGNAL(disconnected()),this, SLOT(disconnected()),Qt::DirectConnection);
+    qDebug()<<socket->peerAddress().toString();
+
     //qDebug() <<"client with socket ="<< socketDescriptor << "is Connected!";
     dataSize=0;
+    array.clear();
     exec();
 }
 
@@ -47,11 +52,12 @@ void Thread::readQuery(){
     //Convert the data from bytes to readable String
     queryType = queryTypeByteArr.toStdString();
     if(queryType.compare("requestParameters")==0){
-        qDebug()<<"client with socket ="<<socketDescriptor<< "is requesting parameters";
+        qDebug() <<"client with socket ="<< socketDescriptor<<"is requesting parameters";
         sendParameters();
     }
     else if(queryType.compare("requestBatch")==0){
-        qDebug()<<"client with socket ="<<socketDescriptor<<"is requesting new batch";
+        qDebug() <<"client with socket ="<< socketDescriptor<<"is requesting batch";
+
         sendNewBatch();
     }
     /**
@@ -74,11 +80,10 @@ void Thread::sendNewBatch(){
     QDataStream newBatch(&newBatchByteArray,QIODevice::WriteOnly);
     newBatch.setVersion(QDataStream::Qt_4_8);
     if(bucketRemainingPhotons==0){
-        photonsPerPatch=0;
+        photonsPerBatch=0;
         //abort connection, close server and average results
-        qDebug()<<"Server has no more batches";
     }
-    newBatch<< photonsPerPatch;
+    newBatch<< photonsPerBatch;
     socket->write(newBatchByteArray);
     /*Signal emitted by the thread class to inform the server class that it should
      *decrement serverPhotonsBucket*/
@@ -92,7 +97,7 @@ void Thread::getBucketRemainingPhotons(int remainingPhotons){
 
 void Thread::getNumberOfPhotons(int numPhotons)
 {
-    photonsPerPatch = numPhotons;
+    photonsPerBatch = numPhotons;
 }
 
 
@@ -101,7 +106,7 @@ void Thread::sendParameters(){
     QByteArray parametersByteArray;
     QDataStream paramtersTobeSend(&parametersByteArray,QIODevice::WriteOnly);
     paramtersTobeSend.setVersion(QDataStream::Qt_4_8);
-    userParameters.append((float)photonsPerPatch);
+    userParameters.append((float)photonsPerBatch);
     userParameters.append(detectorRadius);
     userParameters.append((float)detectorPosition->x());
     userParameters.append((float)detectorPosition->y());
@@ -123,7 +128,6 @@ void Thread::sendParameters(){
     }
     paramtersTobeSend << userParameters;
     socket->write(parametersByteArray);
-    qDebug()<<"Parameters are sent";
     /*Signal emitted by the thread class to inform the server class that it should
      *decrement serverPhotonsBucket*/
     newBatchSignal();
@@ -131,7 +135,8 @@ void Thread::sendParameters(){
 }
 
 
-QByteArray array ;
+
+QByteArray temp;
 void Thread::readResults(){
     socket->waitForReadyRead();
     qDebug()<<"Bytes Available"<<socketDescriptor<< socket->bytesAvailable();
@@ -142,40 +147,37 @@ void Thread::readResults(){
         if( socket->bytesAvailable() < sizeof(quint32) )
             return;
         stream >> dataSize;
+        qDebug()<<"SIZE"<<dataSize<<socketDescriptor;
     }
     /* if( dataSize > socket->bytesAvailable() )
         return;*/
+    qDebug()<<"SIZE"<<dataSize<<socketDescriptor;
 
-    array += socket->readAll();
-
-    //while(array.size()<dataSize);
-    /*    qDebug()<<"GOWA WHILE"<<array.size()<<dataSize;
+    do{
         array += socket->readAll();
-        qDebug()<<"GOWA WHILE"<<array.size()<<dataSize;
-    }*/
+    }
+    while(socket->bytesAvailable());
+    qDebug()<<"ELSOCKET YAA"<< socketDescriptor;
+    qDebug()<<"ARRAY SIZE UNDER WHILE"<<array.size();
 
     QVector<float> X;
     QVector<float> Y;
     QVector<float> Z;
     QVector<float> W;
     QVector<float> ST;
-    qDebug()<<"Recived Array"<<socketDescriptor<<array.size();
+    //qDebug()<<"Recived Array"<<socketDescriptor<<array.size();
     QDataStream streamm(&array, QIODevice::ReadOnly);
     streamm.setVersion(QDataStream::Qt_4_8);
     //Makes sure that the received array size is equal to expected size
     if (array.size()==dataSize*8+20){
-        //        qDebug()<<"Recived Array total size"<<array.size();
+        qDebug()<<"Recived Array IN IF"<<array.size();
         streamm >> X>>Y>>Z>>W>>ST;
-        qDebug()<<"Results are recived";
-        qDebug()<<ST[1];
         array.clear();
         reconditionResultsToPhotons(X,Y,Z,W,ST);
-
-
+        appendNewReceivedResultsSignal();
     }
-    //recondition the float vectors to one vector of photons
-    //emits signal to append the received results to the previous received ones at the server
-    appendNewReceivedResultsSignal();
+
+
 }
 
 
@@ -196,6 +198,7 @@ void Thread::reconditionResultsToPhotons(QVector<float> x,QVector<float> y, QVec
         ph.setWeight(w[i]);
         ph.setState(s[i]);
         receivedResults.push_back(ph);
+
     }
     streamOut(receivedResults);
 }

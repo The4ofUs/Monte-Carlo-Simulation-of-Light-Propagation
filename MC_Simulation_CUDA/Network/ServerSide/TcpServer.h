@@ -44,7 +44,7 @@ private:
     QVector<float> W;
     QVector<int> ST;
     int serverBucketOfPhotons;
-    int photonsPerPatch;
+    int photonsPerBatch;
     int photonsToBeReceived;
     int  currentlyReceivedPhotons;
 };

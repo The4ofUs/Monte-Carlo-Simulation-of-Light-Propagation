@@ -53,6 +53,7 @@ int ClientSocket::requestNewBatch(){
     int batchPhotons = newSocket->batchPhoton();
     //qDebug()<<"Batch photons in client side"<<batchPhotons;
     if (batchPhotons==0){
+        qDebug()<<"THERE IS NO MORE BATCHES";
         setBatchAvailability(false);
     }
     return batchPhotons;

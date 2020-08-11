@@ -38,7 +38,7 @@ void socket::createSocket()
 
     if(!newSocket->waitForConnected(1000))
     {
-//        qDebug() <<"Error: " << newSocket->errorString();
+        //        qDebug() <<"Error: " << newSocket->errorString();
     }
 }
 
@@ -68,7 +68,7 @@ void socket::sendResults()
 void socket::startSerialization(){
     //qDebug() <<"serialization has just started";
     QVector<MC_Photon> V=getVectorofPhotons();
-    qDebug()<<V.size();
+
     QVector<float> X;
     QVector<float> Y;
     QVector<float> Z;
@@ -87,9 +87,24 @@ void socket::startSerialization(){
     qDebug()<<X[5];
 */
 
+    QVector<float> totalVector;
+    totalVector.append(X);
+    totalVector.append(Y);
+    totalVector.append(Z);
+    totalVector.append(W);
+    totalVector.append(ST);
+
     QByteArray sendArray;
+
     QDataStream streamTest(&sendArray, QIODevice::WriteOnly);
     streamTest<<X.size()+Y.size()+Z.size()+W.size()+ST.size();
+    qDebug()<<X.size()+Y.size()+Z.size()+W.size()+ST.size();
+
+    qDebug()<<"el size b2a"<<sizeof(float)*(X.size()+Y.size()+Z.size()+W.size()+ST.size());
+    qDebug()<<sizeof(totalVector[0])*totalVector.size();
+    qDebug()<<sizeof(float);
+    //qDebug()<<sizeof(QVector<float>)+(sizeof(float)*X.size())<<sizeof(float);
+    qDebug()<<"SEND ARRAY BL SIZE BS"<<sendArray.size();
     streamTest<<X;
     streamTest<<Y;
     streamTest<<Z;

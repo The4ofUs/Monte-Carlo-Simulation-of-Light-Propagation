@@ -3,7 +3,7 @@ import pandas as pd
 import seaborn as sns
 from mpl_toolkits.mplot3d import Axes3D
 
-OUTPUT_DIRECTORY = "../../c++/build/results.csv"
+OUTPUT_DIRECTORY = "/home/eman/Monte-Carlo-Simulation-of-Light-Propagation/MC_Simulation_CUDA/Network/build-ServerSide-Unnamed_9f4171-Debug/serverReceivedResults.csv"
 RADIUS = 10
 MARGIN = 5
 DETECTOR_CENTER = (0, 0, 50)

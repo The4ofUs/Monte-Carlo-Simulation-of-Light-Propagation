@@ -19,9 +19,9 @@ void TcpServer::startListening()
     {
         qDebug() << "Listening .....";
 
-        serverBucketOfPhotons=20000;
-        photonsToBeReceived =20000;
-        photonsPerPatch = 10000;
+        serverBucketOfPhotons=200000;
+        photonsToBeReceived =200000;
+        photonsPerBatch = 10000;
         currentlyReceivedPhotons = 0;
     }
 
@@ -29,29 +29,26 @@ void TcpServer::startListening()
 
 void TcpServer::incomingConnection(qintptr socketDescriptor)
 {
-    //qDebug() <<"client with socket ="<< socketDescriptor << "is trying to connect ...";
-    //qDebug() << "batches"<< batchPhotons;
+
     thread = new Thread(socketDescriptor,this);
     thread->start();
-    qDebug()<<"Bucket photons"<<serverBucketOfPhotons;
     thread->getBucketRemainingPhotons(serverBucketOfPhotons);
-    thread->getNumberOfPhotons(photonsPerPatch);
+    thread->getNumberOfPhotons(photonsPerBatch);
     connect(thread,SIGNAL(finished()),thread,SLOT(deleteLater()));
     connect(thread,SIGNAL(newBatchSignal()),this,SLOT(decrementBatch()));
     connect(thread,SIGNAL(appendNewReceivedResultsSignal()),this,SLOT(appendReceivedResults()));
+
 }
 
 
 void TcpServer::decrementBatch(){
     if( serverBucketOfPhotons==0){
-     //   qDebug()<<"there are no more batches to be sent";
-        this->close();
-      //  qDebug()<< "Server is closed";
+        qDebug()<<"server has no more batches";
     }
     else{
-         serverBucketOfPhotons =  serverBucketOfPhotons-photonsPerPatch;
-      //  qDebug()<<"decrement batch"<< serverBucketOfPhotons;
+        serverBucketOfPhotons =  serverBucketOfPhotons-photonsPerBatch;
     }
+    qDebug()<<"Bucket photons"<<serverBucketOfPhotons;
 
 }
 
@@ -60,10 +57,13 @@ void TcpServer::appendReceivedResults(){
     qDebug()<<"new results"<< newResults.size();
     ReceivedPhotons.append(newResults);
     qDebug()<<"total recieved"<<ReceivedPhotons.size();
-   currentlyReceivedPhotons +=newResults.size();
+    currentlyReceivedPhotons +=newResults.size();
+
     if (currentlyReceivedPhotons==photonsToBeReceived)
     {
         streamOut(ReceivedPhotons);
+        this->close();
+        qDebug()<< "Server is closed";
 
     }
 

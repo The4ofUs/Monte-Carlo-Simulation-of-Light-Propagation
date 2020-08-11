@@ -86,7 +86,9 @@ private:
     bool readflag;
     std::string queryType;
     int bucketRemainingPhotons;
-    int photonsPerPatch;
+    int photonsPerBatch;
+    QByteArray array ;
+
 
 };
 

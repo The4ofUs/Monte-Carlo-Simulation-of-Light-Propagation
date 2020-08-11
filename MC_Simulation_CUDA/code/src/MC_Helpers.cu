@@ -36,6 +36,7 @@ void MCHelpers::streamOut(QVector<MC_Photon> results){
     output = fopen("clientSentPhotons.csv", "w");
     std::string state;
     fprintf(output, "X,Y,Z,WEIGHT,STATE\n");
+   qDebug()<<"GOWA STREAM"<<results.size();
     for (int i = 0; i < results.size(); i++)
     {
         switch (results[i].state())
