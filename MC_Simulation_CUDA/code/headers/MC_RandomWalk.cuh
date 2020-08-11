@@ -15,6 +15,9 @@
 
 
 #define ROULETTE_CHANCE 0.1f
+/*
+ * Can be radically enhanced by optimizing the number of checks done per asset
+ */
 
 __device__ MC_Photon
 RandomWalk(curandState_t *states, int idx, MC_FiberGenerator mcFiberGenerator, MC_MLTissue tissue) {
@@ -45,10 +48,10 @@ RandomWalk(curandState_t *states, int idx, MC_FiberGenerator mcFiberGenerator, M
             MC_RNG::roulette(photon, ROULETTE_CHANCE, states, idx);     // Roulette
         }
         if (photon.isRoaming() && tissue.onBoundary(path)) {
-            if(tissue.isReflected(path, MC_RNG::getRandomNumber(states, idx))) {
-                path = tissue.reflect(path, MC_RNG::getRandomStep(states, idx, tissue.coefficient(path.origin())));
+            if (tissue.isReflected(path, MC_RNG::getRandomNumber(states, idx))) {
+                tissue.reflect(path, MC_RNG::getRandomStep(states, idx, tissue.coefficient(path.origin())));
             } else {
-                path = tissue.transmit(path);
+                tissue.refract(path, MC_RNG::getRandomStep(states, idx, tissue.coefficient(path.origin())));
             }
         } else if (photon.isRoaming()) {
             // Generate a new random path

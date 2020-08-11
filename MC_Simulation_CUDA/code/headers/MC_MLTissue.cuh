@@ -11,8 +11,14 @@
 #include "MC_Photon.cuh"
 #include "MC_Tissue.cuh"
 
+
 class MC_MLTissue {
+    static int const MAX_SIZE = 8;
 public:
+    enum Direction {
+        UP, DOWN
+    };
+
     __host__ MC_MLTissue(float radius, MC_Point c0, MC_Point c1, const std::vector<float> &absorpCoeffs,
                          const std::vector<float> &scatterCoeffs, const std::vector<float> &refractIndices);
 
@@ -26,24 +32,30 @@ public:
 
     __device__ __host__ bool isCrossing(MC_Path const path);
 
-    __device__ __host__ MC_Tissue whichLayer(MC_Point position);
+    __device__ __host__ int whichLayer(MC_Point position);
 
-    __device__ void updatePath(MC_Path& path);
+    __device__ void updatePath(MC_Path &path);
 
     __device__ __host__ bool onBoundary(MC_Path const path);
 
-    __device__ __host__ bool isReflected(MC_Path const path, float const random);
+    __device__ bool isReflected(MC_Path const path, float const random);
 
-    __device__ MC_Path reflect(MC_Path path, float step);
+    static __device__ void reflect(MC_Path &path, float step);
 
-    __device__ MC_Path transmit(MC_Path path);
+    /*
+     * Citation:
+     * This function was inspired by the content provided by Bram de Greve (bram.degreve@gmail.com)
+     * in his notes here "https://graphics.stanford.edu/courses/cs148-10-summer/docs/2006--degreve--reflection_refraction.pdf"
+     */
+    __device__ void refract(MC_Path &path, float const step);
+
+    __device__ MC_Tissue getLayer(int const idx);
+
+    __device__ Direction whichDirection(MC_Path const path);
+
+    __device__ int nextLayer(int const idx, Direction const dir) const;
 
 private:
-    static const int MAX_SIZE = 8;
-    enum Direction {UP, DOWN};
-
-    __device__ int whichBoundary(MC_Path const path);
-
     MC_Tissue _layers[MAX_SIZE];
     MC_Point _interface{};
     MC_Point _remote{};
@@ -52,6 +64,8 @@ private:
     int _size{};
     float _thickness{};
     float _portion{};
+
+    __device__ int whichBoundary(MC_Path const path);
 
 };
 

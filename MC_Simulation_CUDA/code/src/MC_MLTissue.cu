@@ -5,6 +5,8 @@
 #include <stdexcept>
 #include "../headers/MC_MLTissue.cuh"
 #include "../headers/MC_Math.cuh"
+#include <cassert>
+#include <math.h>
 
 __host__ MC_MLTissue::MC_MLTissue(float const radius, MC_Point const c0, MC_Point const c1,
                                   std::vector<float> const &absorpCoeffs,
@@ -30,26 +32,19 @@ __host__ MC_MLTissue::MC_MLTissue(float const radius, MC_Point const c0, MC_Poin
 }
 
 __device__ void MC_MLTissue::attenuate(MC_Photon &photon) {
-    MC_Tissue t = whichLayer(photon.position());
+    MC_Tissue t = getLayer(whichLayer(photon.position()));
     t.attenuate(photon);
 }
 
-__device__ __host__ MC_Tissue MC_MLTissue::whichLayer(MC_Point const position) {
-    /**
-     * P : Current position of the photon
-     * R : Projection of P on the tissue interface
-     * Q : Point on the tissue interface ( Center of the interface for simplicity )
-     * N : Normal to the interface
-     * V : Vector from Q to P
-     */
-    MC_Point P = position;
-    MC_Point Q = _interface;
-    MC_Vector N = _normal;
-    MC_Vector V = MC_Vector(Q, P);
-    float d = abs(MCMath::dot(V, N));
-    int index = (int) round((d / _thickness) * (float) _size);
-    MC_Tissue currentTissue = _layers[index];
-    return currentTissue;
+__device__ __host__ int MC_MLTissue::whichLayer(MC_Point const position) {
+    float d = MCMath::point2PlaneDist(position, _interface, _normal);
+    int index = (int) floor(d / _portion);
+    return index;
+}
+
+__device__ MC_Tissue MC_MLTissue::getLayer(int const idx) {
+    assert(idx < _size);
+    return _layers[idx];
 }
 
 __device__ bool MC_MLTissue::escaped(MC_Path const path) {
@@ -67,7 +62,9 @@ __device__ bool MC_MLTissue::escaped(MC_Path const path) {
     return E > D;
 }
 
-__device__ float MC_MLTissue::coefficient(MC_Point position) { return whichLayer(position).attenuationCoefficient(); }
+__device__ float MC_MLTissue::coefficient(MC_Point position) {
+    return getLayer(whichLayer(position)).attenuationCoefficient();
+}
 
 __device__ __host__ bool MC_MLTissue::isCrossing(MC_Path path) {
     /*
@@ -112,49 +109,82 @@ __device__ void MC_MLTissue::updatePath(MC_Path &path) {
 }
 
 __device__ int MC_MLTissue::whichBoundary(MC_Path path) {
-    Direction direction;
+    Direction direction = whichDirection(path);
     float d1 = MCMath::point2PlaneDist(path.origin(), _interface, _normal);
-    float d2 = MCMath::point2PlaneDist(path.tip(), _interface, _normal);
-    if ((d2 - d1) > 0) direction = DOWN;
-    else direction = UP;
     int layerIdx = (int) floor(d1 / _portion);
     if (direction == DOWN) return layerIdx + 1;
     else return layerIdx;
+}
+
+__device__ MC_MLTissue::Direction MC_MLTissue::whichDirection(const MC_Path path) {
+    float d1 = MCMath::point2PlaneDist(path.origin(), _interface, _normal);
+    float d2 = MCMath::point2PlaneDist(path.tip(), _interface, _normal);
+    if ((d2 - d1) > 0) return DOWN;
+    else return UP;
 }
 
 __device__ __host__ bool MC_MLTissue::onBoundary(const MC_Path path) {
     return fmod(MCMath::point2PlaneDist(path.tip(), _interface, _normal), _portion) == 0;
 }
 
-__device__ __host__ bool MC_MLTissue::isReflected(MC_Path path, float random) {
+__device__ int MC_MLTissue::nextLayer(int idx, Direction dir) const {
+    if (dir == UP) {
+        if (idx > 0) return idx - 1;
+        else return idx;
+    } else {
+        if (idx < _size - 1) return idx + 1;
+        else return idx;
+    }
+}
+
+__device__ bool MC_MLTissue::isReflected(MC_Path path, float random) {
     float incidentAngle = acos(abs(path.direction().z()));
-    float ni = whichLayer(path.origin()).n();
-    float nt = whichLayer(path.tip()).n();
+    int idx1 = whichLayer(path.origin()) - 1;
+    int idx2 = nextLayer(idx1, whichDirection(path));
+    float ni = getLayer(idx1).n();
+    float nt = getLayer(idx2).n();
     float R;
     if (ni > nt) {
         return true;
     } else {
         float transmitAngle = asin(((ni * sin(incidentAngle)) / nt));
         float term_1 = sin(incidentAngle - transmitAngle);
-        term_1 *= term_1;
         float term_2 = sin(incidentAngle + transmitAngle);
-        term_2 *= term_2;
         float term_3 = tan(incidentAngle - transmitAngle);
-        term_3 *= term_3;
         float term_4 = tan(incidentAngle + transmitAngle);
-        term_4 *= term_4;
-        R = (float) 0.5*((term_1/term_2)+(term_3/term_4));
+        R = 0.5f * ((term_1 / term_2) + (term_3 / term_4));
+        printf("------------- isReflected() -------------\nmue = %f\nincident angle = %f\ntransmitting angle = %f\nni = %f\nnt = %f\nterm_1 = %f\nterm_2 = %f\nterm_3 = %f\nterm_4 = %f\n",
+               path.direction().z(),
+               incidentAngle, transmitAngle, ni, nt, term_1, term_2, term_3, term_4);
         if (R >= random) return true;
         return false;
     }
 }
 
-__device__ MC_Path MC_MLTissue::reflect(MC_Path path, float step) {
-    return {path.tip(), MC_Vector(path.direction().x(),path.direction().y(),-1*path.direction().z()),step};
+__device__ void MC_MLTissue::reflect(MC_Path &path, float const step) {
+/*    MC_Point origin_orig = path.origin();
+    MC_Point tip_orig = path.tip();*/
+    path = MC_Path(path.tip(), MC_Vector(path.direction().x(), path.direction().y(), -1 * path.direction().z()), step);
+/*    printf("reflect() :\n\tReflection Event:\n\t\tIncident :\n\t\t\torigin = (%f, %f, %f)\n\t\t\ttip = (%f, %f, %f)\n\t\tReflected :\n\t\t\torigin = (%f, %f, %f)\n\t\t\ttip = (%f, %f, %f)\n",
+           origin_orig.x(), origin_orig.y(), origin_orig.z(), tip_orig.x(), tip_orig.y(), tip_orig.z(),
+           path.origin().x(), path.origin().y(), path.origin().z(), path.tip().x(), path.tip().y(), path.tip().z());*/
 }
 
-__device__ MC_Path MC_MLTissue::transmit(MC_Path path) {
-    // TODO: Implement Transmit function after calculating the new direction vector from incident angle
+__device__ void MC_MLTissue::refract(MC_Path &path, float const step) {
+/*    MC_Point origin_orig = path.origin();
+    MC_Point tip_orig = path.tip();*/
+    float ni = getLayer(whichLayer(path.origin())).n();
+    float nt = getLayer(whichLayer(path.tip())).n();
+    float n = ni / nt;
+    float cosI = -1 * MCMath::dot(_normal, path.direction());
+    float sinT2 = n * n * (1.f - cosI * cosI);
+    if (sinT2 > 1.f) printf("Error in refraction: sinT2 > 1.f\n");
+    float cosT = sqrt(1.f - sinT2);
+    MC_Vector newDirection = path.direction() * n + _normal * (n * cosT - cosT);
+    path = MC_Path(path.tip(), newDirection, step);
+/*    printf("refract() :\n\tRefraction Event:\n\t\tIncident :\n\t\t\torigin = (%f, %f, %f)\n\t\t\ttip = (%f, %f, %f)\n\t\tRefracted :\n\t\t\torigin = (%f, %f, %f)\n\t\t\ttip = (%f, %f, %f)\n",
+           origin_orig.x(), origin_orig.y(), origin_orig.z(), tip_orig.x(), tip_orig.y(), tip_orig.z(),
+           path.origin().x(), path.origin().y(), path.origin().z(), path.tip().x(), path.tip().y(), path.tip().z());*/
 }
 
 MC_MLTissue::MC_MLTissue() = default;

@@ -22,6 +22,7 @@ void MC_Simulation::start() {
     cudaMalloc((void **) &deviceMemory, NUMBER_OF_PHOTONS * sizeof(MC_Photon));
     MCKernels::simulate<<<blocksCount, THREADS_PER_BLOCK>>>(time(
             nullptr), states, deviceMemory, _mcFiberGenerator, _mcMLTissue, NUMBER_OF_PHOTONS);
+    printf("%s\n", cudaGetErrorName(cudaGetLastError()));
     cudaMemcpy(hostMemory, deviceMemory, NUMBER_OF_PHOTONS * sizeof(MC_Photon), cudaMemcpyDeviceToHost);
     MCHelpers::streamOut(&hostMemory[0], NUMBER_OF_PHOTONS);
     free(hostMemory);
