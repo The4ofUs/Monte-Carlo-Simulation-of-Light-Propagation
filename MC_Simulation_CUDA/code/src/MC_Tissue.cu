@@ -7,7 +7,7 @@
 #include "../headers/MC_Math.cuh"
 
 
-__host__ MC_Tissue::MC_Tissue(float const radius, MC_Point const c0, MC_Point const c1, float const ac, float const sc, float rn) {
+__host__ __device__ MC_Tissue::MC_Tissue(float const radius, MC_Point const c0, MC_Point const c1, float const ac, float const sc, float rn) {
     if (radius > 0 && ac > 0 && sc > 0 && rn > 0) {
         _radius = radius;
         _interface = c0;
@@ -17,7 +17,7 @@ __host__ MC_Tissue::MC_Tissue(float const radius, MC_Point const c0, MC_Point co
         _Ms = sc;
         _Mt = ac + sc;
         _n = rn;
-    } else { throw std::invalid_argument("MC_Tissue::MC_Tissue : Illegal Argument!"); }
+    }
 }
 
 __device__ bool MC_Tissue::escaped(MC_Point const position) {

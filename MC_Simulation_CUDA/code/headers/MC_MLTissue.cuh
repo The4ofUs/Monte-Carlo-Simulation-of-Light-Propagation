@@ -13,7 +13,7 @@
 
 
 class MC_MLTissue {
-    static int const MAX_SIZE = 8;
+    static const int MAX_SIZE = 8;
 public:
     enum Direction {
         UP, DOWN

@@ -13,7 +13,7 @@ class MC_Tissue {
 public:
     MC_Tissue() = default;
 
-    __host__ MC_Tissue(float radius, MC_Point c0, MC_Point c1, float ac, float sc, float rn);
+    __host__ __device__ MC_Tissue(float radius, MC_Point c0, MC_Point c1, float ac, float sc, float rn);
 
     __device__ bool escaped(MC_Point position);
 
