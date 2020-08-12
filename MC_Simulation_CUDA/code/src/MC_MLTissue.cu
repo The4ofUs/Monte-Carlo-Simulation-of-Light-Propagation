@@ -7,6 +7,7 @@
 #include "../headers/MC_Math.cuh"
 #include <cmath>
 
+
 __host__ MC_MLTissue::MC_MLTissue(float const radius, MC_Point const c0, MC_Point const c1,
                                   std::vector<float> const &absorpCoeffs,
                                   std::vector<float> const &scatterCoeffs, std::vector<float> const &refractIndices) {
@@ -31,8 +32,13 @@ __host__ MC_MLTissue::MC_MLTissue(float const radius, MC_Point const c0, MC_Poin
 }
 
 __device__ void MC_MLTissue::attenuate(MC_Photon &photon) {
-    MC_Tissue t = getLayer(whichLayer(photon.position()));
-    t.attenuate(photon);
+    int idx = whichLayer(photon.position());
+    if (idx >= _size || idx < 0) {
+        MC_Tissue(0.f,MC_Point(), MC_Point(),0.f,1.f,1.f).attenuate(photon);
+    } else {
+        MC_Tissue t = getLayer(idx);
+        t.attenuate(photon);
+    }
 }
 
 __device__ __host__ int MC_MLTissue::whichLayer(MC_Point const position) {
@@ -42,8 +48,6 @@ __device__ __host__ int MC_MLTissue::whichLayer(MC_Point const position) {
 }
 
 __device__ MC_Tissue MC_MLTissue::getLayer(int const idx) {
-    if (idx >= _size || idx < 0)
-        return {INFINITY, MC_Point(0, 0, INFINITY), MC_Point(0, 0, -1.f * INFINITY), 0.f, 1.f, 1.f};;
     return _layers[idx];
 }
 
@@ -63,7 +67,11 @@ __device__ bool MC_MLTissue::escaped(MC_Path const path) {
 }
 
 __device__ float MC_MLTissue::coefficient(MC_Point position) {
-    return getLayer(whichLayer(position)).attenuationCoefficient();
+    int idx = whichLayer(position);
+    if (idx >= _size || idx < 0) {return 1.f;}
+    else {
+        return getLayer(idx).attenuationCoefficient();
+    }
 }
 
 __device__ __host__ bool MC_MLTissue::isCrossing(MC_Path path) {
@@ -142,7 +150,12 @@ __device__ bool MC_MLTissue::isReflected(MC_Path path, float random) {
     int idx1 = whichLayer(path.origin());
     int idx2 = nextLayer(idx1, whichDirection(path));
     float ni = getLayer(idx1).n();
-    float nt = getLayer(idx2).n();
+    float nt;
+    if (idx2 >= _size || idx2 < 0) {
+        nt = 1.f;
+    } else {
+        nt = getLayer(idx2).n();
+    }
     float R;
     if (ni > nt) {
         return true;
@@ -175,8 +188,14 @@ __device__ void MC_MLTissue::refract(MC_Path &path, float const step) {
 /*    MC_Point origin_orig = path.origin();
     MC_Point tip_orig = path.tip();*/
     int idx1 = whichLayer(path.origin());
+    int idx2 = nextLayer(idx1,whichDirection(path));
     float ni = getLayer(idx1).n();
-    float nt = getLayer(nextLayer(idx1, whichDirection(path))).n();
+    float nt;
+    if (idx2 >= _size || idx2 < 0) {
+        nt = 1.f;
+    } else {
+        nt = getLayer(nextLayer(idx1, whichDirection(path))).n();
+    }
     float n = ni / nt;
     float cosI = -1 * MCMath::dot(_normal, path.direction());
     float sinT2 = n * n * (1.f - cosI * cosI);

@@ -51,6 +51,7 @@ __device__ MC_Point MC_RNG::getRandomPoint(curandState *globalState, int const i
 __device__ void MC_RNG::roulette(MC_Photon &photon, float const chance, curandState *globalState, int const i) {
     if (generate(globalState, i) >= chance) {
         photon.terminate();
+        photon.setState(MC_Photon::TERMINATED);
     } else {
         photon.boost(chance);
     }

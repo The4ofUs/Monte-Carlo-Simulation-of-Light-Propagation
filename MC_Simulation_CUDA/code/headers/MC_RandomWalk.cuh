@@ -38,22 +38,27 @@ RandomWalk(curandState_t *states, int idx, MC_FiberGenerator mcFiberGenerator, M
         }
         if (mcFiberGenerator.isHit(path)) {             // Is hitting the screen ?
             photon.setState(MC_Photon::DETECTED);    // Update State
-        }
-        if (tissue.escaped(path) && photon.isRoaming()) {   // Escaped ?
-            photon.setState(MC_Photon::ESCAPED);      // Update State
+            photon.moveAlong(path);
+            tissue.attenuate(photon);
+            break;
         }
         photon.moveAlong(path);         // Move along the given path
         tissue.attenuate(photon);   // Attenuate Photon accordingly
-        if (photon.isDying() && photon.isRoaming()) {                       // weight < Threshold ?
-            MC_RNG::roulette(photon, ROULETTE_CHANCE, states, idx);     // Roulette
+        if (tissue.escaped(path)) {   // Escaped ?
+            photon.setState(MC_Photon::ESCAPED);      // Update State
+            break;
         }
-        if (photon.isRoaming() && tissue.onBoundary(path)) {
+        if (photon.isDying()) {                       // weight < Threshold ?
+            MC_RNG::roulette(photon, ROULETTE_CHANCE, states, idx);     // Roulette
+            if(photon.state() == MC_Photon::TERMINATED) break;
+        }
+        if (tissue.onBoundary(path)) {
             if (tissue.isReflected(path, MC_RNG::getRandomNumber(states, idx))) {
                 tissue.reflect(path, MC_RNG::getRandomStep(states, idx, tissue.coefficient(path.origin())));
             } else {
                 tissue.refract(path, MC_RNG::getRandomStep(states, idx, tissue.coefficient(path.origin())));
             }
-        } else if (photon.isRoaming()) {
+        } else {
             // Generate a new random path
             path = MC_RNG::getRandomPath(states, idx, photon.position(), tissue.coefficient(photon.position()));
         }

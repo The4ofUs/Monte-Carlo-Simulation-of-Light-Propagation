@@ -41,12 +41,12 @@ public:
 
     __device__ bool isRoaming();
 
-    __device__ bool isDying();
+    __device__ bool isDying() const;
 
 
 private:
     float _weight;
-    MC_Point _position;
+    MC_Point _position{};
     State _state;
 };
 
