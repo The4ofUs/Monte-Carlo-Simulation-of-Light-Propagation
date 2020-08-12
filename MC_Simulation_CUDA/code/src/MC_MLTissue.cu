@@ -184,7 +184,7 @@ __device__ void MC_MLTissue::reflect(MC_Path &path, float const step) {
            path.origin().x(), path.origin().y(), path.origin().z(), path.tip().x(), path.tip().y(), path.tip().z());*/
 }
 
-__device__ void MC_MLTissue::refract(MC_Path &path, float const step) {
+__device__ void MC_MLTissue::transmit(MC_Path &path, float const step) {
 /*    MC_Point origin_orig = path.origin();
     MC_Point tip_orig = path.tip();*/
     int idx1 = whichLayer(path.origin());
@@ -203,7 +203,7 @@ __device__ void MC_MLTissue::refract(MC_Path &path, float const step) {
     float cosT = sqrt(1.f - sinT2);
     MC_Vector newDirection = path.direction() * n + _normal * (n * cosT - cosT);
     path = MC_Path(path.tip(), newDirection, step);
-/*    printf("refract() :\n\tRefraction Event:\n\t\tIncident :\n\t\t\torigin = (%f, %f, %f)\n\t\t\ttip = (%f, %f, %f)\n\t\tRefracted :\n\t\t\torigin = (%f, %f, %f)\n\t\t\ttip = (%f, %f, %f)\n",
+/*    printf("transmit() :\n\tRefraction Event:\n\t\tIncident :\n\t\t\torigin = (%f, %f, %f)\n\t\t\ttip = (%f, %f, %f)\n\t\tRefracted :\n\t\t\torigin = (%f, %f, %f)\n\t\t\ttip = (%f, %f, %f)\n",
            origin_orig.x(), origin_orig.y(), origin_orig.z(), tip_orig.x(), tip_orig.y(), tip_orig.z(),
            path.origin().x(), path.origin().y(), path.origin().z(), path.tip().x(), path.tip().y(), path.tip().z());*/
 }

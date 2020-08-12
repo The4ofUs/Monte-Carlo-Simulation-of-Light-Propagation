@@ -56,7 +56,7 @@ RandomWalk(curandState_t *states, int idx, MC_FiberGenerator mcFiberGenerator, M
             if (tissue.isReflected(path, MC_RNG::getRandomNumber(states, idx))) {
                 tissue.reflect(path, MC_RNG::getRandomStep(states, idx, tissue.coefficient(path.origin())));
             } else {
-                tissue.refract(path, MC_RNG::getRandomStep(states, idx, tissue.coefficient(path.origin())));
+                tissue.transmit(path, MC_RNG::getRandomStep(states, idx, tissue.coefficient(path.origin())));
             }
         } else {
             // Generate a new random path

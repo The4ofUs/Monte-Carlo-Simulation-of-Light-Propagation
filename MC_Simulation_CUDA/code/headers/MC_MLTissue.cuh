@@ -47,7 +47,7 @@ public:
      * This function was inspired by the content provided by Bram de Greve (bram.degreve@gmail.com)
      * in his notes here "https://graphics.stanford.edu/courses/cs148-10-summer/docs/2006--degreve--reflection_refraction.pdf"
      */
-    __device__ void refract(MC_Path &path, float const step);
+    __device__ void transmit(MC_Path &path, float const step);
 
     __device__ MC_Tissue getLayer(int const idx);
 
