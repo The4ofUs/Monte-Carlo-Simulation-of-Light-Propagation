@@ -19,9 +19,9 @@ void TcpServer::startListening()
     {
         qDebug() << "Listening .....";
 
-        serverBucketOfPhotons=200000;
-        photonsToBeReceived =200000;
-        photonsPerBatch = 10000;
+        serverBucketOfPhotons=3000000;
+        photonsToBeReceived =3000000;
+        photonsPerBatch = 100000;
         currentlyReceivedPhotons = 0;
     }
 

@@ -33,8 +33,8 @@ void socket::createSocket()
     connect(newSocket,SIGNAL(readyRead()),this,SLOT(readyRead()));
     connect(newSocket,SIGNAL(bytesWritten(qint64)),this,SLOT(bytesWritten(qint64)));
     newSocket->abort();
-    newSocket->connectToHost(QHostAddress::LocalHost,4567);
-    //newSocket->connectToHost("192.168.1.6", 4567);
+ //   newSocket->connectToHost(QHostAddress::LocalHost,4567);
+    newSocket->connectToHost("192.168.43.77", 4567);
 
     if(!newSocket->waitForConnected(1000))
     {
@@ -98,13 +98,6 @@ void socket::startSerialization(){
 
     QDataStream streamTest(&sendArray, QIODevice::WriteOnly);
     streamTest<<X.size()+Y.size()+Z.size()+W.size()+ST.size();
-    qDebug()<<X.size()+Y.size()+Z.size()+W.size()+ST.size();
-
-    qDebug()<<"el size b2a"<<sizeof(float)*(X.size()+Y.size()+Z.size()+W.size()+ST.size());
-    qDebug()<<sizeof(totalVector[0])*totalVector.size();
-    qDebug()<<sizeof(float);
-    //qDebug()<<sizeof(QVector<float>)+(sizeof(float)*X.size())<<sizeof(float);
-    qDebug()<<"SEND ARRAY BL SIZE BS"<<sendArray.size();
     streamTest<<X;
     streamTest<<Y;
     streamTest<<Z;
@@ -176,7 +169,7 @@ void socket::getNewBatchPhotons(){
     QDataStream serverNewBatch(&newBatchByteArr, QIODevice::ReadOnly);
     serverNewBatch.setVersion(QDataStream::Qt_4_8);
     serverNewBatch >> numberOfPhotons;
-    //qDebug()<<"New batch size is is"<< numberOfPhotons<<"photons";
+    qDebug()<<"New batch size is is"<< numberOfPhotons<<"photons";
     setBatchPhotons(numberOfPhotons);
 }
 

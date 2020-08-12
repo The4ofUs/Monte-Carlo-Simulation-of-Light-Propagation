@@ -37,7 +37,6 @@ void Thread::run()
     connect(socket, SIGNAL(readyRead()),this, SLOT(readQuery()),Qt::DirectConnection);
     //Connects Qthread signal disconnect to the class slot disconnect
     connect(socket, SIGNAL(disconnected()),this, SLOT(disconnected()),Qt::DirectConnection);
-    qDebug()<<socket->peerAddress().toString();
 
     //qDebug() <<"client with socket ="<< socketDescriptor << "is Connected!";
     dataSize=0;
@@ -52,11 +51,11 @@ void Thread::readQuery(){
     //Convert the data from bytes to readable String
     queryType = queryTypeByteArr.toStdString();
     if(queryType.compare("requestParameters")==0){
-        qDebug() <<"client with socket ="<< socketDescriptor<<"is requesting parameters";
+        qDebug() <<"client with IP ="<< socket->peerAddress().toString()<<"is requesting parameters";
         sendParameters();
     }
     else if(queryType.compare("requestBatch")==0){
-        qDebug() <<"client with socket ="<< socketDescriptor<<"is requesting batch";
+        qDebug() <<"client with IP ="<< socket->peerAddress().toString()<<"is requesting batch";
 
         sendNewBatch();
     }
@@ -66,7 +65,7 @@ void Thread::readQuery(){
      * connected to readResults
      */
     else if(queryType.compare("prepareForReceiving")==0){
-        qDebug() <<"client with socket ="<< socketDescriptor<<"is sending results";
+        qDebug() <<"client with IP ="<< socket->peerAddress().toString()<<"is sending results";
         disconnect(socket, SIGNAL(readyRead()),this, SLOT(readQuery()));
         connect(socket,SIGNAL(readyRead()),this,SLOT(readResults()),Qt::DirectConnection);
         //Informs the client that the server is ready to recieve data
@@ -139,7 +138,7 @@ void Thread::sendParameters(){
 QByteArray temp;
 void Thread::readResults(){
     socket->waitForReadyRead();
-    qDebug()<<"Bytes Available"<<socketDescriptor<< socket->bytesAvailable();
+   // qDebug()<<"Bytes Available"<<socketDescriptor<< socket->bytesAvailable();
     if( dataSize == 0 )
     {
         QDataStream stream(socket);
@@ -147,18 +146,15 @@ void Thread::readResults(){
         if( socket->bytesAvailable() < sizeof(quint32) )
             return;
         stream >> dataSize;
-        qDebug()<<"SIZE"<<dataSize<<socketDescriptor;
     }
     /* if( dataSize > socket->bytesAvailable() )
         return;*/
-    qDebug()<<"SIZE"<<dataSize<<socketDescriptor;
 
     do{
         array += socket->readAll();
     }
     while(socket->bytesAvailable());
-    qDebug()<<"ELSOCKET YAA"<< socketDescriptor;
-    qDebug()<<"ARRAY SIZE UNDER WHILE"<<array.size();
+
 
     QVector<float> X;
     QVector<float> Y;
@@ -170,7 +166,6 @@ void Thread::readResults(){
     streamm.setVersion(QDataStream::Qt_4_8);
     //Makes sure that the received array size is equal to expected size
     if (array.size()==dataSize*8+20){
-        qDebug()<<"Recived Array IN IF"<<array.size();
         streamm >> X>>Y>>Z>>W>>ST;
         array.clear();
         reconditionResultsToPhotons(X,Y,Z,W,ST);
