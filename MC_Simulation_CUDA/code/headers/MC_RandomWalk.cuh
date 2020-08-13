@@ -15,6 +15,7 @@
 
 
 #define ROULETTE_CHANCE 0.1f
+
 /*
  * Can be radically enhanced by optimizing the number of checks done per asset
  */
@@ -43,14 +44,14 @@ RandomWalk(curandState_t *states, int idx, MC_FiberGenerator mcFiberGenerator, M
             break;
         }
         photon.moveAlong(path);         // Move along the given path
-        tissue.attenuate(photon);   // Attenuate Photon accordingly
+        tissue.attenuate(photon);       // Attenuate Photon accordingly
         if (tissue.escaped(path)) {   // Escaped ?
             photon.setState(MC_Photon::ESCAPED);      // Update State
             break;
         }
         if (photon.isDying()) {                       // weight < Threshold ?
             MC_RNG::roulette(photon, ROULETTE_CHANCE, states, idx);     // Roulette
-            if(photon.state() == MC_Photon::TERMINATED) break;
+            if (photon.state() == MC_Photon::TERMINATED) break;
         }
         if (tissue.onBoundary(path)) {
             if (tissue.isReflected(path, MC_RNG::getRandomNumber(states, idx))) {
