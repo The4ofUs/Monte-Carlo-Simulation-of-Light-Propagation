@@ -44,7 +44,6 @@ RandomWalk(curandState_t *states, int idx, MC_FiberGenerator mcFiberGenerator, M
         photon.moveAlong(path);         // Move along the given path
         if (tissue.escaped(path)) {   // Escaped ?
             photon.setState(MC_Photon::ESCAPED);      // Update State
-            photon.setWeight(0.f);
             break;
         }
         tissue.attenuate(photon);   // Attenuate Photon accordingly

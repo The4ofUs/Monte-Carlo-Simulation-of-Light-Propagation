@@ -52,18 +52,7 @@ __device__ MC_Tissue MC_MLTissue::getLayer(int const idx) {
 }
 
 __device__ bool MC_MLTissue::escaped(MC_Path const path) {
-    MC_Point A = path.tip();
-    MC_Point B = _interface;
-    MC_Vector C = _normal;
-    float t = MCMath::dot(C, (A - B)) / MCMath::norm(C) * MCMath::norm(C);
-    MC_Point P = B + C * t;
-    float d = MCMath::absDistance(A, P);
-    if (d > _radius) { return true; }
-    float D = MCMath::norm(_remote - _interface);
-    float E = MCMath::norm(P - _interface);
-    if (E > D) { return true; }
-    E = MCMath::norm((P - _remote));
-    return E > D;
+    return path.tip().z() > _interface.z() || path.tip().z() < _remote.z();
 }
 
 __device__ float MC_MLTissue::coefficient(MC_Point position) {
