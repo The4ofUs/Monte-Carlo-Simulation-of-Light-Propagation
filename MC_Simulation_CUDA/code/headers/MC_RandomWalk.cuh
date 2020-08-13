@@ -39,15 +39,15 @@ RandomWalk(curandState_t *states, int idx, MC_FiberGenerator mcFiberGenerator, M
         if (mcFiberGenerator.isHit(path)) {             // Is hitting the screen ?
             photon.setState(MC_Photon::DETECTED);    // Update State
             photon.moveAlong(path);
-            tissue.attenuate(photon);
             break;
         }
         photon.moveAlong(path);         // Move along the given path
-        tissue.attenuate(photon);   // Attenuate Photon accordingly
         if (tissue.escaped(path)) {   // Escaped ?
             photon.setState(MC_Photon::ESCAPED);      // Update State
+            photon.setWeight(0.f);
             break;
         }
+        tissue.attenuate(photon);   // Attenuate Photon accordingly
         if (photon.isDying()) {                       // weight < Threshold ?
             MC_RNG::roulette(photon, ROULETTE_CHANCE, states, idx);     // Roulette
             if(photon.state() == MC_Photon::TERMINATED) break;
