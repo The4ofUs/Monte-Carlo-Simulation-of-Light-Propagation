@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6588c0bf-9af9-4155-8664-23db88c883df" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../CMakeLists.txt.user" beforeDir="false" afterPath="$PROJECT_DIR$/../CMakeLists.txt.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServerSide/ServerSide.pro.user" beforeDir="false" afterPath="$PROJECT_DIR$/ServerSide/ServerSide.pro.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeCache.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/3.17.3/CMakeCCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/3.17.3/CMakeCXXCompiler.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/3.17.3/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/3.17.3/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/3.17.3/CMakeSystem.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/3.17.3/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/3.17.3/CompilerIdC/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/3.17.3/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/3.17.3/CompilerIdCXX/a.out" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/CMakeError.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/CMakeOutput.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/CMakeRuleHashes.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/CXX.includecache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/MC_simulation_autogen/mocs_compilation.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/MC_simulation_generated_main.cu.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/MC_simulation_generated_main.cu.o.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/MC_simulation_generated_main.cu.o.cmake.pre-gen" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/MC_simulation_generated_main.cu.o.depend" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/MC_simulation_intermediate_link.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/Network/Client/Sources/ClientSocket.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/Network/Client/Sources/socket.cpp.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Detector.cu.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Detector.cu.o.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Detector.cu.o.cmake.pre-gen" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Detector.cu.o.depend" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Helpers.cu.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Helpers.cu.o.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Helpers.cu.o.cmake.pre-gen" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Helpers.cu.o.depend" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Kernels.cu.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Kernels.cu.o.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Kernels.cu.o.cmake.pre-gen" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Kernels.cu.o.depend" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_MLTissue.cu.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_MLTissue.cu.o.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_MLTissue.cu.o.cmake.pre-gen" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_MLTissue.cu.o.depend" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Math.cu.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Math.cu.o.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Math.cu.o.cmake.pre-gen" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Math.cu.o.depend" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Photon.cu.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Photon.cu.o.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Photon.cu.o.cmake.pre-gen" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Photon.cu.o.depend" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Point.cu.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Point.cu.o.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Point.cu.o.cmake.pre-gen" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Point.cu.o.depend" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_RNG.cu.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_RNG.cu.o.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_RNG.cu.o.cmake.pre-gen" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_RNG.cu.o.depend" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Ray.cu.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Ray.cu.o.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Ray.cu.o.cmake.pre-gen" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Ray.cu.o.depend" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Tissue.cu.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Tissue.cu.o.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Tissue.cu.o.cmake.pre-gen" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Tissue.cu.o.depend" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Vector.cu.o" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Vector.cu.o.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Vector.cu.o.cmake.pre-gen" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/code/src/MC_simulation_generated_MC_Vector.cu.o.depend" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/flags.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/link.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation_autogen.dir/AutogenInfo.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation_autogen.dir/AutogenUsed.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation_autogen.dir/DependInfo.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation_autogen.dir/ParseCache.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation_autogen.dir/build.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation_autogen.dir/cmake_clean.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation_autogen.dir/depend.internal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation_autogen.dir/depend.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/MC_simulation_autogen.dir/progress.make" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/Makefile.cmake" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/Makefile2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/TargetDirectories.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/cmake.check_cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/CMakeFiles/progress.marks" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/MC_simulation" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/MC_simulation.cbp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/MC_simulation_autogen/ZTA52AVVIS/moc_socket.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/MC_simulation_autogen/moc_predefs.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/MC_simulation_autogen/mocs_compilation.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/clientSentPhotons.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../build-MC_Simulation_CUDA-Unnamed_6e5b11-Default/cmake_install.cmake" beforeDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="1d5VBL7MK7UQ9a9bNGCyRVuDcMi" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6588c0bf-9af9-4155-8664-23db88c883df" name="Default Changelist" comment="" />
+      <created>1591714806227</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1591714806227</updated>
+    </task>
+    <servers />
+  </component>
+</project>
