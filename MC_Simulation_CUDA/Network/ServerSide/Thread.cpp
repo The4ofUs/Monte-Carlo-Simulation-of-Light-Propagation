@@ -15,6 +15,7 @@ float tissueAbsCoeff = 1;
 float tissueScatCoeff = 100 ;
 std::vector<float> coefficients1 = {1.f, 6.f, 4.f,15.f};
 std::vector<float> coefficients2 = {100.f, 30.f, 12.f, 44.f};
+std::vector<float> refractive_indices = {1.2f, 1.3f, 1.5f, 1.6f};
 Point *detectorPosition = new Point(0,0,10);
 Point *tissueFirstCenter = new Point(0,0,10);
 Point *tissueSecondCenter = new Point(0,0,-10);
@@ -124,6 +125,10 @@ void Thread::sendParameters(){
     for(int i = 0;i<=coefficients2.size()-1;i++)
     {
         userParameters.append(coefficients2[i]);
+    }
+    for(int i = 0;i<=refractive_indices.size()-1;i++)
+    {
+        userParameters.append(refractive_indices[i]);
     }
     paramtersTobeSend << userParameters;
     socket->write(parametersByteArray);
