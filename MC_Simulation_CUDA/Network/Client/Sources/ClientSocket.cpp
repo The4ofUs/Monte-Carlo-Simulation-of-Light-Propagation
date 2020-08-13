@@ -51,6 +51,10 @@ int ClientSocket::requestNewBatch(){
     newSocket->setQueryType("requestBatch");
     newSocket->createSocket();
     int batchPhotons = newSocket->batchPhoton();
+    if (batchPhotons > 0){
+        setBatchAvailability(true);
+    }
+
     //qDebug()<<"Batch photons in client side"<<batchPhotons;
     if (batchPhotons==0){
         qDebug()<<"THERE IS NO MORE BATCHES";

@@ -33,6 +33,7 @@ void MC_Simulation::start(int NUMBER_OF_PHOTONS) {
     // MCHelpers::streamOut(&hostMemory[0], NUMBER_OF_PHOTONS);
     NUMBER_OF_PHOTONS = socket->requestNewBatch();
    _batchAvailability = socket->getBatchAvailability();
+    qDebug()<<"BATCH AVAILABILITY FLAG"<<_batchAvailability;
     free(hostMemory);
     cudaFree(deviceMemory);
     cudaFree(states);

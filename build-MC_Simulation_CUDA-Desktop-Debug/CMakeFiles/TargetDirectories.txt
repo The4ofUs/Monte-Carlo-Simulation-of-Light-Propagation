@@ -1,4 +1,0 @@
-/home/gamila/Documents/GP/Task4-RandomWalkCUDA/branch_gamila/Monte-Carlo-Simulation-of-Light-Propagation/build-MC_Simulation_CUDA-Desktop-Debug/CMakeFiles/rebuild_cache.dir
-/home/gamila/Documents/GP/Task4-RandomWalkCUDA/branch_gamila/Monte-Carlo-Simulation-of-Light-Propagation/build-MC_Simulation_CUDA-Desktop-Debug/CMakeFiles/MC_Simulation.dir
-/home/gamila/Documents/GP/Task4-RandomWalkCUDA/branch_gamila/Monte-Carlo-Simulation-of-Light-Propagation/build-MC_Simulation_CUDA-Desktop-Debug/CMakeFiles/edit_cache.dir
-/home/gamila/Documents/GP/Task4-RandomWalkCUDA/branch_gamila/Monte-Carlo-Simulation-of-Light-Propagation/build-MC_Simulation_CUDA-Desktop-Debug/CMakeFiles/MC_Simulation_autogen.dir

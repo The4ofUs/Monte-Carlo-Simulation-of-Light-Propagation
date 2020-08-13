@@ -9,16 +9,16 @@
  * user inputs
  */
 int numberOfPhotons;
-float detectorRadius = 10;
+float detectorRadius = 1;
 float tissueRadius = 100;
 float tissueAbsCoeff = 1;
 float tissueScatCoeff = 100 ;
 std::vector<float> coefficients1 = {1.f, 6.f, 4.f,15.f};
 std::vector<float> coefficients2 = {100.f, 30.f, 12.f, 44.f};
 std::vector<float> refractive_indices = {1.2f, 1.3f, 1.5f, 1.6f};
-Point *detectorPosition = new Point(0,0,10);
-Point *tissueFirstCenter = new Point(0,0,10);
-Point *tissueSecondCenter = new Point(0,0,-10);
+Point *detectorPosition = new Point(0,0,1);
+Point *tissueFirstCenter = new Point(0,0,1);
+Point *tissueSecondCenter = new Point(0,0,0);
 QVector<Photon> receivedResults;
 Thread::Thread(int ID, QObject *parent):QThread(parent)
 {
