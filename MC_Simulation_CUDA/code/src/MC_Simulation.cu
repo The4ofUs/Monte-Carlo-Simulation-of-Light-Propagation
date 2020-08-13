@@ -30,7 +30,7 @@ void MC_Simulation::start(int NUMBER_OF_PHOTONS) {
     cudaMemcpy(hostMemory, deviceMemory, NUMBER_OF_PHOTONS * sizeof(MC_Photon), cudaMemcpyDeviceToHost);
     socket->sendResults(&hostMemory[0]);
     _totalPhotonsPerPatch.append(socket->getSentPhotons());
-    MCHelpers::streamOut(&hostMemory[0], NUMBER_OF_PHOTONS);
+    // MCHelpers::streamOut(&hostMemory[0], NUMBER_OF_PHOTONS);
     NUMBER_OF_PHOTONS = socket->requestNewBatch();
    _batchAvailability = socket->getBatchAvailability();
     free(hostMemory);

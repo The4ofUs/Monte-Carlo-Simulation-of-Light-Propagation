@@ -49,12 +49,12 @@ void dumpReceivedParameters(QVector<float> parameters){
     int reminder = (parameters.size()-12)/3;
     for(int i = 12; i<=(11+reminder);i++){
             a_coeffiecints.push_back(parameters[i]);
-            qDebug()<< parameters[i];        }
+    }
     for(int i = 12+reminder;i<=11+2*reminder;i++){
            s_coefficients.push_back(parameters[i]);
-           qDebug()<< parameters[i];        }
+    }
     for(int i =12+2*reminder;i<=parameters.size()-1;i++){
-       refractive_indices.push_back(parameters[i]);
-       qDebug()<< parameters[i];        }
+           refractive_indices.push_back(parameters[i]);
+    }
 }
 

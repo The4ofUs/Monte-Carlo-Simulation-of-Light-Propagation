@@ -106,7 +106,7 @@ void socket::startSerialization(){
 
 
     newSocket->write(sendArray);
-    qDebug()<<"results to be sent array size is"<<sendArray.size();
+    qDebug()<<"Results to be sent array size = "<<sendArray.size();
     // newSocket->waitForBytesWritten();
     newSocket->disconnectFromHost();
     newSocket->waitForDisconnected();
@@ -169,7 +169,7 @@ void socket::getNewBatchPhotons(){
     QDataStream serverNewBatch(&newBatchByteArr, QIODevice::ReadOnly);
     serverNewBatch.setVersion(QDataStream::Qt_4_8);
     serverNewBatch >> numberOfPhotons;
-    qDebug()<<"New batch size is is"<< numberOfPhotons<<"photons";
+    qDebug()<<"New batch size = "<< numberOfPhotons<<"photons";
     setBatchPhotons(numberOfPhotons);
 }
 

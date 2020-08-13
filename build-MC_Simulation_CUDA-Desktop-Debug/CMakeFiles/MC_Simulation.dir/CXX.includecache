@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/gamila/Documents/GP/Task4-RandomWalkCUDA/branch_gamila/Monte-Carlo-Simulation-of-Light-Propagation/MC_Simulation_CUDA/Network/Client/Headers/ClientSocket.h
-socket.h
-/home/gamila/Documents/GP/Task4-RandomWalkCUDA/branch_gamila/Monte-Carlo-Simulation-of-Light-Propagation/MC_Simulation_CUDA/Network/Client/Headers/socket.h
-
 /home/gamila/Documents/GP/Task4-RandomWalkCUDA/branch_gamila/Monte-Carlo-Simulation-of-Light-Propagation/MC_Simulation_CUDA/Network/Client/Headers/socket.h
 QObject
 -
@@ -28,9 +24,31 @@ QImageWriter
 ../../../code/headers/MC_Photon.cuh
 /home/gamila/Documents/GP/Task4-RandomWalkCUDA/branch_gamila/Monte-Carlo-Simulation-of-Light-Propagation/MC_Simulation_CUDA/code/headers/MC_Photon.cuh
 
-/home/gamila/Documents/GP/Task4-RandomWalkCUDA/branch_gamila/Monte-Carlo-Simulation-of-Light-Propagation/MC_Simulation_CUDA/Network/Client/Sources/ClientSocket.cpp
-Network/Client/Headers/ClientSocket.h
-/home/gamila/Documents/GP/Task4-RandomWalkCUDA/branch_gamila/Monte-Carlo-Simulation-of-Light-Propagation/MC_Simulation_CUDA/Network/Client/Sources/Network/Client/Headers/ClientSocket.h
+/home/gamila/Documents/GP/Task4-RandomWalkCUDA/branch_gamila/Monte-Carlo-Simulation-of-Light-Propagation/MC_Simulation_CUDA/Network/Client/Sources/socket.cpp
+Network/Client/Headers/socket.h
+/home/gamila/Documents/GP/Task4-RandomWalkCUDA/branch_gamila/Monte-Carlo-Simulation-of-Light-Propagation/MC_Simulation_CUDA/Network/Client/Sources/Network/Client/Headers/socket.h
+QBuffer
+-
+QDataStream
+-
+QTcpSocket
+-
+QImageReader
+-
+QWidget
+-
+QImageWriter
+-
+QTime
+-
+QDir
+-
+string
+-
+iostream
+-
+QVector
+-
 
 /home/gamila/Documents/GP/Task4-RandomWalkCUDA/branch_gamila/Monte-Carlo-Simulation-of-Light-Propagation/MC_Simulation_CUDA/code/headers/MC_Path.cuh
 MC_Point.cuh
@@ -52,9 +70,29 @@ curand_kernel.h
 MC_Point.cuh
 /home/gamila/Documents/GP/Task4-RandomWalkCUDA/branch_gamila/Monte-Carlo-Simulation-of-Light-Propagation/MC_Simulation_CUDA/code/headers/MC_Point.cuh
 
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QBuffer
+qbuffer.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qbuffer.h
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QDataStream
+qdatastream.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qdatastream.h
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QDir
+qdir.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
+
 /usr/include/x86_64-linux-gnu/qt5/QtCore/QObject
 qobject.h
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qobject.h
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QTime
+qdatetime.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QVector
+qvector.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qvector.h
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qalgorithms.h
 QtCore/qglobal.h
@@ -96,6 +134,12 @@ QtCore/qatomic_bootstrap.h
 QtCore/qatomic_cxx11.h
 -
 QtCore/qatomic_msvc.h
+-
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qbuffer.h
+QtCore/qiodevice.h
+-
+QtCore/qbytearray.h
 -
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qbytearray.h
@@ -180,6 +224,16 @@ QtCore/qiodevice.h
 QtCore/qpair.h
 -
 
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qdatetime.h
+QtCore/qstring.h
+-
+QtCore/qnamespace.h
+-
+QtCore/qshareddata.h
+-
+limits
+-
+
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h
 QtCore/qalgorithms.h
 -
@@ -212,6 +266,16 @@ map
 utility
 -
 
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qdir.h
+QtCore/qstring.h
+-
+QtCore/qfileinfo.h
+-
+QtCore/qstringlist.h
+-
+QtCore/qshareddata.h
+-
+
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qeventloop.h
 QtCore/qobject.h
 -
@@ -234,6 +298,16 @@ stdio.h
 QtCore/qiodevice.h
 -
 QtCore/qstring.h
+-
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qfileinfo.h
+QtCore/qfile.h
+-
+QtCore/qlist.h
+-
+QtCore/qshareddata.h
+-
+QtCore/qmetatype.h
 -
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qflags.h
