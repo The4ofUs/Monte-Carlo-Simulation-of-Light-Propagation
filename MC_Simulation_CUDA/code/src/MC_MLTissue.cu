@@ -33,12 +33,10 @@ __host__ MC_MLTissue::MC_MLTissue(float const radius, MC_Point const c0, MC_Poin
 
 __device__ void MC_MLTissue::attenuate(MC_Photon &photon) {
     int idx = whichLayer(photon.position());
-    if (idx >= _size || idx < 0) {
-        MC_Tissue(0.f,MC_Point(), MC_Point(),0.f,1.f,1.f).attenuate(photon);
-    } else {
-        MC_Tissue t = getLayer(idx);
-        t.attenuate(photon);
-    }
+    if (idx == _size) idx = idx-1;
+    if (idx == -1) idx = idx+1;
+    MC_Tissue t = getLayer(idx);
+    t.attenuate(photon);
 }
 
 __device__ __host__ int MC_MLTissue::whichLayer(MC_Point const position) {

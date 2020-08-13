@@ -49,7 +49,7 @@ RandomWalk(curandState_t *states, int idx, MC_FiberGenerator mcFiberGenerator, M
         tissue.attenuate(photon);   // Attenuate Photon accordingly
         if (photon.isDying()) {                       // weight < Threshold ?
             MC_RNG::roulette(photon, ROULETTE_CHANCE, states, idx);     // Roulette
-            if(photon.state() == MC_Photon::TERMINATED) break;
+            if (photon.state() == MC_Photon::TERMINATED) break;
         }
         if (tissue.onBoundary(path)) {
             if (tissue.isReflected(path, MC_RNG::getRandomNumber(states, idx))) {

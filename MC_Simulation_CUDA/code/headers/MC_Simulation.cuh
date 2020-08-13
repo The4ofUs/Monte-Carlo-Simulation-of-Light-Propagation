@@ -19,9 +19,9 @@
 #define TISSUE_RADIUS 100.f
 #define TISSUE_CENTER_1 MC_Point(0.f, 0.f, 1.f)
 #define TISSUE_CENTER_2 MC_Point(0.f, 0.f, 0.f)
-#define A_COEFFICIENTS std::vector<float> {0.066f,0.018f, 0.016f, 0.004f}
-#define S_COEFFICIENTS std::vector<float> {11.05f,1.9f, 1.6f, 0.24f}
-#define R_INDICES std::vector<float> {1.3f,1.4f, 1.4f, 1.331f}
+#define A_COEFFICIENTS std::vector<float> {0.66f,0.018f, 0.016f, 0.004f}
+#define S_COEFFICIENTS std::vector<float> {110.5f,1.9f, 1.6f, 0.24f}
+#define R_INDICES std::vector<float> {1.3f,1.4f, 1.5f, 1.6f}
 
 
 class MC_Simulation {
