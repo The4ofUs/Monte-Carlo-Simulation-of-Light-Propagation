@@ -33,6 +33,7 @@ int main() {
          simulation.start(Number_of_photons);
          total_photons_sent.append(simulation._totalPhotonsPerPatch);
     }
+    qDebug() <<"Total execution time = " << simulation._totalTime << "ms";
     qDebug() <<"Total number of simulated photons = " << total_photons_sent.size();
     MCHelpers::streamOut(total_photons_sent);
     return 0;

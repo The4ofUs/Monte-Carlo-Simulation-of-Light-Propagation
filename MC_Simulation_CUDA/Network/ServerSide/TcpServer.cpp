@@ -1,14 +1,21 @@
 #include "TcpServer.h"
 #include "Photon.h"
 #include <unistd.h>
+#include <ctime>
+#include <ratio>
+#include <chrono>
+#include <iostream>
+using namespace std::chrono;
 
+high_resolution_clock::time_point t1;
 
 TcpServer::TcpServer(QObject *parent) :  QTcpServer(parent)
 {
 }
 
 void TcpServer::startListening()
-{
+{   t1 = high_resolution_clock::now();
+
 
     if(!this->listen(QHostAddress::Any, 4567))
     {
@@ -29,7 +36,7 @@ void TcpServer::startListening()
 
 void TcpServer::incomingConnection(qintptr socketDescriptor)
 {
-
+    //high_resolution_clock::time_point t1 = high_resolution_clock::now();
     thread = new Thread(socketDescriptor,this);
     thread->start();
     thread->getBucketRemainingPhotons(serverBucketOfPhotons);
@@ -98,6 +105,11 @@ void TcpServer::streamOut(QVector<Photon> results){
         // Streaming out my output in a log file
         fprintf(output, "%f,%f,%f,%f,%s\n", results[i].getPosition().x(), results[i].getPosition().y(), results[i].getPosition().z(), results[i].getWeight(), state.c_str());
     }
+     high_resolution_clock::time_point t2 = high_resolution_clock::now();
+     duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
+
+     std::cout << "Overall Network time= " << (time_span.count())*1000 << " ms";
+     std::cout << std::endl;
     //qDebug()<<results[1].getPosition().x()<< results[1].getPosition().y()<< results[1].getPosition().z()<< results[1].getWeight()<< state.c_str();
     fclose(output);
 }

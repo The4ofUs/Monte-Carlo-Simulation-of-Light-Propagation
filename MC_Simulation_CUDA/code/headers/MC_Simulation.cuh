@@ -34,6 +34,7 @@ public:
 
     bool _batchAvailability = true;
     QVector<MC_Photon> _totalPhotonsPerPatch;
+    float _totalTime =0.f;
 
 
 private:
