@@ -28,7 +28,7 @@ void TcpServer::startListening()
 
         serverBucketOfPhotons= 1000000;
         photonsToBeReceived = 1000000;
-        photonsPerBatch = 50000;
+        photonsPerBatch = 100000;
         currentlyReceivedPhotons = 0;
     }
 
