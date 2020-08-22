@@ -1,5 +1,7 @@
 # Monte Carlo Simulation of Light Propagation in Turbid Tissue
 
+![alt text](https://github.com/The4ofUs/Monte-Carlo-Simulation-of-Light-Propagation/blob/master/MonteCarlo-Simulation.png?raw=true "Simulation Results")
+
 ## How to start the Simulation
 
 ### Requirements
