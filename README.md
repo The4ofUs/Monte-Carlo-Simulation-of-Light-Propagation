@@ -19,3 +19,6 @@
 
 ### Gadgets
 * You can use our plotter to check for your results' distribution right [here](https://github.com/The4ofUs/MonteCarlo-Plotter).
+
+### More info
+Check our [Paper](https://drive.google.com/file/d/1qz25djuWe6Q_Mj5KZSe2H7L1YjMzodiI/view?usp=sharing) and our [Thesis](https://drive.google.com/file/d/1SdsYElqOyyaozrBfbyexvN9XPPBtcGir/view?usp=sharing) for further thoroughly documentation.
