@@ -8,7 +8,7 @@
 #include <QImageReader>
 #include <QWidget>
 #include <QImageWriter>
-#include "../../../code/headers/MC_Photon.cuh"
+#include "../../code/headers/MC_Photon.cuh"
 
 class socket : public QObject
 {

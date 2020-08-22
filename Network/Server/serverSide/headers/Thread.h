@@ -6,7 +6,7 @@
 #include <QtDebug>
 #include <QWidget>
 #include <QVector>
-#include <Photon.h>
+#include "Photon.h"
 /**
  * @brief The Thread class inherits QThread in order to handle
  * multiple incoming connections simultaneously

@@ -1,4 +1,4 @@
-#include "Photon.h"
+#include "../headers/Photon.h"
 
 Photon::Photon()
 {

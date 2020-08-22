@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT += core gui
 QT += network
 QT += widgets
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -26,18 +26,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        ServerUI.cpp \
-    Thread.cpp \
-    Photon.cpp \
-    Point.cpp \
-    TcpServer.cpp
+        src/ServerUI.cpp \
+        src/Thread.cpp \
+        src/Photon.cpp \
+        src/Point.cpp \
+        src/TcpServer.cpp
 
 HEADERS += \
-        ServerUI.h \
-    Thread.h \
-    Photon.h \
-    Point.h \
-    TcpServer.h
+        headers/ServerUI.h \
+        headers/Thread.h \
+        headers/Photon.h \
+        headers/Point.h \
+        headers/TcpServer.h
 
 FORMS += \
         ServerUI.ui

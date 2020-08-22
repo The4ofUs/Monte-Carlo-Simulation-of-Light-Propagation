@@ -1,4 +1,4 @@
-#include "ServerUI.h"
+#include "../headers/ServerUI.h"
 #include "ui_ServerUI.h"
 
 ServerUI::ServerUI(QWidget *parent) :

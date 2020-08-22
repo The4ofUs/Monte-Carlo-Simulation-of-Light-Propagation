@@ -1,4 +1,4 @@
-#include "Network/Client/Headers/ClientSocket.h"
+#include "clientSide/headers/ClientSocket.h"
 QVector<MC_Photon> vectorOfPhotons;
 ClientSocket::ClientSocket()
 {

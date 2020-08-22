@@ -77,12 +77,12 @@ set( CUDA_SOURCE_FILES
 )
 
 set (NETWORK_HEADER_FILES
-         Network/Client/Headers/socket.h
-         Network/Client/Headers/ClientSocket.h
+         clientSide/headers/socket.h
+         clientSide/headers/ClientSocket.h
        )
 set (NETWORK_SOURCE_FILES
-        Network/Client/Sources/socket.cpp
-        Network/Client/Sources/ClientSocket.cpp
+        clientSide/src/socket.cpp
+        clientSide/src/ClientSocket.cpp
        )
 #set_target_properties(
 #          ${EXECUTABLE_NAME}

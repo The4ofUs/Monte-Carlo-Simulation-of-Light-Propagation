@@ -1,7 +1,7 @@
 #include <curand_kernel.h>
 #include <vector>
 #include <QVector>
-#include "Network/Client/Headers/ClientSocket.h"
+#include "clientSide/headers/ClientSocket.h"
 #include "code/headers/MC_Simulation.cuh"
 #include "code/headers/MC_Helpers.cuh"
 

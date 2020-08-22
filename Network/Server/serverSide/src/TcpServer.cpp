@@ -1,5 +1,5 @@
-#include "TcpServer.h"
-#include "Photon.h"
+#include "../headers/TcpServer.h"
+#include "../headers/Photon.h"
 #include <unistd.h>
 #include <ctime>
 #include <ratio>
@@ -26,9 +26,9 @@ void TcpServer::startListening()
     {
         qDebug() << "Listening .....";
 
-        serverBucketOfPhotons= 1000000;
-        photonsToBeReceived = 1000000;
-        photonsPerBatch = 100000;
+        serverBucketOfPhotons= 1000;
+        photonsToBeReceived = 1000;
+        photonsPerBatch = 100;
         currentlyReceivedPhotons = 0;
     }
 
@@ -36,7 +36,6 @@ void TcpServer::startListening()
 
 void TcpServer::incomingConnection(qintptr socketDescriptor)
 {
-    //high_resolution_clock::time_point t1 = high_resolution_clock::now();
     thread = new Thread(socketDescriptor,this);
     thread->start();
     thread->getBucketRemainingPhotons(serverBucketOfPhotons);
@@ -50,20 +49,20 @@ void TcpServer::incomingConnection(qintptr socketDescriptor)
 
 void TcpServer::decrementBatch(){
     if( serverBucketOfPhotons==0){
-        qDebug()<<"server has no more batches";
+        qDebug()<<"Server has no more batches!";
     }
     else{
         serverBucketOfPhotons =  serverBucketOfPhotons-photonsPerBatch;
     }
-    qDebug()<<"Bucket photons"<<serverBucketOfPhotons;
+    qDebug()<<"Bucket photons ="<<serverBucketOfPhotons;
 
 }
 
 void TcpServer::appendReceivedResults(){
     newResults = thread->returnRecievedPhotons();
-    qDebug()<<"new results"<< newResults.size();
+    qDebug()<<"New recieved photons = "<< newResults.size() << " photons";
     ReceivedPhotons.append(newResults);
-    qDebug()<<"total recieved"<<ReceivedPhotons.size();
+    qDebug()<<"Total recieved photons = "<<ReceivedPhotons.size() <<" photons";
     currentlyReceivedPhotons +=newResults.size();
 
     if (currentlyReceivedPhotons==photonsToBeReceived)
@@ -108,7 +107,7 @@ void TcpServer::streamOut(QVector<Photon> results){
      high_resolution_clock::time_point t2 = high_resolution_clock::now();
      duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
 
-     std::cout << "Overall Network time= " << (time_span.count())*1000 << " ms";
+     std::cout << "Overall Network time = " << (time_span.count())*1000 << " ms";
      std::cout << std::endl;
     //qDebug()<<results[1].getPosition().x()<< results[1].getPosition().y()<< results[1].getPosition().z()<< results[1].getWeight()<< state.c_str();
     fclose(output);

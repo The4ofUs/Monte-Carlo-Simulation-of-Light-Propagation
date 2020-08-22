@@ -5,7 +5,7 @@
 #include "../headers/MC_Simulation.cuh"
 #include "../headers/MC_Kernels.cuh"
 #include "../headers/MC_Helpers.cuh"
-#include "/home/gamila/Documents/GP/Task4-RandomWalkCUDA/branch_gamila/Monte-Carlo-Simulation-of-Light-Propagation/MC_Simulation_CUDA/Network/Client/Headers/ClientSocket.h"
+#include "../../clientSide/headers/ClientSocket.h"
 #include <QVector>
 
 MC_Simulation::MC_Simulation(float MC_FIBER_GENERATOR_RADIUS, MC_Point MC_FIBER_GENERATOR_POSITION, float TISSUE_RADIUS, MC_Point TISSUE_CENTER_1, MC_Point TISSUE_CENTER_2
@@ -44,7 +44,7 @@ void MC_Simulation::start(int NUMBER_OF_PHOTONS) {
     // MCHelpers::streamOut(&hostMemory[0], NUMBER_OF_PHOTONS);
     NUMBER_OF_PHOTONS = socket->requestNewBatch();
    _batchAvailability = socket->getBatchAvailability();
-    qDebug()<<"BATCH AVAILABILITY FLAG"<<_batchAvailability;
+    qDebug()<<"Batch availability flag is "<<_batchAvailability;
     free(hostMemory);
     cudaFree(deviceMemory);
     cudaFree(states);

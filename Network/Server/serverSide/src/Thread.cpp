@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "Thread.h"
+#include "../headers/Thread.h"
 #include <iostream>
 #include <vector>
 #include <QTcpSocket>
@@ -52,11 +52,11 @@ void Thread::readQuery(){
     //Convert the data from bytes to readable String
     queryType = queryTypeByteArr.toStdString();
     if(queryType.compare("requestParameters")==0){
-        qDebug() <<"client with IP ="<< socket->peerAddress().toString()<<"is requesting parameters";
+        qDebug() <<"Client with IP ="<< socket->peerAddress().toString()<<"is requesting parameters";
         sendParameters();
     }
     else if(queryType.compare("requestBatch")==0){
-        qDebug() <<"client with IP ="<< socket->peerAddress().toString()<<"is requesting batch";
+        qDebug() <<"Client with IP ="<< socket->peerAddress().toString()<<"is requesting batch";
 
         sendNewBatch();
     }
