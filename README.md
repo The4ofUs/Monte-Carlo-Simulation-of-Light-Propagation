@@ -5,7 +5,7 @@
 ## How to start the Simulation
 
 ### Requirements
-1. An NVIDIA with CUDA Support GPU. [Check here](https://en.wikipedia.org/wiki/CUDA)
+1. A NVIDIA with CUDA Support GPU. [Check here](https://en.wikipedia.org/wiki/CUDA)
 2. CUDA toolkit and driver. [Download](https://developer.nvidia.com/cuda-downloads)
 3. CMake Version >= 3.10.
 
