@@ -1,3 +1,0 @@
-/home/mostafa/CLionProjects/Monte-Carlo-Simulation-of-Light-Propagation/Simulation/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/mostafa/CLionProjects/Monte-Carlo-Simulation-of-Light-Propagation/Simulation/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/mostafa/CLionProjects/Monte-Carlo-Simulation-of-Light-Propagation/Simulation/cmake-build-debug/CMakeFiles/MC_Simulation.dir
