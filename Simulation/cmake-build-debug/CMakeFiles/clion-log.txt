@@ -1,0 +1,11 @@
+/home/mostafa/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/202.6397.106/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/mostafa/CLionProjects/Monte-Carlo-Simulation-of-Light-Propagation/Simulation
+-- The CUDA compiler identification is NVIDIA 11.0.194
+-- Check for working CUDA compiler: /usr/local/cuda-11.0/bin/nvcc
+-- Check for working CUDA compiler: /usr/local/cuda-11.0/bin/nvcc - works
+-- Detecting CUDA compiler ABI info
+-- Detecting CUDA compiler ABI info - done
+-- Detecting CUDA compile features
+-- Detecting CUDA compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/mostafa/CLionProjects/Monte-Carlo-Simulation-of-Light-Propagation/Simulation/cmake-build-debug
