@@ -10,11 +10,27 @@
 3. CMake Version >= 3.10.
 
 ### Build
+
+#### Simulation
 1. Open `/Simulation/CMakeLists.txt`, instructions on changes that is architectural dependent is commented there.
 2. After changing the required lines in the `CMakeLists.txt`, Check `/Simulation/code/src/MC_Simulation.cu` for simulation parameters editing. You should pick a suitable `THREADS_PER_BLOCK` number. That is totally dependent on your GPU's architecture.
 3. Build on!
 4. run `/<build-directory>/MC_Simulation` to execute the simulation.
 5. Results should be found at `/<build-directory>/Results.csv`, but you can edit the streaming out to any format you want from `/Simulation/code/src/MC_Helpers.cu`.
+
+#### Network 
+
+##### Client side
+1. Open `/Network/Client/CMakeLists.txt`, instructions on changes that is architectural dependent is commented there.
+2. After changing the required lines in the `CMakeLists.txt`, Check `/Simulation/code/src/MC_Simulation.cu` to pick a suitable `THREADS_PER_BLOCK` number. That is totally dependent on your GPU's architecture.
+3. Open `/Network/Client/clientSide/src/socket.cpp` to change the IP of the server.
+4. Build on!
+5. run `/<build-directory>/MC_Simulation` to execute the simulation.
+6. Results should be found at `/<build-directory>/clientSentPhotons.csv`, but you can edit the streaming out to any format you want from `/Network/Client/code/src/MC_Helpers.cu`.
+
+##### Server side
+1. 
+
 
 ### Checksum
 * A sample of the results is accompanied with the repository, once you started producing similar results, consider the Simulation wholesome.
